@@ -1,6 +1,6 @@
 # Deadpos Analyzer
 
-[![Tests](https://github.com/miguel-ambrona/deadpos/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/miguel-ambrona/deadpos/actions/workflows/c-cpp.yml)
+[![C/C++ CI](https://github.com/miguel-ambrona/deadpos/actions/workflows/c-cpp.yml/badge.svg?branch=master)](https://github.com/miguel-ambrona/deadpos/actions/workflows/c-cpp.yml)
 
 Tool for designing, analyzing and solving chess compositions based on
 dead reckoning.
