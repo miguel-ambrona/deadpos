@@ -1,0 +1,38 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download Stockfish
+      working-directory: ./lib/stockfish
+      run: make get-stockfish
+    - name: Compile Stockfish
+      working-directory: ./lib/stockfish
+      run: make
+    - name: Install Stockfish
+      working-directory: ./lib/stockfish
+      run: sudo make install
+    - name: Download and compile CHA
+      working-directory: ./lib/cha
+      run: make
+    - name: Install CHA
+      working-directory: ./lib/cha
+      run: sudo make install
+    - name: Enable shared libraries
+      run: sudo /sbin/ldconfig -v
+    - name: Compile Deadpos
+      working-directory: ./src
+      run: make
+    - name: Test Deadpos
+      working-directory: ./src
+      run: make test
