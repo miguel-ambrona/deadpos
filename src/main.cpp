@@ -1,3 +1,4 @@
+#include "cha.h"
 #include "solver.h"
 #include <sstream>
 #include <stdexcept>
@@ -132,6 +133,7 @@ void loop(int argc, char *argv[]) {
 int main(int argc, char *argv[]) {
 
   init_stockfish();
+  CHA::init();
   std::cout << "Deadpos Analyzer version 1.0" << std::endl;
 
   CommandLine::init(argc, argv);
