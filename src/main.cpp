@@ -111,7 +111,7 @@ void loop(int argc, char *argv[]) {
       if (stipulation.goal == SOLVER::MATE)
         nsols = SOLVER::force_mate(pos, n, search);
 
-      if (stipulation.goal == SOLVER::MATE)
+      else if (stipulation.goal == SOLVER::DRAW)
         nsols = SOLVER::force_draw(pos, n, search);
 
       else if (stipulation.goal == SOLVER::DEAD)

@@ -1,5 +1,5 @@
-deadpos:
-	g++ -o deadpos solver.cpp main.cpp -I/usr/local/include/stockfish -lstockfish -I/usr/local/include/cha -lcha
+solver:
+	g++ -o solver solver.cpp main.cpp -I/usr/local/include/stockfish -lstockfish -I/usr/local/include/cha -lcha
 
 get-stockfish:
 	if [ -d ../lib/stockfish/Stockfish ]; then rm -Rf ../lib/stockfish/Stockfish; fi
@@ -16,8 +16,14 @@ get-cha:
 install-cha:
 	cd ../lib/cha/ && make install
 
+get-chessml:
+	if [ -d ../lib/chessml ]; then rm -Rf ../lib/chessml; fi
+	cd ../lib/ && git clone git@gitlab.com:ambrona/chessml.git
+	cd ../lib/chessml && cp -r ../cha/D3-Chess/ lib/
+	cd ../lib/chessml/lib/D3-Chess/src && make
+	cd ../lib/chessml && dune build
 
-test:
-	cat ../test/positions.txt | ./deadpos
+test-solver:
+	cat ../test/positions.txt | ./solver
 
-.PHONY: deadpos test
+.PHONY: solver test

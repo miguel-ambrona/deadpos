@@ -26,6 +26,18 @@ int cooperative_search(Position &pos, Depth n, UTIL::Search &search) {
       return 1;
   }
 
+  if (search.search_depth() == 1)
+    std::cout << "  " << pos.fen() << std::endl;
+
+  if (search.search_depth() == 2)
+    std::cout << "    " << pos.fen() << std::endl;
+
+  if (search.search_depth() == 3)
+    std::cout << "      " << pos.fen() << std::endl;
+
+  if (search.search_depth() == 4)
+    std::cout << "        " << pos.fen() << std::endl;
+
   if (n <= 0 || zero_moves || dead)
     return 0;
 
@@ -88,7 +100,6 @@ int competitive_search(Position &pos, Depth n, UTIL::Search &search) {
 
   // If search depth is even (the intended winner's turn) collect all solutions
   if (search.search_depth() % 2 == 0) {
-    cnt = 0;
     for (const ExtMove &m : MoveList<LEGAL>(pos)) {
       pos.do_move(m, st);
       search.push(m);
