@@ -11,7 +11,7 @@ def chessml_worker():
     return p
 
 def create_solver():
-    return Popen(["./solver"], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
+    return Popen(["./solver.exe"], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
 
 def chessml_call(cmd, fen, worker):
     fens = []
