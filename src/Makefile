@@ -18,7 +18,7 @@ install-cha:
 
 get-chessml:
 	if [ -d ../lib/chessml ]; then rm -Rf ../lib/chessml; fi
-	cd ../lib/ && git clone git@gitlab.com:ambrona/chessml.git
+	cd ../lib/ && git clone https://gitlab.com/ambrona/chessml.git
 	cd ../lib/chessml && cp -r ../cha/D3-Chess/ lib/
 	cd ../lib/chessml/lib/D3-Chess/src && make
 	cd ../lib/chessml && dune build
