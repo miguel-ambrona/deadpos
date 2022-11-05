@@ -1,4 +1,4 @@
-# Deadpos Analyzer
+# Deadpos Analyzer 2.0
 
 [![C/C++ CI](https://github.com/miguel-ambrona/deadpos/actions/workflows/c-cpp.yml/badge.svg?branch=master)](https://github.com/miguel-ambrona/deadpos/actions/workflows/c-cpp.yml)
 
@@ -11,45 +11,98 @@ After cloning the repository and from the `src/` directory:
 
 1. Run `make get-stockfish` to download and compile
 [Stockfish](https://github.com/official-stockfish/Stockfish).
-Then install Stockfish with `make install-stockfish`.
+Then install Stockfish with `sudo make install-stockfish`.
 
 2. Run `make get-cha` to download and compile
 [CHA](https://github.com/miguel-ambrona/D3-Chess).
-Then install CHA with `make install-cha`.
+Then install CHA with `sudo make install-cha`.
 
-3. Compile the tool with `make`.
+3. Run `make get-retractor` to download and build our retraction engine.
 
-4. Run the tests with `make test`.
+4. Compile the tool with `make`.
+
+5. Make sure everything worked fine by running `make test`.
 
 ## Usage
 
-After compiling the tool, run `./deadpos` to start a process which waits for
-commands from stdin. A command must be a valid stipulation followed by a valid
-[FEN](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation).
-(Inputs starting with `//` are ignored.)
+After completing the installation steps, run the tool with
+`python3 deadpos.py` from the `src/` directory.
+This will start a process which waits for queries from stdin.
+A query must be a valid
+[FEN](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
+followed by a list of commands separated by `>>=`.
+(Input lines starting with `//` are ignored.)
+
+The following commands are supported:
+ - `[r][0-9]+`: retracts as many moves as the integer indicates.
+    The retraction routine does not perform any legality checks on the
+    retracted position (which may contain non-standard material or immaginary
+    checks). However, if the given position is **dead**, all retracted positions
+    will be **alive**.
+ - A solve command (which stops the potential `>>=` chain). The following solve
+   commands are supported:
+     - `#[0-9]+[.5]?`: *forced mate* in the given number of moves.
+     - `h#[0-9]+[.5]?`: *help mate* in the given number of moves.
+     - `h=[0-9]+[.5]?`: *help stalemate* in the given number of moves.
+     - `hdp[0-9]+[.5]?`: *help dead position* in the given number of moves.
+     - `h~=[0-9]+[.5]?`: *help draw* (stalemate or dead) in the given number of moves.
 
 On every query, the tool will produce one line output per solution found.
 If there exist shorter solutions that make the composition unsound, the tool
 is guaranteed to display at least one (but not all).
 
-The stipulation must follow this format `[h]?[#|=|dp][0-9]+[.5]?`,
-e.g. `#5` stipulates *mate* in five moves or `hdp3.5` stipulates
-*help dead position* in three and a half moves.
-
 For example:
+```
+// Mrs. W. J. Baird, 1907 (133 Twentieth Century Retractor)
+>>> 1R6/1bNB2n1/pk2P3/pN2p2p/3pP2K/3P3p/5B1P/6n1 b - - >>= r1 >>= #2
+e8c7 then b5d4 ... #
+nsols 1
+```
+or
+```
+// Julio Sunyer, 1923 (The Chess Amateur)
+>>> 4k3/8/8/7K/8/8/8/8 b - - >>= r2 >>= h#1
+g6xRh5 h8xQh5 then e8g8 h5h7#
+nsols 1
+```
 
-> **./deadpos**<br>
-> Deadpos Analyzer version 1.0<br>
-> **// Chris Feather, 1975 (Schach)**<br>
-> **h#2 1RrB2b1/8/4n3/2n3p1/2K2b2/1p1rk3/6BR/8 b - -**<br>
-> solution f4b8 g2d5 e6c7 d8g5#<br>
-> solution d3d8 g2c6 c5d7 b8b3#<br>
-> nsols 2<br>
-> time 1207 ms<br>
-> **// Per Olin, 2015 (1 Problemas 10, p. 241) P1300674**<br>
-> **hdp3.5 b4b2/1P1PP3/8/k7/6K1/8/6PP/8 w - - 0 1**<br>
-> solution b7b8b a8g2 h2h3 g2h3 g4h3 f8e7 d7d8b DP<br>
-> nsols 1<br>
-> time 182450 ms<br>
+## Further details
+
+- In case our dead position subroutine fails to determine whether a position
+  is *dead*, the following error message will be raised:
+  ```
+  >>> B2b4/8/4k3/8/1p1p1p1p/1PpP1P1P/K1P4b/RB6 b - - 0 1 >>= hdp0
+  RuntimeError: CHA failed on B2b4/8/4k3/8/1p1p1p1p/1PpP1P1P/K1P4b/RB6 b - - 0 1
+  ```
+  In a successful execution, every computation regarding dead positions is
+  *sound* and *correct* in the sense that the tool either finds a helpmate
+  (proving the position is alive) or definitely proves that the position is dead.
+
+- The last 2 tokens of a FEN (for the halfmove clock and fullmove number) can
+  be skipped.
+
+- When the halfmove clock is specified, it will be considered in the computation
+  of retractions. That is, if it is specified to be `0`, the last move must have
+  been a capture or a pawn move. Analogously, when it is strictly positive, all
+  retractions will be officer (non-capture) moves.
+  For example:
+  ```
+  >>> k7/8/2K5/8/8/8/8/8 b - - 0 50 >>= r1
+  k7/3K4/2p5/8/8/8/8/8 w - - ? 50 d7xPc6
+  k7/3K4/2q5/8/8/8/8/8 w - - ? 50 d7xQc6
+  k7/3K4/2r5/8/8/8/8/8 w - - ? 50 d7xRc6
+  ...
+  k7/8/1Kr5/8/8/8/8/8 w - - ? 50 b6xRc6
+  nsols 21
+  ```
+  but
+  ```
+  >>> k7/8/2K5/8/8/8/8/8 b - - 1 50 >>= r1
+  nsols 0
+  ```
+
+## Feedback
+
+Please, open an issue if you have any suggestions.
 
 Enjoy!
