@@ -1,7 +1,22 @@
 #!/usr/bin/python3
 
 from subprocess import Popen, PIPE, STDOUT
+import chess
 import os
+import sys
+
+def init_progress_bar(n):
+    return [[0, 0]] * n
+
+def get_progress(progress_bar):
+    acc = 0
+    den = 1
+    for (analyzed, total) in progress_bar:
+        if total == 0:
+            break
+        den = den * total
+        acc += max(analyzed-1, 0) / den
+    return acc
 
 def chessml_worker():
     my_env = os.environ.copy()
@@ -10,8 +25,10 @@ def chessml_worker():
               env=my_env, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
     return p
 
-def create_solver():
-    return Popen(["./solver.exe"], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
+def create_solver(solver_path):
+    progress_bar = ["--progress-bar"] if "--progress-bar" in sys.argv else []
+    return Popen([solver_path] + progress_bar,
+                 stdout=PIPE, stdin=PIPE, stderr=STDOUT)
 
 def chessml_call(cmd, fen, worker):
     fens = []
@@ -32,10 +49,26 @@ def retract(fens, worker):
         outputs = chessml_call("retract", fen, worker)
         for out in outputs:
             f, rmove = out.split('retraction')
-            retractions.append((f.strip(), aux + [rmove.strip()]))
+            # If en-passant flag is active in retracted fen, add it
+            # to the auxiliary information
+            ep = f.split(" ")[3]
+            ep_info = ["(ep:" + ep + ")"] if ep != "-" else []
+            retractions.append((f.strip(), aux + [rmove.strip()] + ep_info))
     return retractions
 
-def solver_call(cmd, fen, aux, solver):
+def solver_call(cmd, fen, aux, solver, progress_bar):
+    # If en-passant flag is on in fen, but not en-passant move is
+    # possible, do not solve this case.
+    board = chess.Board(fen.replace("?", "0"))
+    if board.ep_square:
+        ep_possible = False
+        for m in board.legal_moves:
+            if board.is_en_passant(m):
+                ep_possible = True
+                break
+        if not ep_possible:
+            return 0
+
     inp = (cmd + " " + fen + "\n").encode("utf-8")
     solver.stdin.write(inp)
     solver.stdin.flush()
@@ -45,17 +78,26 @@ def solver_call(cmd, fen, aux, solver):
         if "solution" in output:
             variation = output.split("solution")[1].strip()
             print(" ".join(aux + [variation]))
+        elif "progress" in output:
+            words = output.split(" ")
+            level = int(words[2])
+            next_level_size = int(words[4])
+            progress_bar[level+1] = [0, next_level_size]
+            if level > 0:
+                progress_bar[level][0] += 1
+                # print(progress_bar)
+                print ("progress", get_progress(progress_bar), flush=True)
         elif "nsols" in output:
             nb_solutions += int(output[5:])
             break
-    if nb_solutions > 0:
-        print(fen, aux)
     return nb_solutions
 
 def solve(cmd, fens, solver):
     n = 0
+    progress_bar = [[0, len(fens)]] + init_progress_bar(30)
     for (fen, aux) in fens:
-        n += solver_call(cmd, fen, aux, solver)
+        progress_bar[0][0] += 1
+        n += solver_call(cmd, fen, aux, solver, progress_bar)
     return n
 
 def process_cmd(fens, cmd, worker, solver):
@@ -73,8 +115,14 @@ def process_cmd(fens, cmd, worker, solver):
         return ([], n)
 
 def main():
+    try:
+        SOLVER_PATH = sys.argv[sys.argv.index('-solver')+1]
+    except:
+        SOLVER_PATH = "./solver.exe"
+
     worker = chessml_worker()
-    solver = create_solver()
+    solver = create_solver(SOLVER_PATH)
+    output = solver.stdout.readline().strip().decode("utf-8")
     while True:
         try:
             line = input()
@@ -85,6 +133,7 @@ def main():
         if len(line) < 2 or line[:2] == "//":
             continue
 
+        print(">>>", line)
         words = line.split(">>=")
         fen = words[0].strip()
         if len(fen.split(" ")) == 4:

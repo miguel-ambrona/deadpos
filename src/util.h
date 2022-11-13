@@ -16,12 +16,16 @@ public:
   void push(Move m);
   void pop();
 
-  void print_solution(bool dead, bool stalemate) const;
+  void print_solution(bool dead, bool stalemate, bool partial) const;
+
+  bool progress_bar() const;
+  void set_progress_bar(bool value);
 
 private:
   Move solution[MAX_VARIATION_LENGTH];
   Color winner;
   Depth depth;
+  bool progressBar;
 };
 
 inline void Search::init() { depth = 0; }
@@ -36,10 +40,12 @@ inline void Search::push(Move m) {
 
 inline void Search::pop() { depth--; }
 
-inline void Search::print_solution(bool dead, bool stalemate) const {
+inline void Search::print_solution(bool dead, bool stalemate, bool partial) const {
   std::cout << "solution";
   for (int i = 0; i < std::min(depth, MAX_VARIATION_LENGTH); i++)
     std::cout << " " << UCI::move(solution[i], false);
+  if (partial)
+    std::cout << " ... ";
   if (!dead)
     std::cout << "#";
   else if (stalemate)
@@ -47,6 +53,12 @@ inline void Search::print_solution(bool dead, bool stalemate) const {
   else
     std::cout << " DP";
   std::cout << std::endl;
+}
+
+inline bool Search::progress_bar() const { return progressBar; }
+
+inline void Search::set_progress_bar(bool value) {
+  progressBar = value;
 }
 
 } // namespace UTIL
