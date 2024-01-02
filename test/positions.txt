@@ -1,6 +1,3 @@
-// Jeff Coakley, 1977 (ChessCafe.com in 2013), 1 solution.
-h#3 8/4K2k/4P2p/8/5q2/2b5/8/8 b - -
-
 // Josef Jána, 1928 (Neues Grazer Tagblatt), 1 solution.
 h#3 r3k3/3N4/2N5/8/1K6/8/7p/8 b q -
 
