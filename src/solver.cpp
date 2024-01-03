@@ -11,19 +11,24 @@
 template <SOLVER::Goal GOAL>
 int cooperative_search(Position &pos, Depth n, UTIL::Search &search) {
 
-  bool zero_moves = MoveList<LEGAL>(pos).size() == 0;
+  int nb_legal_moves = MoveList<LEGAL>(pos).size();
+  bool zero_moves = nb_legal_moves == 0;
   bool checkmate = zero_moves && pos.checkers();
   bool stalemate = zero_moves && !pos.checkers();
-  bool dead = CHA::is_dead(pos);
+  bool dead = GOAL == SOLVER::MATE ? false : CHA::is_dead(pos);
 
   bool goal_completed =
     (GOAL == SOLVER::MATE && checkmate) ||
     (GOAL == SOLVER::DRAW && dead) ||
     (GOAL == SOLVER::DEAD && dead && !stalemate);
 
+  if (search.progress_bar() && (search.search_depth() <= 2 || n >= 6))
+    std::cout << "progress level " << search.search_depth()
+              << " next " << nb_legal_moves << std::endl;
+
   if (goal_completed && n % 2 == 0) {
-      search.print_solution(dead, stalemate);
-      return 1;
+    search.print_solution(dead, stalemate, false);
+    return 1;
   }
 
   if (n <= 0 || zero_moves || dead)
@@ -57,15 +62,20 @@ int cooperative_search(Position &pos, Depth n, UTIL::Search &search) {
 template <SOLVER::Goal GOAL>
 int competitive_search(Position &pos, Depth n, UTIL::Search &search) {
 
-  bool zero_moves = MoveList<LEGAL>(pos).size() == 0;
+  int nb_legal_moves = MoveList<LEGAL>(pos).size();
+  bool zero_moves = nb_legal_moves == 0;
   bool checkmate = zero_moves && pos.checkers();
   bool stalemate = zero_moves && !pos.checkers();
-  bool dead = CHA::is_dead(pos);
+  bool dead = GOAL == SOLVER::MATE ? false : CHA::is_dead(pos);
 
   bool goal_completed =
     (GOAL == SOLVER::MATE && checkmate) ||
     (GOAL == SOLVER::DRAW && dead) ||
     (GOAL == SOLVER::DEAD && dead && !stalemate);
+
+  if (search.progress_bar() && (search.search_depth() <= 2 || n >= 4))
+    std::cout << "progress level " << search.search_depth()
+              << " next " << nb_legal_moves << std::endl;
 
   if (goal_completed && n % 2 == 0) {
       // search.print_solution(dead, stalemate);
@@ -88,11 +98,15 @@ int competitive_search(Position &pos, Depth n, UTIL::Search &search) {
 
   // If search depth is even (the intended winner's turn) collect all solutions
   if (search.search_depth() % 2 == 0) {
-    cnt = 0;
     for (const ExtMove &m : MoveList<LEGAL>(pos)) {
       pos.do_move(m, st);
       search.push(m);
-      cnt += competitive_search<GOAL>(pos, n - 1, search);
+      int nb_sols = competitive_search<GOAL>(pos, n - 1, search);
+      if (nb_sols > 0 && search.search_depth() == 1) {
+        bool partial = (n != 1);
+        search.print_solution(dead, stalemate, partial);
+      }
+      cnt += nb_sols;
       search.pop();
       pos.undo_move(m);
     }

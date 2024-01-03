@@ -13,23 +13,25 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Download Stockfish
-      working-directory: ./lib/stockfish
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y --no-install-recommends opam curl && opam init -y --bare --disable-sandboxing && pip3 install python-chess
+    - name: Download and compile Stockfish
+      working-directory: ./src
       run: make get-stockfish
-    - name: Compile Stockfish
-      working-directory: ./lib/stockfish
-      run: make
     - name: Install Stockfish
-      working-directory: ./lib/stockfish
-      run: sudo make install
+      working-directory: ./src
+      run: sudo make install-stockfish
     - name: Download and compile CHA
-      working-directory: ./lib/cha
-      run: make
+      working-directory: ./src
+      run: make get-cha
     - name: Install CHA
-      working-directory: ./lib/cha
-      run: sudo make install
+      working-directory: ./src
+      run: sudo make install-cha
     - name: Enable shared libraries
       run: sudo /sbin/ldconfig -v
+    - name: Download and compile Retractor
+      working-directory: ./src/
+      run: make get-retractor
     - name: Compile Deadpos
       working-directory: ./src
       run: make

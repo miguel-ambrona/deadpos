@@ -1,0 +1,104 @@
+svg {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.bg-darkk {
+    font-size: 19px;
+    background-color: #424242;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 35% 60%;
+    grid-template-rows: auto;
+    gap: 10px;
+    top: 0;
+    left: 0;
+}
+
+.progress {
+    border: 1px solid  #feffe4 ;
+    font-size: 18px;
+    border-radius: 20px;
+    height: 25px;
+}
+
+.my-btn {
+    background-color: #f6bd0c;
+}
+
+.my-list {
+    color: white;
+    cursor: pointer;
+}
+
+.my-list .list-group-item {
+    color: #f6bd0c;
+    background-color: #48453f ;
+}
+
+.my-list .list-group-item:hover {
+    color: #48453f;
+    background-color: #b0a37b ;
+}
+
+.btn-light {
+    border-color: #e3e4de;
+}
+
+.btn-light:hover {
+    background-color: #e3e4de;
+}
+
+.my-list .active {
+    border-color: #48453f;
+    color: #48453f;
+    background-color: #f6bd0c !important;
+}
+
+.panel {
+    margin: 15px;
+    padding: 30px;
+    background-color: #353436;
+    border-radius: 5px;
+}
+
+textarea {
+   resize: none;
+}
+
+.inner-panel {
+    margin-top: 25px;
+    padding: 25px;
+    background-color: #444;
+    border-radius: 3px;
+    font-family: monospace;
+    color: white;
+    cursor: text;
+}
+
+@media all and (max-width: 1100px) {
+    .panel {
+        grid-column: 1 / span 2;
+        margin: 0;
+    }
+
+    .my-list {
+        margin-top: 10px;
+    }
+
+    .grid-container {
+        grid-template-rows: auto auto;
+    }
+
+    .optional-column {
+        display: none;
+        width: 0%;
+    }
+
+    .results-column {
+        width: 78%;
+    }

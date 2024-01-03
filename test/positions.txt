@@ -1,23 +1,23 @@
-// Jeff Coakley, 1977 (ChessCafe.com in 2013), 1 solution.
-h#3 8/4K2k/4P2p/8/5q2/2b5/8/8 b - -
-
 // Josef Jána, 1928 (Neues Grazer Tagblatt), 1 solution.
-h#3 r3k3/3N4/2N5/8/1K6/8/7p/8 b q -
+r3k3/3N4/2N5/8/1K6/8/7p/8 b q - >>= h#3
 
 // Chris Feather, 1975 (Schach), 2 solutions.
-h#2 1RrB2b1/8/4n3/2n3p1/2K2b2/1p1rk3/6BR/8 b - -
+1RrB2b1/8/4n3/2n3p1/2K2b2/1p1rk3/6BR/8 b - - >>= h#2
 
 // Milan Vukcevich, 1996 (CHM avec 6 pieces Bad Pyrmont), 1 solution.
-h#2 4K2n/3P1P2/4k3/3p4/8/8/8/8 b - -
+4K2n/3P1P2/4k3/3p4/8/8/8/8 b - - >>= h#2
 
 // Roddy McKay, 2021 (Matplus.net), 1 solution.
-h#2 8/1B6/3p1P1q/4ppB1/1p3b2/1Pk3p1/2P4p/1K6 b - -
+8/1B6/3p1P1q/4ppB1/1p3b2/1Pk3p1/2P4p/1K6 b - - >>= h#2
 
 // Neal Turner, 1995 (Problemist Supplement), 1 solution.
-h#3 q1b1n1K1/2P1P3/8/3k4/8/8/8/8 b - -
+q1b1n1K1/2P1P3/8/3k4/8/8/8/8 b - - >>= h#3
 
 // Miguel Ambrona, 2021 (Matplus.net), 1 solution.
-h#3 8/4K2k/4P2p/8/5q2/2b5/8/8 b - -
+8/4K2k/4P2p/8/5q2/2b5/8/8 b - - >>= h#3
 
 // Andrew Buchanan, 2017 (https://pdb.dieschwalbe.de/P1338362)
-h=1 8/5p2/5P2/8/1p2pP2/kP2p3/1pKpP3/3B4 b - f3
+8/5p2/5P2/8/1p2pP2/kP2p3/1pKpP3/3B4 b - f3 >>= h=1
+
+// Mrs. W. J. Baird, 1907 (133 Twentieth Century Retractor)
+1R6/1bNB2n1/pk2P3/pN2p2p/3pP2K/3P3p/5B1P/6n1 b - - >>= r1 >>= #2

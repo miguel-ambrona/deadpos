@@ -73,8 +73,15 @@ void loop(int argc, char *argv[]) {
   Position pos;
   std::string line;
   StateListPtr states(new std::deque<StateInfo>(1));
+  bool progressBar = false;
+
+  for (int i = 1; i < argc; ++i) {
+    if (std::string(argv[i]) == "--progress-bar") progressBar = true;
+  }
 
   static UTIL::Search search = UTIL::Search();
+
+  TT.resize(1024);
 
   while (getline(std::cin, line)) {
 
@@ -91,6 +98,7 @@ void loop(int argc, char *argv[]) {
       continue;
     }
     search.init();
+    search.set_progress_bar(progressBar);
 
     int nsols = 0;
     auto start = std::chrono::high_resolution_clock::now();
@@ -111,7 +119,7 @@ void loop(int argc, char *argv[]) {
       if (stipulation.goal == SOLVER::MATE)
         nsols = SOLVER::force_mate(pos, n, search);
 
-      if (stipulation.goal == SOLVER::MATE)
+      else if (stipulation.goal == SOLVER::DRAW)
         nsols = SOLVER::force_draw(pos, n, search);
 
       else if (stipulation.goal == SOLVER::DEAD)
