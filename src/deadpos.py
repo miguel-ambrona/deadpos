@@ -43,6 +43,21 @@ def print_bar(progress_bar):
     print(bar + "{:.2%} ".format(get_progress(progress_bar)) + timer,\
           end = "\r", flush=True)
 
+def set_turn(fen, turn):
+    words = fen.split(" ")
+    words[1] = turn
+    return " ".join(words)
+
+def set_castling(fen, castling):
+    words = fen.split(" ")
+    words[2] = castling
+    return " ".join(words)
+
+def set_ep(fen, ep):
+    words = fen.split(" ")
+    words[3] = ep
+    return " ".join(words)
+
 def retractor_worker():
     return Popen(["../lib/retractor/_build/default/retractor/retractor.exe"], \
                  stdout=PIPE, stdin=PIPE, stderr=STDOUT)
@@ -176,15 +191,61 @@ def main():
         print(">>>", line)
         words = line.split(">>=")
         fen = words[0].strip()
-        if len(fen.split(" ")) == 4:
-            fen += " ? 1"
+        nb_tokens = len(fen.split(" "))
+        if nb_tokens < 6:
+            fen += " ?" * (5 - nb_tokens) + " 1"
         cmds = [w.strip() for w in words[1:]]
 
         fen_parts = fen.split(" ")
-        if fen_parts[1] == "?" or fen_parts[2] == "?" or fen_parts[3] == "?":
-            raise RuntimeError("Specify turn, castling rights and ep privileges")
+        b = chess.Board(fen_parts[0] + " w - - 0 1")
 
-        fens = [(fen, [])]
+        wL = str(b.piece_at(chess.A1)) == 'R' and str(b.piece_at(chess.E1)) == 'K'
+        wS = str(b.piece_at(chess.H1)) == 'R' and str(b.piece_at(chess.E1)) == 'K'
+        bL = str(b.piece_at(chess.A8)) == 'r' and str(b.piece_at(chess.E8)) == 'k'
+        bS = str(b.piece_at(chess.H8)) == 'r' and str(b.piece_at(chess.E8)) == 'k'
+
+        turns = ["w", "b"] if fen_parts[1] == "?" else [fen_parts[1]]
+        fens = [fen]
+        fens = [set_turn(fen, t) for fen in fens for t in turns]
+
+        new_fens = []
+        for f in fens:
+            if fen_parts[2] != "?":
+                new_fens.append(f)
+                continue
+
+            crs = [""]
+            crs = [cr + flag for cr in crs for flag in (["K", ""] if wS else [""])]
+            crs = [cr + flag for cr in crs for flag in (["Q", ""] if wL else [""])]
+            crs = [cr + flag for cr in crs for flag in (["k", ""] if bS else [""])]
+            crs = [cr + flag for cr in crs for flag in (["q", ""] if bL else [""])]
+            crs = crs[:-1] + ["-"]
+
+            new_fens += [set_castling(f, cr) for cr in crs]
+
+        fens = new_fens
+
+        new_fens = []
+        for f in fens:
+            if fen_parts[3] != "?":
+                new_fens.append(f)
+                continue
+
+            wtm = f.split(" ")[1] == "w"
+            direction = -1 if wtm else 1
+            turn_pawn = 'P' if wtm else 'p'
+            other_pawn = 'p' if wtm else 'P'
+            ep_sqs = range(8, 16) if not wtm else range(40, 48)
+            ep_sqs = [s for s in ep_sqs if str(b.piece_at(s + direction * 8)) == other_pawn]
+            ep_sqs = [s for s in ep_sqs if ((s % 8 > 0 and str(b.piece_at(s + direction * 8 - 1)) == turn_pawn) or
+                                            (s % 8 < 7 and str(b.piece_at(s + direction * 8 + 1)) == turn_pawn))]
+            ep_sqs = ["-"] + [chess.square_name(s) for s in ep_sqs]
+            new_fens += [set_ep(f, s) for s in ep_sqs]
+
+        fens = new_fens
+
+        fens = [(f, []) for f in fens]
+
         for cmd in cmds:
             fens, n = process_cmd(fens, cmd, retractor, mate_solver, draw_solver)
 

@@ -34,7 +34,7 @@ followed by a list of commands separated by `>>=`.
 (Input lines starting with `//` are ignored.)
 
 The following commands are supported:
- - `[r][0-9]+`: retracts as many moves as the integer indicates.
+ - `r[0-9]+`: retracts as many half moves as the integer indicates.
     The retraction routine does not perform any legality checks on the
     retracted position (which may contain non-standard material or immaginary
     checks). However, if the given position is **dead**, all retracted positions
@@ -78,13 +78,32 @@ nsols 1
   *sound* and *correct* in the sense that the tool either finds a helpmate
   (proving the position is alive) or definitely proves that the position is dead.
 
-- The last 2 tokens of a FEN (for the halfmove clock and fullmove number) can
-  be skipped.
+- FEN tokens can be unspecified with `?`, in which case, the tool will consider
+  all plausible values of that token. For example, the following considers that
+  the en-passant flag takes values `-` or `g6`.
+  ```
+  >>> 6br/4Bp1k/5P2/5PpK/4B1P1/8/8/8 w - ? ? 100 >>= r1
+  6br/4Bppk/5P2/5P1K/4B1P1/8/8/8 b - - ? 99 g7g5
+  nsols 1
+  ```
+
+- Not all 6 FEN tokens are necessary. If fewer tokens are specified, the
+  remaining will be filled with `?`. For example:
+  ```
+  >>> 8/7Q/8/4BB2/2PP1P2/3NkN2/PP2P1P1/4K2R w >>= r1
+  8/7Q/8/4BB2/2PPkP2/3N1N2/PP2P1P1/4K2R b K - ? 0 e4e3
+  8/7Q/8/4BB2/2PPkP2/3NPN2/PP2P1P1/4K2R b K - ? 0 e4xPe3
+  8/7Q/8/4BB2/2PPkP2/3NQN2/PP2P1P1/4K2R b K - ? 0 e4xQe3
+  8/7Q/8/4BB2/2PPkP2/3NRN2/PP2P1P1/4K2R b K - ? 0 e4xRe3
+  8/7Q/8/4BB2/2PPkP2/3NBN2/PP2P1P1/4K2R b K - ? 0 e4xBe3
+  8/7Q/8/4BB2/2PPkP2/3NNN2/PP2P1P1/4K2R b K - ? 0 e4xNe3
+  nsols 6
+  ```
 
 - When the halfmove clock is specified, it will be considered in the computation
   of retractions. That is, if it is specified to be `0`, the last move must have
   been a capture or a pawn move. Analogously, when it is strictly positive, all
-  retractions will be officer (non-capture) moves.
+  retractions will be officer non-captures.
   For example:
   ```
   >>> k7/8/2K5/8/8/8/8/8 b - - 0 50 >>= r1

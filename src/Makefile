@@ -25,6 +25,6 @@ get-retractor:
 	cd ../lib/retractor && eval `(opam env)` && dune build
 
 test:
-	cat ../test/positions.txt | python3 deadpos.py
+	cat ../test/positions.txt | python3 deadpos.py --no-progress-bar
 
 .PHONY: solver test
