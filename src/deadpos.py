@@ -154,7 +154,7 @@ def process_cmd(fens, cmd, worker, mate_solver, draw_solver):
         return (fens, len(fens))
 
     else:
-        if "#" in cmd:
+        if "#" in cmd or "--fast" in sys.argv:
             n = solve(cmd, fens, mate_solver)
         else:
             n = solve(cmd, fens, draw_solver)

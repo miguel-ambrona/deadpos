@@ -22,7 +22,7 @@ int cooperative_search(Position &pos, Depth n, UTIL::Search &search) {
     (GOAL == SOLVER::DRAW && dead) ||
     (GOAL == SOLVER::DEAD && dead && !stalemate);
 
-  if (search.progress_bar() && (search.search_depth() <= 2 || n >= 6))
+  if (search.progress_bar() && (search.search_depth() <= 2 || n >= 4))
     std::cout << "progress level " << search.search_depth()
               << " next " << nb_legal_moves << std::endl;
 

@@ -120,6 +120,15 @@ nsols 1
   nsols 0
   ```
 
+- For impatients, you can run *Deadpos* with flag `--fast` to significtly
+  speed-up the analysis of dead positions. This means the analysis may miss
+  some complicated dead positions and there is no way to know about it.
+  Use this flag if you want to find cooks (if they exist, they will probably
+  be found anyway) or you are designing a problem, but in order to mark a
+  problem as C+ (computer tested) you should run the program without this flag.
+
+- You can disable the progress bar with `--no-progress-bar`.
+
 ## Feedback
 
 Please, open an issue if you have any suggestions.
