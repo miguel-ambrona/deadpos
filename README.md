@@ -34,11 +34,15 @@ followed by a list of commands separated by `>>=`.
 (Input lines starting with `//` are ignored.)
 
 The following commands are supported:
- - `r[0-9]+`: retracts as many half moves as the integer indicates.
+ - `r[0-9]+`: retracts as many half moves as the integer indicates in all
+    open goals.
     The retraction routine does not perform any legality checks on the
     retracted position (which may contain non-standard material or immaginary
     checks). However, if the given position is **dead**, all retracted positions
     will be **alive**.
+
+ - `flip`: flips the turn of all open goals.
+
  - A solve command (which stops the potential `>>=` chain). The following solve
    commands are supported:
      - `#[0-9]+[.5]?`: *forced mate* in the given number of moves.
@@ -119,6 +123,15 @@ nsols 1
   >>> k7/8/2K5/8/8/8/8/8 b - - 1 50 >>= r1
   nsols 0
   ```
+
+- For impatients, you can run *Deadpos* with flag `--fast` to significtly
+  speed-up the analysis of dead positions. This means the analysis may miss
+  some complicated dead positions and there is no way to know about it.
+  Use this flag if you want to find cooks (if they exist, they will probably
+  be found anyway) or you are designing a problem, but in order to mark a
+  problem as C+ (computer tested) you should run the program without this flag.
+
+- You can disable the progress bar with `--no-progress-bar`.
 
 ## Feedback
 

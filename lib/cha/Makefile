@@ -4,6 +4,7 @@
 
 cha:
 	git clone https://github.com/miguel-ambrona/D3-Chess.git
+	cd D3-Chess/ && git checkout 6dcb86e7f7751dfddd7e9d0ee9b01106e2612728
 	cd D3-Chess/src/ && make && make cha-lib
 
 install:
