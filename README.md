@@ -34,11 +34,15 @@ followed by a list of commands separated by `>>=`.
 (Input lines starting with `//` are ignored.)
 
 The following commands are supported:
- - `r[0-9]+`: retracts as many half moves as the integer indicates.
+ - `r[0-9]+`: retracts as many half moves as the integer indicates in all
+    open goals.
     The retraction routine does not perform any legality checks on the
     retracted position (which may contain non-standard material or immaginary
     checks). However, if the given position is **dead**, all retracted positions
     will be **alive**.
+
+ - `flip`: flips the turn of all open goals.
+
  - A solve command (which stops the potential `>>=` chain). The following solve
    commands are supported:
      - `#[0-9]+[.5]?`: *forced mate* in the given number of moves.

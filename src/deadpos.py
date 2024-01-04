@@ -58,6 +58,12 @@ def set_ep(fen, ep):
     words[3] = ep
     return " ".join(words)
 
+def flip_turn(fen):
+    print(fen)
+    words = fen.split(" ")
+    words[1] = "w" if words[1] == "b" else "b"
+    return " ".join(words)
+
 def retractor_worker():
     return Popen(["../lib/retractor/_build/default/retractor/retractor.exe"], \
                  stdout=PIPE, stdin=PIPE, stderr=STDOUT)
@@ -152,6 +158,15 @@ def process_cmd(fens, cmd, worker, mate_solver, draw_solver):
         for i in range(n):
             fens = retract(fens, worker, draw_solver)
         return (fens, len(fens))
+
+    elif cmd == "flip":
+        new_fens = []
+        for (fen, aux) in fens:
+            fen = flip_turn(fen)
+            aux += ["flip"]
+            new_fens.append((fen, aux))
+
+        return (new_fens, len(new_fens))
 
     else:
         if "#" in cmd or "--fast" in sys.argv:
