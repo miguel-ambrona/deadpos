@@ -9,6 +9,8 @@ from solver import is_dead
 
 T0 = time.time()
 
+SHOW_ALL_RETRACTIONS = "--show-all-retractions" in sys.argv
+
 def init_progress_bar(n):
     global T0
     T0 = time.time()
@@ -59,10 +61,61 @@ def set_ep(fen, ep):
     return " ".join(words)
 
 def flip_turn(fen):
-    print(fen)
     words = fen.split(" ")
     words[1] = "w" if words[1] == "b" else "b"
+    # Set ep and halfmove clock to ?
+    words[3] = "?"
+    words[4] = "?"
     return " ".join(words)
+
+def complete_fen(fen):
+    fen_parts = fen.split(" ")
+    b = chess.Board(fen_parts[0] + " w - - 0 1")
+
+    wL = str(b.piece_at(chess.A1)) == 'R' and str(b.piece_at(chess.E1)) == 'K'
+    wS = str(b.piece_at(chess.H1)) == 'R' and str(b.piece_at(chess.E1)) == 'K'
+    bL = str(b.piece_at(chess.A8)) == 'r' and str(b.piece_at(chess.E8)) == 'k'
+    bS = str(b.piece_at(chess.H8)) == 'r' and str(b.piece_at(chess.E8)) == 'k'
+
+    turns = ["w", "b"] if fen_parts[1] == "?" else [fen_parts[1]]
+    fens = [fen]
+    fens = [set_turn(fen, t) for fen in fens for t in turns]
+
+    new_fens = []
+    for f in fens:
+        if fen_parts[2] != "?":
+            new_fens.append(f)
+            continue
+
+        crs = [""]
+        crs = [cr + flag for cr in crs for flag in (["K", ""] if wS else [""])]
+        crs = [cr + flag for cr in crs for flag in (["Q", ""] if wL else [""])]
+        crs = [cr + flag for cr in crs for flag in (["k", ""] if bS else [""])]
+        crs = [cr + flag for cr in crs for flag in (["q", ""] if bL else [""])]
+        crs = crs[:-1] + ["-"]
+
+        new_fens += [set_castling(f, cr) for cr in crs]
+
+    fens = new_fens
+
+    new_fens = []
+    for f in fens:
+        if fen_parts[3] != "?":
+            new_fens.append(f)
+            continue
+
+        wtm = f.split(" ")[1] == "w"
+        direction = -1 if wtm else 1
+        turn_pawn = 'P' if wtm else 'p'
+        other_pawn = 'p' if wtm else 'P'
+        ep_sqs = range(8, 16) if not wtm else range(40, 48)
+        ep_sqs = [s for s in ep_sqs if str(b.piece_at(s + direction * 8)) == other_pawn]
+        ep_sqs = [s for s in ep_sqs if ((s % 8 > 0 and str(b.piece_at(s + direction * 8 - 1)) == turn_pawn) or
+                                            (s % 8 < 7 and str(b.piece_at(s + direction * 8 + 1)) == turn_pawn))]
+        ep_sqs = ["-"] + [chess.square_name(s) for s in ep_sqs]
+        new_fens += [set_ep(f, s) for s in ep_sqs]
+
+    return new_fens
 
 def retractor_worker():
     return Popen(["../lib/retractor/_build/default/retractor/retractor.exe"], \
@@ -93,7 +146,7 @@ def retract(fens, worker, dead_solver):
         outputs = retractor_call("retract", fen, worker)
         for out in outputs:
             f, rmove = out.split('retraction')
-            if fen_is_dead and is_dead(chess.Board(f.replace("?","0"))):
+            if not SHOW_ALL_RETRACTIONS and fen_is_dead and is_dead(chess.Board(f.replace("?","0"))):
                 continue
             # If en-passant flag is active in retracted fen, add it
             # to the auxiliary information
@@ -101,6 +154,16 @@ def retract(fens, worker, dead_solver):
             ep_info = ["(ep:" + ep + ")"] if ep != "-" else []
             retractions.append((f.strip(), aux + [rmove.strip()] + ep_info))
     return retractions
+
+def forward(fens):
+    new_fens = []
+    for (fen, aux) in fens:
+        b = chess.Board(fen.replace("?", "0"))
+        for m in b.legal_moves:
+            b.push(m)
+            new_fens.append((b.fen(), aux + [str(m)]))
+            b.pop()
+    return new_fens
 
 def solver_call(cmd, fen, aux, solver, progress_bar):
     # If en-passant flag is on in fen, but not en-passant move is
@@ -118,7 +181,7 @@ def solver_call(cmd, fen, aux, solver, progress_bar):
     if len(aux) > 0:
         aux = aux + ["then"]
 
-    inp = (cmd + " " + fen + "\n").encode("utf-8")
+    inp = (cmd.split(" ")[0] + " " + fen + "\n").encode("utf-8")
     solver.stdin.write(inp)
     solver.stdin.flush()
     nb_solutions = 0
@@ -126,6 +189,15 @@ def solver_call(cmd, fen, aux, solver, progress_bar):
         output = solver.stdout.readline().strip().decode("utf-8")
         if "solution" in output:
             variation = output.split("solution")[1].strip()
+            if "(" in cmd:
+                pt = cmd.split("(")[1][0]
+                b = chess.Board(fen.replace("?", "0"))
+                sol = variation.split(" ")
+                for m in sol[:-1]:
+                    b.push_uci(m)
+                if str(b.piece_at(chess.parse_square(sol[-1][:2]))).lower() != pt.lower():
+                    nb_solutions -= 1
+                    continue
             print(" ".join(aux + [variation]).ljust(80))
         elif "progress" in output and not "nsols" in output:
             words = output.split(" ")
@@ -159,12 +231,22 @@ def process_cmd(fens, cmd, worker, mate_solver, draw_solver):
             fens = retract(fens, worker, draw_solver)
         return (fens, len(fens))
 
+    elif cmd[0] == "m":
+        n = int(cmd[1:])
+        fens = [(fen, aux + ["then"]) for (fen, aux) in fens]
+        for i in range(n):
+            fens = forward(fens)
+        return (fens, len(fens))
+
     elif cmd == "flip":
         new_fens = []
         for (fen, aux) in fens:
             fen = flip_turn(fen)
             aux += ["flip"]
-            new_fens.append((fen, aux))
+            for f in complete_fen(fen):
+                b = chess.Board(f.replace("?", "0"))
+                if b.is_valid():
+                    new_fens.append((f, aux))
 
         return (new_fens, len(new_fens))
 
@@ -211,55 +293,7 @@ def main():
             fen += " ?" * (5 - nb_tokens) + " 1"
         cmds = [w.strip() for w in words[1:]]
 
-        fen_parts = fen.split(" ")
-        b = chess.Board(fen_parts[0] + " w - - 0 1")
-
-        wL = str(b.piece_at(chess.A1)) == 'R' and str(b.piece_at(chess.E1)) == 'K'
-        wS = str(b.piece_at(chess.H1)) == 'R' and str(b.piece_at(chess.E1)) == 'K'
-        bL = str(b.piece_at(chess.A8)) == 'r' and str(b.piece_at(chess.E8)) == 'k'
-        bS = str(b.piece_at(chess.H8)) == 'r' and str(b.piece_at(chess.E8)) == 'k'
-
-        turns = ["w", "b"] if fen_parts[1] == "?" else [fen_parts[1]]
-        fens = [fen]
-        fens = [set_turn(fen, t) for fen in fens for t in turns]
-
-        new_fens = []
-        for f in fens:
-            if fen_parts[2] != "?":
-                new_fens.append(f)
-                continue
-
-            crs = [""]
-            crs = [cr + flag for cr in crs for flag in (["K", ""] if wS else [""])]
-            crs = [cr + flag for cr in crs for flag in (["Q", ""] if wL else [""])]
-            crs = [cr + flag for cr in crs for flag in (["k", ""] if bS else [""])]
-            crs = [cr + flag for cr in crs for flag in (["q", ""] if bL else [""])]
-            crs = crs[:-1] + ["-"]
-
-            new_fens += [set_castling(f, cr) for cr in crs]
-
-        fens = new_fens
-
-        new_fens = []
-        for f in fens:
-            if fen_parts[3] != "?":
-                new_fens.append(f)
-                continue
-
-            wtm = f.split(" ")[1] == "w"
-            direction = -1 if wtm else 1
-            turn_pawn = 'P' if wtm else 'p'
-            other_pawn = 'p' if wtm else 'P'
-            ep_sqs = range(8, 16) if not wtm else range(40, 48)
-            ep_sqs = [s for s in ep_sqs if str(b.piece_at(s + direction * 8)) == other_pawn]
-            ep_sqs = [s for s in ep_sqs if ((s % 8 > 0 and str(b.piece_at(s + direction * 8 - 1)) == turn_pawn) or
-                                            (s % 8 < 7 and str(b.piece_at(s + direction * 8 + 1)) == turn_pawn))]
-            ep_sqs = ["-"] + [chess.square_name(s) for s in ep_sqs]
-            new_fens += [set_ep(f, s) for s in ep_sqs]
-
-        fens = new_fens
-
-        fens = [(f, []) for f in fens]
+        fens = [(f, []) for f in complete_fen(fen)]
 
         for cmd in cmds:
             fens, n = process_cmd(fens, cmd, retractor, mate_solver, draw_solver)
