@@ -7,19 +7,26 @@ dead reckoning.
 
 ## Installation
 
-After cloning the repository and from the `src/` directory:
+Make sure you have `curl`, `opam` and `python-chess`, which you can
+install with:
+  - `sudo apt install curl`
+  - `sudo apt install opam && opam init -y`
+  - `pip3 install python-chess`.
+
+Then, after cloning the repository and from the `src/` directory:
 
 1. Run `make get-stockfish` to download and compile
-[Stockfish](https://github.com/official-stockfish/Stockfish).
-Then install Stockfish with `sudo make install-stockfish`.
+   [Stockfish](https://github.com/official-stockfish/Stockfish).
+   Then install Stockfish with `sudo make install-stockfish`.
 
 2. Run `make get-cha` to download and compile
-[CHA](https://github.com/miguel-ambrona/D3-Chess).
-Then install CHA with `sudo make install-cha`.
+   [CHA](https://github.com/miguel-ambrona/D3-Chess).
+   Then install CHA with `sudo make install-cha`.
 
 3. Run `make get-retractor` to download and build our retraction engine.
 
-4. Compile the tool with `make`.
+4. Compile the tool with `make`. (You may need to enable shared libraries
+   with `sudo /sbin/ldconfig -v` first.)
 
 5. Make sure everything worked fine by running `make test`.
 
@@ -34,14 +41,18 @@ followed by a list of commands separated by `>>=`.
 (Input lines starting with `//` are ignored.)
 
 The following commands are supported:
- - `r[0-9]+`: retracts as many half moves as the integer indicates in all
+ - `r[0-9]+`: retracts as many halfmoves as the integer indicates in all
     open goals.
     The retraction routine does not perform any legality checks on the
     retracted position (which may contain non-standard material or immaginary
     checks). However, if the given position is **dead**, all retracted positions
-    will be **alive**.
+    will be **alive** (this can be disabled with `--show-all-retractions`).
 
- - `flip`: flips the turn of all open goals.
+ - `m[0-9]+`: performs as many forward halfmoves as the integer indicates in all
+    open goals.
+
+ - `flip`: flips the turn of all open goals. This also resets the halfmove clock,
+   and the en-passant flags to `?` (but preserves castling rights).
 
  - A solve command (which stops the potential `>>=` chain). The following solve
    commands are supported:
@@ -49,7 +60,13 @@ The following commands are supported:
      - `h#[0-9]+[.5]?`: *help mate* in the given number of moves.
      - `h=[0-9]+[.5]?`: *help stalemate* in the given number of moves.
      - `hdp[0-9]+[.5]?`: *help dead position* in the given number of moves.
-     - `h~=[0-9]+[.5]?`: *help draw* (stalemate or dead) in the given number of moves.
+     - `h~=[0-9]+[.5]?`: *help draw* (stalemate or dead) in the given number of
+        moves.
+
+   A solve command can be succeded (after a blank space) with a piece type in
+   round brackets (to choose from `p`, `n`, `b`, `r`, `q`, `k`).
+   This will constrain the last move to have been performed by a piece of the
+   indicated type.
 
 On every query, the tool will produce one line output per solution found.
 If there exist shorter solutions that make the composition unsound, the tool
