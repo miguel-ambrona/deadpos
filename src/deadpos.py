@@ -146,7 +146,10 @@ def retract(fens, worker, dead_solver):
         outputs = retractor_call("retract", fen, worker)
         for out in outputs:
             f, rmove = out.split('retraction')
-            if not SHOW_ALL_RETRACTIONS and fen_is_dead and is_dead(chess.Board(f.replace("?","0"))):
+            board = chess.Board(f.replace("?","0"))
+            if not board.is_valid():
+                continue
+            if not SHOW_ALL_RETRACTIONS and fen_is_dead and is_dead(board):
                 continue
             # If en-passant flag is active in retracted fen, add it
             # to the auxiliary information
