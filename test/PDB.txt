@@ -1,0 +1,146 @@
+// deadpos problems from PDB (https://pdb.dieschwalbe.de):
+// cpluscomment='deadpos'
+
+// 1 - P0002478 Mrs. W. J. Baird 1 British Chess Magazine, p. 491, 12/1903 cooked
+8/8/3r4/4N3/4k3/8/8/K7 b >>= r >>= r >>= h#1  // Slow
+
+// 2 - P0002479 Frederick Baird 1877 Morning Post 21/02/1910
+8/8/8/5K2/8/8/7k/8 b >>= r >>= r >>= h#1  // Slow
+
+// 3 - P0005387 Nikita M. Plaksin 6557 feenschach 109 11/1993
+8/8/8/8/K7/8/b7/kB6 b >>= r >>= h=1
+
+// 4 - P1001034 Andrew Buchanan 1 Retros mailing list 24/01/2001
+k7/8/2K5/8/8/8/8/8 ? >>= turn
+
+// 5 - P1001036 Andrew Buchanan 2 Retros mailing list 24/01/2001
+k7/N7/2K5/8/8/8/8/8 ? >>= turn
+
+// 6 - P1001037 Andrew Buchanan 3 Retros mailing list 24/01/2001
+kB6/2K5/8/2N5/8/8/8/8 ? >>= turn
+
+// 7 - P1001038 Andrew Buchanan 4v Retros mailing list 21/01/2001
+8/7Q/8/4BB2/2PP1P2/3NkN2/PP2P1P1/4K2R w >>= castling
+8/7Q/8/4BB2/2PP1P2/3NkN2/PP2P1P1/4K2R w >>= r
+8/7Q/8/4BB2/2PP1P2/3NkN2/PP2P1P1/4K2R w >>= #2
+
+// 8 - P1001041 Andrew Buchanan 7 Retros mailing list 24/01/2001
+k7/P7/B1K5/8/8/8/8/8 w >>= r
+
+// 9 - P1003981 Andrew Buchanan R0093 StrateGems 18 04-06/2002
+Bb1k1b2/bKp1p1p1/1pP1P1P1/1P6/p5P1/P7/8/8 w >>= r
+
+// 10 - P1004031 Andrew Buchanan R0089 StrateGems 16 10-12/2001
+1Nk3K1/P1PN1B2/RBP1P3/2P1R1PQ/8/8/8/8 w >>= r
+
+// 11 - P1112386 Mrs. W. J. Baird (2) British Chess Magazine, p. 136, 03/1903
+6k1/8/6K1/8/8/8/8/8 b >>= r >>= flip >>= m >>= m >>= flip >>= r >>= flip >>= #1 (p)  // Slow
+
+// 12 - P1123642 Mrs. W. J. Baird Revue d'Echecs 1903?
+8/8/8/pN1k4/3p1PB1/1K6/8/8 b >>= r >>= h#1.5
+
+// 13 - P1183694 Mrs. W. J. Baird 2 British Chess Magazine, p. 491, 12/1903 (2 solutions)
+6n1/5pb1/7p/rp1k4/1P1N1p2/4q3/8/3K4 b >>= r >>= r >>= h#1  // Slow
+
+// 14 - P1183695 Mrs. W. J. Baird 3 British Chess Magazine, p. 492, 12/1903 (3 solutions)
+8/3b2p1/2p1p3/6Pp/p2kN2K/3p4/5n2/2r5 b >>= r >>= r >>= h#1  // Slow
+
+// 15 - P1183698 Mrs. W. J. Baird London Field
+1K6/2R1p3/r1P5/1N6/1Nk5/P1nnP3/3P4/2b5 b >>= r >>= h#1.5
+
+// 16 - P1183934 Mrs. W. J. Baird Cheltenham Examiner
+8/1p6/1K6/2nNk3/8/8/5n2/8 b >>= r >>= r >>= h#1  // Slow
+
+// 17 - P1183936 Mrs. W. J. Baird Leader (Jamaika)
+3k4/8/8/1N3P2/3B4/8/3K4/8 b >>= r >>= h#1.5
+
+// 18 - P1183995 Mrs. W. J. Baird 3 Leisure Hour, p. 527, 1904
+8/2K1p3/1n2N3/3kN3/1P3P2/8/8/8 b >>= r >>= h#1.5
+
+// 19 - P1184001 Mrs. W. J. Baird 144 The Times 17/06/1904
+8/8/2p5/8/1pK5/8/RP2k3/1bn1r3 b >>= r >>= r >>= h#1  // Slow
+
+// 20 - P1184464 Mrs. W. J. Baird Leisure Hour 1906
+r5b1/1N6/4p3/n1bk1p1p/2n3B1/5p2/K7/7r b >>= r >>= r >>= h#1  // Slow
+
+// 21 - P1185570 Mrs. W. J. Baird Reading Observer
+8/1K6/3bk3/1p3q2/1P6/4P3/8/6B1 b >>= r >>= r >>= h#1  // Slow
+
+// 22 - P1185584 Mrs. W. J. Baird La Strategie (no queens!)
+8/1K6/4N1p1/3k4/3p4/1P6/8/8 b >>= r >>= r >>= h#1  // Slow
+
+// 23 - P1185751 Mrs. W. J. Baird Bolton Cricket and Football Field
+3K4/4pN2/8/2p5/3k4/2p1R3/8/8 b >>= r >>= h#1.5
+
+// 24 - P1187856 Mrs. W. J. Baird Morning Post
+1R6/1bNB2n1/pk2P3/pN2p2p/3pP2K/3P3p/5B1P/6n1 b >>= r >>= #2
+
+// 25 - P1244258 Andrew Buchanan Retros mailing list 01/2001
+8/8/2Q1N3/3B4/2PP4/3Nk2P/2P5/B2RK2R w >>= castling
+8/8/2Q1N3/3B4/2PP4/3Nk2P/2P5/B2RK2R w >>= r
+8/8/2Q1N3/3B4/2PP4/3Nk2P/2P5/B2RK2R w >>= #2
+
+// 26 - P1284834 Andrew Buchanan & Joaquim Crusats 3 Problemas 5, p. 107, 1/2014
+qqbqBqN1/brrnq1qq/Rnk1KRN1/3N1N2/1PP5/8/1Q3q2/B4q2 w >>= hdp0
+
+// 27 - P1284835 Joaquim Crusats & Andrew Buchanan 2 Problemas 5, p. 107, 1/2014
+qqb1B3/qqrn4/qqkqR3/brnqPKP1/1p2BNN1/1P3P2/8/2R5 b >>= hdp0
+
+// 28 - P1298521 Mrs. W. J. Baird British Chess Magazine 1906
+5n2/b7/8/1RBPkp2/3p4/1R3bP1/K1p3p1/8 b >>= r >>= h#1.5
+5n2/b7/8/1RBPkp2/3p4/1R3bP1/K1p1p3/8 b >>= r >>= h#1.5
+
+// 29 - P1300674 Per Olin 1 Problemas 10, p. 241, 04/2015
+b4b2/1P1PP3/8/k7/6K1/8/6PP/8 w >>= hdp3.5  // Slow
+b4b2/1P2P3/3P4/k7/6K1/8/6PP/8 w >>= hdp3.5  // Slow
+
+// 30 - P1300675 Andrew Buchanan 2 Problemas 10, p. 241, 04/2015
+k7/8/8/N7/8/5KN1/6P1/8 b >>= hdp6.0  // Slow
+
+// 31 - P1300677 Per Olin 4v Problemas 10, p. 241, 04/2015
+3K4/p7/b1p1p1p1/k1P1P1P1/P7/P5P1/5P2/8 w >>= hdp8.5  // Slow and COOKED
+
+// 32 - P1305687 Per Olin Mat Plus 09/04/2015
+1b6/2k1P3/4P3/1K6/8/8/2p2pP1/8 b >>= hdp5.0  // Slow and COOKED
+
+// 33 - P1324767 Andrey Frolkin & Per Olin 3v1 Problemas 13, p. 331, 1/2016
+4b2K/3rk1PP/3pppp1/2p5/p1p5/P7/PnPP4/RRB5 b >>= hdp 5.0  // Slow and COOKED
+4b2K/3rkP1P/3pppp1/2p5/p1p5/P7/PnPP4/RRB5 b >>= hdp 5.0  // Slow and COOKED
+
+// 34 - P1324768 Per Olin 5v Problemas 13, p. 331, 1/2016
+8/2p4P/2R5/3B4/8/8/2P5/KNk5 b >>= hdp4.0  // Slow
+
+// 35 - P1324769 Andrey Frolkin & Per Olin 3v2 Problemas 13, p. 331, 1/2016
+2brnn1K/1ppprkPP/3pppp1/1p6/8/8/P3P1P1/5B2 w >>= hdp4.5  // Slow
+2br1n1K/1ppprkPP/3pppp1/1p6/8/8/P3P1P1/5B2 w >>= hdp4.5  // Slow
+
+// 36 - P1338362 Andrew Buchanan 2 Problemas 18, p. 487, 04/2017
+8/5p2/5P2/8/1p6/kP2pp2/1pKpP3/3B4 w >>= r >>= h=1
+
+// 37 - P1345823 Andrew Buchanan 6 Problemas 20, p. 553, 10/2017 Article 15
+8/p7/8/P2p4/Pp1p4/kP1Pp3/p1KpP3/NQ1B4 ? >>= legal
+8/p7/8/P2p4/Pp1p4/kP1Pp3/p1KpP3/NQ1B4 w >>= h=1.5
+
+// 38 - P1368543 Per Olin & Andrew Buchanan Springaren 149, p. 4, 03/2019
+1rR2RN1/8/8/8/8/8/Kp5b/1N4rk b >>= hdp3.0  // Slow
+
+// 39 - P1404973 Per Olin Springaren 2021 Commendation Springaren Summer Competition 2021 c cooked & how about D?
+1k6/6B1/4p3/8/8/3b4/3P2K1/8 b >>= hdp3.0  // Slow
+8/7k/8/1Pb5/5p2/8/1K4B1/8 b >>= hdp3.0  // Slow
+8/1K2P3/4b3/8/8/3p4/1B6/6k1 b >>= hdp3.0  // Slow
+8/1B4K1/8/2p5/5bP1/8/k7/8 b >>= hdp3.0  // Slow
+
+// 40 - P1405799 Mrs. W. J. Baird & Andrew Buchanan PDB Website 13/11/2022 WJB, correction AB 4 solutions
+8/b2br3/1pp1p3/6Pn/p2kN2K/3p2P1/5n2/2r5 b >>= r >>= r >>= h#1  // Slow
+
+// 41 - P1408993 Andrew Buchanan 24 A Practical Algorithm for Chess Unwinnability 2022
+8/8/1Pp5/p7/P1p5/PpPp4/brpP4/kbK5 b >>= r
+
+// 42 - P1408994 Andrey Frolkin & Andrew Buchanan 25 A Practical Algorithm for Chess Unwinnability 2022
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2R3/8 ? >>= r
+
+// 43 - P1411205 Per Olin & Joachim Hambros GG052 The Hopper Magazine I04 13/07/2023 2 solutions
+3k4/p7/8/8/8/8/7P/4K3 b >>= hdp5.0  // Slow
+
+// 44 - P1411234 Andrew Buchanan GG004 Discord Chess Problems & Studies Server 24/09/2022
+8/6Pk/8/6K1/8/8/2p5/8 b >>= hdp1.0

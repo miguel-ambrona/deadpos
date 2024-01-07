@@ -1,0 +1,425 @@
+Deadpos Analyzer version 2.1
+// deadpos problems from PDB (https://pdb.dieschwalbe.de):
+// cpluscomment='deadpos'
+// 1 - P0002478 Mrs. W. J. Baird 1 British Chess Magazine, p. 491, 12/1903 cooked
+// 2 - P0002479 Frederick Baird 1877 Morning Post 21/02/1910
+// 3 - P0005387 Nikita M. Plaksin 6557 feenschach 109 11/1993
+>>> 8/8/8/8/K7/8/b7/kB6 b >>= r >>= h=1
+e4xQb1 then a4a3 b1e4 stalemate                                                 
+a3xPa4 then b1a2 stalemate cook?                                                
+nsols 2                                                                        
+// 4 - P1001034 Andrew Buchanan 1 Retros mailing list 24/01/2001
+>>> k7/8/2K5/8/8/8/8/8 ? >>= turn
+b
+nsols 1                                                                        
+// 5 - P1001036 Andrew Buchanan 2 Retros mailing list 24/01/2001
+>>> k7/N7/2K5/8/8/8/8/8 ? >>= turn
+b
+nsols 1                                                                        
+// 6 - P1001037 Andrew Buchanan 3 Retros mailing list 24/01/2001
+>>> kB6/2K5/8/2N5/8/8/8/8 ? >>= turn
+b
+nsols 1                                                                        
+// 7 - P1001038 Andrew Buchanan 4v Retros mailing list 21/01/2001
+>>> 8/7Q/8/4BB2/2PP1P2/3NkN2/PP2P1P1/4K2R w >>= castling
+K
+nsols 1                                                                        
+>>> 8/7Q/8/4BB2/2PP1P2/3NkN2/PP2P1P1/4K2R w >>= r
+8/7Q/8/4BB2/2PPkP2/3N1N2/PP2P1P1/4K2R b K - ? 0 e4e3
+8/7Q/8/4BB2/2PPkP2/3NPN2/PP2P1P1/4K2R b K - ? 0 e4xPe3
+8/7Q/8/4BB2/2PPkP2/3NQN2/PP2P1P1/4K2R b K - ? 0 (illegal) e4xQe3
+8/7Q/8/4BB2/2PPkP2/3NRN2/PP2P1P1/4K2R b K - ? 0 (illegal) e4xRe3
+8/7Q/8/4BB2/2PPkP2/3NBN2/PP2P1P1/4K2R b K - ? 0 e4xBe3
+8/7Q/8/4BB2/2PPkP2/3NNN2/PP2P1P1/4K2R b K - ? 0 e4xNe3
+nsols 6                                                                        
+>>> 8/7Q/8/4BB2/2PP1P2/3NkN2/PP2P1P1/4K2R w >>= #2
+e1g1 ... #                                                                      
+nsols 1                                                                        
+// 8 - P1001041 Andrew Buchanan 7 Retros mailing list 24/01/2001
+>>> k7/P7/B1K5/8/8/8/8/8 w >>= r
+1k6/P7/B1K5/8/8/8/8/8 b - - ? 0 (dead) b8a8
+Qk6/P7/B1K5/8/8/8/8/8 b - - ? 0 (illegal) b8xQa8
+Rk6/P7/B1K5/8/8/8/8/8 b - - ? 0 (illegal) b8xRa8
+Bk6/P7/B1K5/8/8/8/8/8 b - - ? 0 (dead) b8xBa8
+Nk6/P7/B1K5/8/8/8/8/8 b - - ? 0 b8xNa8
+nsols 5                                                                        
+// 9 - P1003981 Andrew Buchanan R0093 StrateGems 18 04-06/2002
+>>> Bb1k1b2/bKp1p1p1/1pP1P1P1/1P6/p5P1/P7/8/8 w >>= r
+Bb1k1b2/bKp1p1p1/1pP1P1P1/pP6/6P1/P7/8/8 b - - ? 0 a5a4
+Bb3b2/bKpkp1p1/1pP1P1P1/1P6/p5P1/P7/8/8 b - - ? 0 (illegal) d7d8
+Bb2kb2/bKp1p1p1/1pP1P1P1/1P6/p5P1/P7/8/8 b - - ? 0 (dead) e8d8
+Bb1Q1b2/bKpkp1p1/1pP1P1P1/1P6/p5P1/P7/8/8 b - - ? 0 (illegal) d7xQd8
+Bb1R1b2/bKpkp1p1/1pP1P1P1/1P6/p5P1/P7/8/8 b - - ? 0 (illegal) d7xRd8
+Bb1B1b2/bKpkp1p1/1pP1P1P1/1P6/p5P1/P7/8/8 b - - ? 0 (illegal) d7xBd8
+Bb1N1b2/bKpkp1p1/1pP1P1P1/1P6/p5P1/P7/8/8 b - - ? 0 (illegal) d7xNd8
+Bb1Qkb2/bKp1p1p1/1pP1P1P1/1P6/p5P1/P7/8/8 b - - ? 0 (dead) e8xQd8
+Bb1Rkb2/bKp1p1p1/1pP1P1P1/1P6/p5P1/P7/8/8 b - - ? 0 (dead) e8xRd8
+Bb1Bkb2/bKp1p1p1/1pP1P1P1/1P6/p5P1/P7/8/8 b - - ? 0 (dead) e8xBd8
+Bb1Nkb2/bKp1p1p1/1pP1P1P1/1P6/p5P1/P7/8/8 b - - ? 0 (dead) e8xNd8
+nsols 11                                                                        
+// 10 - P1004031 Andrew Buchanan R0089 StrateGems 16 10-12/2001
+>>> 1Nk3K1/P1PN1B2/RBP1P3/2P1R1PQ/8/8/8/8 w >>= r
+1N4K1/PkPN1B2/RBP1P3/2P1R1PQ/8/8/8/8 b - - ? 0 (dead) b7c8
+1N1k2K1/P1PN1B2/RBP1P3/2P1R1PQ/8/8/8/8 b - - ? 0 d8c8
+1NQ3K1/PkPN1B2/RBP1P3/2P1R1PQ/8/8/8/8 b - - ? 0 (illegal) b7xQc8
+1NR3K1/PkPN1B2/RBP1P3/2P1R1PQ/8/8/8/8 b - - ? 0 (dead) b7xRc8
+1NB3K1/PkPN1B2/RBP1P3/2P1R1PQ/8/8/8/8 b - - ? 0 (illegal) b7xBc8
+1NN3K1/PkPN1B2/RBP1P3/2P1R1PQ/8/8/8/8 b - - ? 0 (dead) b7xNc8
+1NQk2K1/P1PN1B2/RBP1P3/2P1R1PQ/8/8/8/8 b - - ? 0 (illegal) d8xQc8
+1NRk2K1/P1PN1B2/RBP1P3/2P1R1PQ/8/8/8/8 b - - ? 0 (illegal) d8xRc8
+1NBk2K1/P1PN1B2/RBP1P3/2P1R1PQ/8/8/8/8 b - - ? 0 (dead) d8xBc8
+1NNk2K1/P1PN1B2/RBP1P3/2P1R1PQ/8/8/8/8 b - - ? 0 (dead) d8xNc8
+nsols 10                                                                        
+// 11 - P1112386 Mrs. W. J. Baird (2) British Chess Magazine, p. 136, 03/1903
+// 12 - P1123642 Mrs. W. J. Baird Revue d'Echecs 1903?
+>>> 8/8/8/pN1k4/3p1PB1/1K6/8/8 b >>= r >>= h#1.5
+e3xNf4 then e3d4 f4e6 g4f3#                                                     
+nsols 1                                                                        
+// 13 - P1183694 Mrs. W. J. Baird 2 British Chess Magazine, p. 491, 12/1903 (2 solutions)
+// 14 - P1183695 Mrs. W. J. Baird 3 British Chess Magazine, p. 492, 12/1903 (3 solutions)
+// 15 - P1183698 Mrs. W. J. Baird London Field
+>>> 1K6/2R1p3/r1P5/1N6/1Nk5/P1nnP3/3P4/2b5 b >>= r >>= h#1.5
+c5c6 then b5d4 d3c5 d2d3#                                                       
+nsols 1                                                                        
+// 16 - P1183934 Mrs. W. J. Baird Cheltenham Examiner
+// 17 - P1183936 Mrs. W. J. Baird Leader (Jamaika)
+>>> 3k4/8/8/1N3P2/3B4/8/3K4/8 b >>= r >>= h#1.5
+d6xBb5 then f5f6 b5d7 d4b6#                                                     
+nsols 1                                                                        
+// 18 - P1183995 Mrs. W. J. Baird 3 Leisure Hour, p. 527, 1904
+>>> 8/2K1p3/1n2N3/3kN3/1P3P2/8/8/8 b >>= r >>= h#1.5
+f3f4 then e5c6 b6c4 e6f4#                                                       
+nsols 1                                                                        
+// 19 - P1184001 Mrs. W. J. Baird 144 The Times 17/06/1904
+// 20 - P1184464 Mrs. W. J. Baird Leisure Hour 1906
+// 21 - P1185570 Mrs. W. J. Baird Reading Observer
+// 22 - P1185584 Mrs. W. J. Baird La Strategie (no queens!)
+// 23 - P1185751 Mrs. W. J. Baird Bolton Cricket and Football Field
+>>> 3K4/4pN2/8/2p5/3k4/2p1R3/8/8 b >>= r >>= h#1.5
+e1xPe3 then f7d6 e7e5 e1d1#                                                     
+nsols 1                                                                        
+// 24 - P1187856 Mrs. W. J. Baird Morning Post
+>>> 1R6/1bNB2n1/pk2P3/pN2p2p/3pP2K/3P3p/5B1P/6n1 b >>= r >>= #2
+e8c7 then b5d4 ... #                                                            
+nsols 1                                                                        
+// 25 - P1244258 Andrew Buchanan Retros mailing list 01/2001
+>>> 8/8/2Q1N3/3B4/2PP4/3Nk2P/2P5/B2RK2R w >>= castling
+K
+-
+nsols 2                                                                        
+>>> 8/8/2Q1N3/3B4/2PP4/3Nk2P/2P5/B2RK2R w >>= r
+8/8/2Q1N3/3B4/2PP1k2/3N3P/2P5/B2RK2R b K - ? 0 (illegal) f4e3
+8/8/2Q1N3/3B4/2PPk3/3N3P/2P5/B2RK2R b K - ? 0 (illegal) e4e3
+8/8/2Q1N3/3B4/2PP4/3N1k1P/2P5/B2RK2R b K - ? 0 (illegal) f3e3
+8/8/2Q1N3/3B4/2PP1k2/3NP2P/2P5/B2RK2R b K - ? 0 (illegal) f4xPe3
+8/8/2Q1N3/3B4/2PP1k2/3NQ2P/2P5/B2RK2R b K - ? 0 (illegal) f4xQe3
+8/8/2Q1N3/3B4/2PP1k2/3NR2P/2P5/B2RK2R b K - ? 0 (illegal) f4xRe3
+8/8/2Q1N3/3B4/2PP1k2/3NB2P/2P5/B2RK2R b K - ? 0 (illegal) f4xBe3
+8/8/2Q1N3/3B4/2PP1k2/3NN2P/2P5/B2RK2R b K - ? 0 (illegal) f4xNe3
+8/8/2Q1N3/3B4/2PPk3/3NP2P/2P5/B2RK2R b K - ? 0 (illegal) e4xPe3
+8/8/2Q1N3/3B4/2PPk3/3NQ2P/2P5/B2RK2R b K - ? 0 (illegal) e4xQe3
+8/8/2Q1N3/3B4/2PPk3/3NR2P/2P5/B2RK2R b K - ? 0 (illegal) e4xRe3
+8/8/2Q1N3/3B4/2PPk3/3NB2P/2P5/B2RK2R b K - ? 0 (illegal) e4xBe3
+8/8/2Q1N3/3B4/2PPk3/3NN2P/2P5/B2RK2R b K - ? 0 (illegal) e4xNe3
+8/8/2Q1N3/3B4/2PP4/3NPk1P/2P5/B2RK2R b K - ? 0 (illegal) f3xPe3
+8/8/2Q1N3/3B4/2PP4/3NQk1P/2P5/B2RK2R b K - ? 0 (illegal) f3xQe3
+8/8/2Q1N3/3B4/2PP4/3NRk1P/2P5/B2RK2R b K - ? 0 f3xRe3
+8/8/2Q1N3/3B4/2PP4/3NBk1P/2P5/B2RK2R b K - ? 0 (illegal) f3xBe3
+8/8/2Q1N3/3B4/2PP4/3NNk1P/2P5/B2RK2R b K - ? 0 (illegal) f3xNe3
+8/8/2Q1N3/3B4/2PP1k2/3N3P/2P5/B2RK2R b - - ? 0 (illegal) f4e3
+8/8/2Q1N3/3B4/2PPk3/3N3P/2P5/B2RK2R b - - ? 0 (illegal) e4e3
+8/8/2Q1N3/3B4/2PP4/3N1k1P/2P5/B2RK2R b - - ? 0 (illegal) f3e3
+8/8/2Q1N3/3B4/2PP1k2/3NP2P/2P5/B2RK2R b - - ? 0 (illegal) f4xPe3
+8/8/2Q1N3/3B4/2PP1k2/3NQ2P/2P5/B2RK2R b - - ? 0 (illegal) f4xQe3
+8/8/2Q1N3/3B4/2PP1k2/3NR2P/2P5/B2RK2R b - - ? 0 (illegal) f4xRe3
+8/8/2Q1N3/3B4/2PP1k2/3NB2P/2P5/B2RK2R b - - ? 0 (illegal) f4xBe3
+8/8/2Q1N3/3B4/2PP1k2/3NN2P/2P5/B2RK2R b - - ? 0 (illegal) f4xNe3
+8/8/2Q1N3/3B4/2PPk3/3NP2P/2P5/B2RK2R b - - ? 0 (illegal) e4xPe3
+8/8/2Q1N3/3B4/2PPk3/3NQ2P/2P5/B2RK2R b - - ? 0 (illegal) e4xQe3
+8/8/2Q1N3/3B4/2PPk3/3NR2P/2P5/B2RK2R b - - ? 0 (illegal) e4xRe3
+8/8/2Q1N3/3B4/2PPk3/3NB2P/2P5/B2RK2R b - - ? 0 (illegal) e4xBe3
+8/8/2Q1N3/3B4/2PPk3/3NN2P/2P5/B2RK2R b - - ? 0 (illegal) e4xNe3
+8/8/2Q1N3/3B4/2PP4/3NPk1P/2P5/B2RK2R b - - ? 0 (illegal) f3xPe3
+8/8/2Q1N3/3B4/2PP4/3NQk1P/2P5/B2RK2R b - - ? 0 (illegal) f3xQe3
+8/8/2Q1N3/3B4/2PP4/3NRk1P/2P5/B2RK2R b - - ? 0 (dead) f3xRe3
+8/8/2Q1N3/3B4/2PP4/3NBk1P/2P5/B2RK2R b - - ? 0 (illegal) f3xBe3
+8/8/2Q1N3/3B4/2PP4/3NNk1P/2P5/B2RK2R b - - ? 0 (illegal) f3xNe3
+nsols 36                                                                        
+>>> 8/8/2Q1N3/3B4/2PP4/3Nk2P/2P5/B2RK2R w >>= #2
+e1g1 ... #                                                                      
+nsols 1                                                                        
+// 26 - P1284834 Andrew Buchanan & Joaquim Crusats 3 Problemas 5, p. 107, 1/2014
+>>> qqbqBqN1/brrnq1qq/Rnk1KRN1/3N1N2/1PP5/8/1Q3q2/B4q2 w >>= hdp0
+DP                                                                              
+nsols 1                                                                        
+// 27 - P1284835 Joaquim Crusats & Andrew Buchanan 2 Problemas 5, p. 107, 1/2014
+>>> qqb1B3/qqrn4/qqkqR3/brnqPKP1/1p2BNN1/1P3P2/8/2R5 b >>= hdp0
+DP                                                                              
+nsols 1                                                                        
+// 28 - P1298521 Mrs. W. J. Baird British Chess Magazine 1906
+>>> 5n2/b7/8/1RBPkp2/3p4/1R3bP1/K1p3p1/8 b >>= r >>= h#1.5
+b1xNb3 then c5e7 f3d5 b1e1#                                                     
+nsols 1                                                                        
+>>> 5n2/b7/8/1RBPkp2/3p4/1R3bP1/K1p1p3/8 b >>= r >>= h#1.5
+g2g3 then c5d6 e5e4 g2f3#                                                       
+nsols 1                                                                        
+// 29 - P1300674 Per Olin 1 Problemas 10, p. 241, 04/2015
+// 30 - P1300675 Andrew Buchanan 2 Problemas 10, p. 241, 04/2015
+// 31 - P1300677 Per Olin 4v Problemas 10, p. 241, 04/2015
+// 32 - P1305687 Per Olin Mat Plus 09/04/2015
+// 33 - P1324767 Andrey Frolkin & Per Olin 3v1 Problemas 13, p. 331, 1/2016
+// 34 - P1324768 Per Olin 5v Problemas 13, p. 331, 1/2016
+// 35 - P1324769 Andrey Frolkin & Per Olin 3v2 Problemas 13, p. 331, 1/2016
+// 36 - P1338362 Andrew Buchanan 2 Problemas 18, p. 487, 04/2017
+>>> 8/5p2/5P2/8/1p6/kP2pp2/1pKpP3/3B4 w >>= r >>= h=1
+e4f3ep then b2b1r c2b1 stalemate                                                
+nsols 1                                                                        
+// 37 - P1345823 Andrew Buchanan 6 Problemas 20, p. 553, 10/2017 Article 15
+>>> 8/p7/8/P2p4/Pp1p4/kP1Pp3/p1KpP3/NQ1B4 ? >>= legal
+8/p7/8/P2p4/Pp1p4/kP1Pp3/p1KpP3/NQ1B4 w - - ? 1 
+8/p7/8/P2p4/Pp1p4/kP1Pp3/p1KpP3/NQ1B4 b - - ? 1 
+nsols 2                                                                        
+>>> 8/p7/8/P2p4/Pp1p4/kP1Pp3/p1KpP3/NQ1B4 w >>= h=1.5
+a5a6 a2b1r c2b1 stalemate                                                       
+nsols 1                                                                        
+// 38 - P1368543 Per Olin & Andrew Buchanan Springaren 149, p. 4, 03/2019
+// 39 - P1404973 Per Olin Springaren 2021 Commendation Springaren Summer Competition 2021 c cooked & how about D?
+// 40 - P1405799 Mrs. W. J. Baird & Andrew Buchanan PDB Website 13/11/2022 WJB, correction AB 4 solutions
+// 41 - P1408993 Andrew Buchanan 24 A Practical Algorithm for Chess Unwinnability 2022
+>>> 8/8/1Pp5/p7/P1p5/PpPp4/brpP4/kbK5 b >>= r
+8/8/1Pp5/p7/P1p5/PpPp4/brpP4/kb1K4 w - - ? 1 (illegal) d1c1
+8/8/1Pp5/p7/P1p5/PpPp4/brpP4/kbqK4 w - - ? 1 (illegal) d1xQc1
+8/8/1Pp5/p7/P1p5/PpPp4/brpP4/kbrK4 w - - ? 1 (illegal) d1xRc1
+8/8/1Pp5/p7/P1p5/PpPp4/brpP4/kbbK4 w - - ? 1 (illegal) d1xBc1
+8/8/1Pp5/p7/P1p5/PpPp4/brpP4/kbnK4 w - - ? 1 (illegal) d1xNc1
+8/8/2p5/pP6/P1p5/PpPp4/brpP4/kbK5 w - - ? 1 (dead) b5b6
+8/8/2p5/pP6/P1p5/PpPp4/brpP4/kbK5 w - a6 0 1 (dead) b5b6
+8/8/1pp5/p1P5/P1p5/PpPp4/brpP4/kbK5 w - - ? 1 (dead) c5xPb6
+8/8/1qp5/p1P5/P1p5/PpPp4/brpP4/kbK5 w - - ? 1 (dead) c5xQb6
+8/8/1rp5/p1P5/P1p5/PpPp4/brpP4/kbK5 w - - ? 1 (dead) c5xRb6
+8/8/1bp5/p1P5/P1p5/PpPp4/brpP4/kbK5 w - - ? 1 (dead) c5xBb6
+8/8/1np5/p1P5/P1p5/PpPp4/brpP4/kbK5 w - - ? 1 (dead) c5xNb6
+8/8/2p5/ppP5/P1p5/PpPp4/brpP4/kbK5 w - b6 0 1 c5b6ep
+nsols 13                                                                        
+// 42 - P1408994 Andrey Frolkin & Andrew Buchanan 25 A Practical Algorithm for Chess Unwinnability 2022
+>>> 8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2R3/8 ? >>= r
+8/1kPN4/PP1PB3/K3B3/NPP5/2RP4/1P2R3/8 b - - ? 0 b7c6
+8/2PN4/PP1PB3/K2kB3/NPP5/2RP4/1P2R3/8 b - - ? 0 (illegal) d5c6
+8/2PN4/PP1PB3/K1k1B3/NPP5/2RP4/1P2R3/8 b - - ? 0 (illegal) c5c6
+8/1kPN4/PPPPB3/K3B3/NPP5/2RP4/1P2R3/8 b - - ? 0 (illegal) b7xPc6
+8/1kPN4/PPQPB3/K3B3/NPP5/2RP4/1P2R3/8 b - - ? 0 (illegal) b7xQc6
+8/1kPN4/PPRPB3/K3B3/NPP5/2RP4/1P2R3/8 b - - ? 0 b7xRc6
+8/1kPN4/PPBPB3/K3B3/NPP5/2RP4/1P2R3/8 b - - ? 0 (illegal) b7xBc6
+8/1kPN4/PPNPB3/K3B3/NPP5/2RP4/1P2R3/8 b - - ? 0 b7xNc6
+8/2PN4/PPPPB3/K2kB3/NPP5/2RP4/1P2R3/8 b - - ? 0 (illegal) d5xPc6
+8/2PN4/PPQPB3/K2kB3/NPP5/2RP4/1P2R3/8 b - - ? 0 (illegal) d5xQc6
+8/2PN4/PPRPB3/K2kB3/NPP5/2RP4/1P2R3/8 b - - ? 0 (illegal) d5xRc6
+8/2PN4/PPBPB3/K2kB3/NPP5/2RP4/1P2R3/8 b - - ? 0 (illegal) d5xBc6
+8/2PN4/PPNPB3/K2kB3/NPP5/2RP4/1P2R3/8 b - - ? 0 (illegal) d5xNc6
+8/2PN4/PPPPB3/K1k1B3/NPP5/2RP4/1P2R3/8 b - - ? 0 (illegal) c5xPc6
+8/2PN4/PPQPB3/K1k1B3/NPP5/2RP4/1P2R3/8 b - - ? 0 (illegal) c5xQc6
+8/2PN4/PPRPB3/K1k1B3/NPP5/2RP4/1P2R3/8 b - - ? 0 (illegal) c5xRc6
+8/2PN4/PPBPB3/K1k1B3/NPP5/2RP4/1P2R3/8 b - - ? 0 (illegal) c5xBc6
+8/2PN4/PPNPB3/K1k1B3/NPP5/2RP4/1P2R3/8 b - - ? 0 (illegal) c5xNc6
+8/2PN4/PPkPB3/K3B3/NPP5/2RPR3/1P6/8 w - - ? 1 e3e2
+8/2PN4/PPkPB3/K3B3/NPP1R3/2RP4/1P6/8 w - - ? 1 e4e2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P6/4R3 w - - ? 1 e1e2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P3R2/8 w - - ? 1 f2e2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P4R1/8 w - - ? 1 g2e2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P5R/8 w - - ? 1 h2e2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P1R4/8 w - - ? 1 d2e2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1PR5/8 w - - ? 1 c2e2
+8/2PN4/PPkPB3/K3B3/NPP5/2RPR3/1P2p3/8 w - - ? 1 e3xPe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RPR3/1P2q3/8 w - - ? 1 e3xQe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RPR3/1P2r3/8 w - - ? 1 e3xRe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RPR3/1P2b3/8 w - - ? 1 e3xBe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RPR3/1P2n3/8 w - - ? 1 e3xNe2
+8/2PN4/PPkPB3/K3B3/NPP1R3/2RP4/1P2p3/8 w - - ? 1 e4xPe2
+8/2PN4/PPkPB3/K3B3/NPP1R3/2RP4/1P2q3/8 w - - ? 1 e4xQe2
+8/2PN4/PPkPB3/K3B3/NPP1R3/2RP4/1P2r3/8 w - - ? 1 e4xRe2
+8/2PN4/PPkPB3/K3B3/NPP1R3/2RP4/1P2b3/8 w - - ? 1 e4xBe2
+8/2PN4/PPkPB3/K3B3/NPP1R3/2RP4/1P2n3/8 w - - ? 1 e4xNe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2p3/4R3 w - - ? 1 e1xPe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2q3/4R3 w - - ? 1 e1xQe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2r3/4R3 w - - ? 1 e1xRe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2b3/4R3 w - - ? 1 e1xBe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2n3/4R3 w - - ? 1 e1xNe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2pR2/8 w - - ? 1 f2xPe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2qR2/8 w - - ? 1 f2xQe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2rR2/8 w - - ? 1 f2xRe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2bR2/8 w - - ? 1 f2xBe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2nR2/8 w - - ? 1 f2xNe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2p1R1/8 w - - ? 1 g2xPe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2q1R1/8 w - - ? 1 g2xQe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2r1R1/8 w - - ? 1 g2xRe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2b1R1/8 w - - ? 1 g2xBe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2n1R1/8 w - - ? 1 g2xNe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2p2R/8 w - - ? 1 h2xPe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2q2R/8 w - - ? 1 h2xQe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2r2R/8 w - - ? 1 h2xRe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2b2R/8 w - - ? 1 h2xBe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2n2R/8 w - - ? 1 h2xNe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P1Rp3/8 w - - ? 1 d2xPe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P1Rq3/8 w - - ? 1 d2xQe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P1Rr3/8 w - - ? 1 d2xRe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P1Rb3/8 w - - ? 1 d2xBe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P1Rn3/8 w - - ? 1 d2xNe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1PR1p3/8 w - - ? 1 c2xPe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1PR1q3/8 w - - ? 1 c2xQe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1PR1r3/8 w - - ? 1 c2xRe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1PR1b3/8 w - - ? 1 c2xBe2
+8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1PR1n3/8 w - - ? 1 c2xNe2
+8/2PN4/PPkPB3/K3B3/NPP5/3P4/1PR1R3/8 w - - ? 1 c2c3
+8/2PN4/PPkPB3/K3B3/NPP5/3P4/1P2R3/2R5 w - - ? 1 c1c3
+8/2PN4/PPkPB3/K3B3/NPP5/1R1P4/1P2R3/8 w - - ? 1 b3c3
+8/2PN4/PPkPB3/K3B3/NPP5/R2P4/1P2R3/8 w - - ? 1 a3c3
+8/2PN4/PPkPB3/K3B3/NPP5/2pP4/1PR1R3/8 w - - ? 1 c2xPc3
+8/2PN4/PPkPB3/K3B3/NPP5/2qP4/1PR1R3/8 w - - ? 1 c2xQc3
+8/2PN4/PPkPB3/K3B3/NPP5/2rP4/1PR1R3/8 w - - ? 1 c2xRc3
+8/2PN4/PPkPB3/K3B3/NPP5/2bP4/1PR1R3/8 w - - ? 1 c2xBc3
+8/2PN4/PPkPB3/K3B3/NPP5/2nP4/1PR1R3/8 w - - ? 1 c2xNc3
+8/2PN4/PPkPB3/K3B3/NPP5/2pP4/1P2R3/2R5 w - - ? 1 c1xPc3
+8/2PN4/PPkPB3/K3B3/NPP5/2qP4/1P2R3/2R5 w - - ? 1 c1xQc3
+8/2PN4/PPkPB3/K3B3/NPP5/2rP4/1P2R3/2R5 w - - ? 1 c1xRc3
+8/2PN4/PPkPB3/K3B3/NPP5/2bP4/1P2R3/2R5 w - - ? 1 c1xBc3
+8/2PN4/PPkPB3/K3B3/NPP5/2nP4/1P2R3/2R5 w - - ? 1 c1xNc3
+8/2PN4/PPkPB3/K3B3/NPP5/1RpP4/1P2R3/8 w - - ? 1 b3xPc3
+8/2PN4/PPkPB3/K3B3/NPP5/1RqP4/1P2R3/8 w - - ? 1 b3xQc3
+8/2PN4/PPkPB3/K3B3/NPP5/1RrP4/1P2R3/8 w - - ? 1 b3xRc3
+8/2PN4/PPkPB3/K3B3/NPP5/1RbP4/1P2R3/8 w - - ? 1 b3xBc3
+8/2PN4/PPkPB3/K3B3/NPP5/1RnP4/1P2R3/8 w - - ? 1 b3xNc3
+8/2PN4/PPkPB3/K3B3/NPP5/R1pP4/1P2R3/8 w - - ? 1 a3xPc3
+8/2PN4/PPkPB3/K3B3/NPP5/R1qP4/1P2R3/8 w - - ? 1 a3xQc3
+8/2PN4/PPkPB3/K3B3/NPP5/R1rP4/1P2R3/8 w - - ? 1 a3xRc3
+8/2PN4/PPkPB3/K3B3/NPP5/R1bP4/1P2R3/8 w - - ? 1 a3xBc3
+8/2PN4/PPkPB3/K3B3/NPP5/R1nP4/1P2R3/8 w - - ? 1 a3xNc3
+8/2PN4/PPkPB3/K3B3/NPP5/2R5/1P1PR3/8 w - - ? 1 d2d3
+8/2PN4/PPkPB3/K3B3/NPP5/2Rp4/1PP1R3/8 w - - ? 1 c2xPd3
+8/2PN4/PPkPB3/K3B3/NPP5/2Rq4/1PP1R3/8 w - - ? 1 c2xQd3
+8/2PN4/PPkPB3/K3B3/NPP5/2Rr4/1PP1R3/8 w - - ? 1 c2xRd3
+8/2PN4/PPkPB3/K3B3/NPP5/2Rb4/1PP1R3/8 w - - ? 1 c2xBd3
+8/2PN4/PPkPB3/K3B3/NPP5/2Rn4/1PP1R3/8 w - - ? 1 c2xNd3
+8/2PN4/PPkPB3/K1N1B3/1PP5/2RP4/1P2R3/8 w - - ? 1 c5a4
+8/2PN4/PPkPB3/K1N1B3/pPP5/2RP4/1P2R3/8 w - - ? 1 c5xPa4
+8/2PN4/PPkPB3/K1N1B3/qPP5/2RP4/1P2R3/8 w - - ? 1 (dead) c5xQa4
+8/2PN4/PPkPB3/K1N1B3/rPP5/2RP4/1P2R3/8 w - - ? 1 (dead) c5xRa4
+8/2PN4/PPkPB3/K1N1B3/bPP5/2RP4/1P2R3/8 w - - ? 1 c5xBa4
+8/2PN4/PPkPB3/K1N1B3/nPP5/2RP4/1P2R3/8 w - - ? 1 c5xNa4
+8/2PN4/PPkPB3/K3B3/N1P5/1PRP4/1P2R3/8 w - - ? 1 b3b4
+8/2PN4/PPkPB3/K3B3/NpP5/P1RP4/1P2R3/8 w - - ? 1 a3xPb4
+8/2PN4/PPkPB3/K3B3/NqP5/P1RP4/1P2R3/8 w - - ? 1 (dead) a3xQb4
+8/2PN4/PPkPB3/K3B3/NrP5/P1RP4/1P2R3/8 w - - ? 1 a3xRb4
+8/2PN4/PPkPB3/K3B3/NbP5/P1RP4/1P2R3/8 w - - ? 1 (dead) a3xBb4
+8/2PN4/PPkPB3/K3B3/NnP5/P1RP4/1P2R3/8 w - - ? 1 a3xNb4
+8/2PN4/PPkPB3/K3B3/NPp5/1PRP4/1P2R3/8 w - - ? 1 b3xPc4
+8/2PN4/PPkPB3/K3B3/NPq5/1PRP4/1P2R3/8 w - - ? 1 b3xQc4
+8/2PN4/PPkPB3/K3B3/NPr5/1PRP4/1P2R3/8 w - - ? 1 b3xRc4
+8/2PN4/PPkPB3/K3B3/NPb5/1PRP4/1P2R3/8 w - - ? 1 b3xBc4
+8/2PN4/PPkPB3/K3B3/NPn5/1PRP4/1P2R3/8 w - - ? 1 b3xNc4
+8/2PN4/PPkPBB2/K7/NPP5/2RP4/1P2R3/8 w - - ? 1 f6e5
+8/2PN2B1/PPkPB3/K7/NPP5/2RP4/1P2R3/8 w - - ? 1 g7e5
+7B/2PN4/PPkPB3/K7/NPP5/2RP4/1P2R3/8 w - - ? 1 h8e5
+8/2PN4/PPkPB3/K7/NPP2B2/2RP4/1P2R3/8 w - - ? 1 f4e5
+8/2PN4/PPkPB3/K7/NPP5/2RP2B1/1P2R3/8 w - - ? 1 g3e5
+8/2PN4/PPkPB3/K7/NPP5/2RP4/1P2R2B/8 w - - ? 1 h2e5
+8/2PN4/PPkPB3/K7/NPPB4/2RP4/1P2R3/8 w - - ? 1 d4e5
+8/2PN4/PPkPBB2/K3p3/NPP5/2RP4/1P2R3/8 w - - ? 1 f6xPe5
+8/2PN4/PPkPBB2/K3q3/NPP5/2RP4/1P2R3/8 w - - ? 1 f6xQe5
+8/2PN4/PPkPBB2/K3r3/NPP5/2RP4/1P2R3/8 w - - ? 1 f6xRe5
+8/2PN4/PPkPBB2/K3b3/NPP5/2RP4/1P2R3/8 w - - ? 1 f6xBe5
+8/2PN4/PPkPBB2/K3n3/NPP5/2RP4/1P2R3/8 w - - ? 1 f6xNe5
+8/2PN2B1/PPkPB3/K3p3/NPP5/2RP4/1P2R3/8 w - - ? 1 g7xPe5
+8/2PN2B1/PPkPB3/K3q3/NPP5/2RP4/1P2R3/8 w - - ? 1 g7xQe5
+8/2PN2B1/PPkPB3/K3r3/NPP5/2RP4/1P2R3/8 w - - ? 1 g7xRe5
+8/2PN2B1/PPkPB3/K3b3/NPP5/2RP4/1P2R3/8 w - - ? 1 g7xBe5
+8/2PN2B1/PPkPB3/K3n3/NPP5/2RP4/1P2R3/8 w - - ? 1 g7xNe5
+7B/2PN4/PPkPB3/K3p3/NPP5/2RP4/1P2R3/8 w - - ? 1 h8xPe5
+7B/2PN4/PPkPB3/K3q3/NPP5/2RP4/1P2R3/8 w - - ? 1 h8xQe5
+7B/2PN4/PPkPB3/K3r3/NPP5/2RP4/1P2R3/8 w - - ? 1 h8xRe5
+7B/2PN4/PPkPB3/K3b3/NPP5/2RP4/1P2R3/8 w - - ? 1 h8xBe5
+7B/2PN4/PPkPB3/K3n3/NPP5/2RP4/1P2R3/8 w - - ? 1 h8xNe5
+8/2PN4/PPkPB3/K3p3/NPP2B2/2RP4/1P2R3/8 w - - ? 1 f4xPe5
+8/2PN4/PPkPB3/K3q3/NPP2B2/2RP4/1P2R3/8 w - - ? 1 f4xQe5
+8/2PN4/PPkPB3/K3r3/NPP2B2/2RP4/1P2R3/8 w - - ? 1 f4xRe5
+8/2PN4/PPkPB3/K3b3/NPP2B2/2RP4/1P2R3/8 w - - ? 1 f4xBe5
+8/2PN4/PPkPB3/K3n3/NPP2B2/2RP4/1P2R3/8 w - - ? 1 f4xNe5
+8/2PN4/PPkPB3/K3p3/NPP5/2RP2B1/1P2R3/8 w - - ? 1 g3xPe5
+8/2PN4/PPkPB3/K3q3/NPP5/2RP2B1/1P2R3/8 w - - ? 1 g3xQe5
+8/2PN4/PPkPB3/K3r3/NPP5/2RP2B1/1P2R3/8 w - - ? 1 g3xRe5
+8/2PN4/PPkPB3/K3b3/NPP5/2RP2B1/1P2R3/8 w - - ? 1 g3xBe5
+8/2PN4/PPkPB3/K3n3/NPP5/2RP2B1/1P2R3/8 w - - ? 1 g3xNe5
+8/2PN4/PPkPB3/K3p3/NPP5/2RP4/1P2R2B/8 w - - ? 1 h2xPe5
+8/2PN4/PPkPB3/K3q3/NPP5/2RP4/1P2R2B/8 w - - ? 1 h2xQe5
+8/2PN4/PPkPB3/K3r3/NPP5/2RP4/1P2R2B/8 w - - ? 1 h2xRe5
+8/2PN4/PPkPB3/K3b3/NPP5/2RP4/1P2R2B/8 w - - ? 1 h2xBe5
+8/2PN4/PPkPB3/K3n3/NPP5/2RP4/1P2R2B/8 w - - ? 1 h2xNe5
+8/2PN4/PPkPB3/K3p3/NPPB4/2RP4/1P2R3/8 w - - ? 1 d4xPe5
+8/2PN4/PPkPB3/K3q3/NPPB4/2RP4/1P2R3/8 w - - ? 1 d4xQe5
+8/2PN4/PPkPB3/K3r3/NPPB4/2RP4/1P2R3/8 w - - ? 1 d4xRe5
+8/2PN4/PPkPB3/K3b3/NPPB4/2RP4/1P2R3/8 w - - ? 1 d4xBe5
+8/2PN4/PPkPB3/K3n3/NPPB4/2RP4/1P2R3/8 w - - ? 1 d4xNe5
+8/2PN4/PpkPB3/K1P1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 (dead) c5xPb6
+8/2PN4/PqkPB3/K1P1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 (dead) c5xQb6
+8/2PN4/PrkPB3/K1P1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 c5xRb6
+8/2PN4/PbkPB3/K1P1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 (dead) c5xBb6
+8/2PN4/PnkPB3/K1P1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 c5xNb6
+8/2PN4/P1kPB3/KpP1B3/NPP5/2RP4/1P2R3/8 w - b6 0 1 c5b6ep
+8/2PN4/PPkpB3/K1P1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 c5xPd6
+8/2PN4/PPkqB3/K1P1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 c5xQd6
+8/2PN4/PPkrB3/K1P1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 c5xRd6
+8/2PN4/PPkbB3/K1P1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 c5xBd6
+8/2PN4/PPknB3/K1P1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 c5xNd6
+8/2PN1B2/PPkP4/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f7e6
+6B1/2PN4/PPkP4/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 g8e6
+8/2PN4/PPkP4/K3BB2/NPP5/2RP4/1P2R3/8 w - - ? 1 f5e6
+8/2PN4/PPkP4/K3B3/NPP3B1/2RP4/1P2R3/8 w - - ? 1 g4e6
+8/2PN4/PPkP4/K3B3/NPP5/2RP3B/1P2R3/8 w - - ? 1 h3e6
+8/2PN1B2/PPkPp3/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f7xPe6
+8/2PN1B2/PPkPq3/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f7xQe6
+8/2PN1B2/PPkPr3/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f7xRe6
+8/2PN1B2/PPkPb3/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f7xBe6
+8/2PN1B2/PPkPn3/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f7xNe6
+6B1/2PN4/PPkPp3/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 g8xPe6
+6B1/2PN4/PPkPq3/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 g8xQe6
+6B1/2PN4/PPkPr3/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 g8xRe6
+6B1/2PN4/PPkPb3/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 g8xBe6
+6B1/2PN4/PPkPn3/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 g8xNe6
+8/2PN4/PPkPp3/K3BB2/NPP5/2RP4/1P2R3/8 w - - ? 1 f5xPe6
+8/2PN4/PPkPq3/K3BB2/NPP5/2RP4/1P2R3/8 w - - ? 1 f5xQe6
+8/2PN4/PPkPr3/K3BB2/NPP5/2RP4/1P2R3/8 w - - ? 1 f5xRe6
+8/2PN4/PPkPb3/K3BB2/NPP5/2RP4/1P2R3/8 w - - ? 1 f5xBe6
+8/2PN4/PPkPn3/K3BB2/NPP5/2RP4/1P2R3/8 w - - ? 1 f5xNe6
+8/2PN4/PPkPp3/K3B3/NPP3B1/2RP4/1P2R3/8 w - - ? 1 g4xPe6
+8/2PN4/PPkPq3/K3B3/NPP3B1/2RP4/1P2R3/8 w - - ? 1 g4xQe6
+8/2PN4/PPkPr3/K3B3/NPP3B1/2RP4/1P2R3/8 w - - ? 1 g4xRe6
+8/2PN4/PPkPb3/K3B3/NPP3B1/2RP4/1P2R3/8 w - - ? 1 g4xBe6
+8/2PN4/PPkPn3/K3B3/NPP3B1/2RP4/1P2R3/8 w - - ? 1 g4xNe6
+8/2PN4/PPkPp3/K3B3/NPP5/2RP3B/1P2R3/8 w - - ? 1 h3xPe6
+8/2PN4/PPkPq3/K3B3/NPP5/2RP3B/1P2R3/8 w - - ? 1 h3xQe6
+8/2PN4/PPkPr3/K3B3/NPP5/2RP3B/1P2R3/8 w - - ? 1 h3xRe6
+8/2PN4/PPkPb3/K3B3/NPP5/2RP3B/1P2R3/8 w - - ? 1 h3xBe6
+8/2PN4/PPkPn3/K3B3/NPP5/2RP3B/1P2R3/8 w - - ? 1 h3xNe6
+5N2/2P5/PPkPB3/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f8d7
+8/2P5/PPkPBN2/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f6d7
+8/2P5/PPkPB3/K1N1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 c5d7
+5N2/2Pp4/PPkPB3/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f8xPd7
+5N2/2Pq4/PPkPB3/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f8xQd7
+5N2/2Pr4/PPkPB3/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f8xRd7
+5N2/2Pb4/PPkPB3/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f8xBd7
+5N2/2Pn4/PPkPB3/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f8xNd7
+8/2Pp4/PPkPBN2/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f6xPd7
+8/2Pq4/PPkPBN2/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f6xQd7
+8/2Pr4/PPkPBN2/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f6xRd7
+8/2Pb4/PPkPBN2/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f6xBd7
+8/2Pn4/PPkPBN2/K3B3/NPP5/2RP4/1P2R3/8 w - - ? 1 f6xNd7
+8/2Pp4/PPkPB3/K1N1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 c5xPd7
+8/2Pq4/PPkPB3/K1N1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 c5xQd7
+8/2Pr4/PPkPB3/K1N1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 c5xRd7
+8/2Pb4/PPkPB3/K1N1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 c5xBd7
+8/2Pn4/PPkPB3/K1N1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 c5xNd7
+nsols 214                                                                        
+// 43 - P1411205 Per Olin & Joachim Hambros GG052 The Hopper Magazine I04 13/07/2023 2 solutions
+// 44 - P1411234 Andrew Buchanan GG004 Discord Chess Problems & Studies Server 24/09/2022
+>>> 8/6Pk/8/6K1/8/8/2p5/8 b >>= hdp1.0
+c2c1n g7g8q DP                                                                  
+nsols 1                                                                        

@@ -25,6 +25,16 @@ get-retractor:
 	cd ../lib/retractor && eval `(opam env)` && dune build
 
 test:
-	cat ../test/positions.txt | python3 deadpos.py --no-progress-bar
+	cat ../test/test-vectors.txt | python3 deadpos.py --no-progress-bar > /tmp/test-vectors.out
+	diff ../test/test-vectors.out /tmp/test-vectors.out
+
+pdb-tests:
+	cat ../test/PDB.txt | grep -v Slow | python3 deadpos.py --no-progress-bar > /tmp/PDB.out
+	diff ../test/PDB.out /tmp/PDB.out
+
+promote-tests:
+	cp /tmp/test-vectors.out ../test/test-vectors.out
+	cp /tmp/PDB.out ../test/PDB.out
+
 
 .PHONY: solver test
