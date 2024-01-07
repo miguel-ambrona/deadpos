@@ -31,7 +31,7 @@ nsols 1
 8/7Q/8/4BB2/2PPkP2/3NRN2/PP2P1P1/4K2R b K - ? 0 (illegal) e4xRe3
 8/7Q/8/4BB2/2PPkP2/3NBN2/PP2P1P1/4K2R b K - ? 0 e4xBe3
 8/7Q/8/4BB2/2PPkP2/3NNN2/PP2P1P1/4K2R b K - ? 0 e4xNe3
-nsols 6                                                                        
+nsols 4                                                                        
 >>> 8/7Q/8/4BB2/2PP1P2/3NkN2/PP2P1P1/4K2R w >>= #2
 e1g1 ... #                                                                      
 nsols 1                                                                        
@@ -42,7 +42,7 @@ Qk6/P7/B1K5/8/8/8/8/8 b - - ? 0 (illegal) b8xQa8
 Rk6/P7/B1K5/8/8/8/8/8 b - - ? 0 (illegal) b8xRa8
 Bk6/P7/B1K5/8/8/8/8/8 b - - ? 0 (dead) b8xBa8
 Nk6/P7/B1K5/8/8/8/8/8 b - - ? 0 b8xNa8
-nsols 5                                                                        
+nsols 1                                                                        
 // 9 - P1003981 Andrew Buchanan R0093 StrateGems 18 04-06/2002
 >>> Bb1k1b2/bKp1p1p1/1pP1P1P1/1P6/p5P1/P7/8/8 w >>= r
 Bb1k1b2/bKp1p1p1/1pP1P1P1/pP6/6P1/P7/8/8 b - - ? 0 a5a4
@@ -56,7 +56,7 @@ Bb1Qkb2/bKp1p1p1/1pP1P1P1/1P6/p5P1/P7/8/8 b - - ? 0 (dead) e8xQd8
 Bb1Rkb2/bKp1p1p1/1pP1P1P1/1P6/p5P1/P7/8/8 b - - ? 0 (dead) e8xRd8
 Bb1Bkb2/bKp1p1p1/1pP1P1P1/1P6/p5P1/P7/8/8 b - - ? 0 (dead) e8xBd8
 Bb1Nkb2/bKp1p1p1/1pP1P1P1/1P6/p5P1/P7/8/8 b - - ? 0 (dead) e8xNd8
-nsols 11                                                                        
+nsols 1                                                                        
 // 10 - P1004031 Andrew Buchanan R0089 StrateGems 16 10-12/2001
 >>> 1Nk3K1/P1PN1B2/RBP1P3/2P1R1PQ/8/8/8/8 w >>= r
 1N4K1/PkPN1B2/RBP1P3/2P1R1PQ/8/8/8/8 b - - ? 0 (dead) b7c8
@@ -69,7 +69,7 @@ nsols 11
 1NRk2K1/P1PN1B2/RBP1P3/2P1R1PQ/8/8/8/8 b - - ? 0 (illegal) d8xRc8
 1NBk2K1/P1PN1B2/RBP1P3/2P1R1PQ/8/8/8/8 b - - ? 0 (dead) d8xBc8
 1NNk2K1/P1PN1B2/RBP1P3/2P1R1PQ/8/8/8/8 b - - ? 0 (dead) d8xNc8
-nsols 10                                                                        
+nsols 1                                                                        
 // 11 - P1112386 Mrs. W. J. Baird (2) British Chess Magazine, p. 136, 03/1903
 // 12 - P1123642 Mrs. W. J. Baird Revue d'Echecs 1903?
 >>> 8/8/8/pN1k4/3p1PB1/1K6/8/8 b >>= r >>= h#1.5
@@ -144,7 +144,7 @@ nsols 2
 8/8/2Q1N3/3B4/2PP4/3NRk1P/2P5/B2RK2R b - - ? 0 (dead) f3xRe3
 8/8/2Q1N3/3B4/2PP4/3NBk1P/2P5/B2RK2R b - - ? 0 (illegal) f3xBe3
 8/8/2Q1N3/3B4/2PP4/3NNk1P/2P5/B2RK2R b - - ? 0 (illegal) f3xNe3
-nsols 36                                                                        
+nsols 1                                                                        
 >>> 8/8/2Q1N3/3B4/2PP4/3Nk2P/2P5/B2RK2R w >>= #2
 e1g1 ... #                                                                      
 nsols 1                                                                        
@@ -200,7 +200,7 @@ nsols 1
 8/8/1bp5/p1P5/P1p5/PpPp4/brpP4/kbK5 w - - ? 1 (dead) c5xBb6
 8/8/1np5/p1P5/P1p5/PpPp4/brpP4/kbK5 w - - ? 1 (dead) c5xNb6
 8/8/2p5/ppP5/P1p5/PpPp4/brpP4/kbK5 w - b6 0 1 c5b6ep
-nsols 13                                                                        
+nsols 1                                                                        
 // 42 - P1408994 Andrey Frolkin & Andrew Buchanan 25 A Practical Algorithm for Chess Unwinnability 2022
 >>> 8/2PN4/PPkPB3/K3B3/NPP5/2RP4/1P2R3/8 ? >>= r
 8/1kPN4/PP1PB3/K3B3/NPP5/2RP4/1P2R3/8 b - - ? 0 b7c6
@@ -417,7 +417,7 @@ nsols 13
 8/2Pr4/PPkPB3/K1N1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 c5xRd7
 8/2Pb4/PPkPB3/K1N1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 c5xBd7
 8/2Pn4/PPkPB3/K1N1B3/NPP5/2RP4/1P2R3/8 w - - ? 1 c5xNd7
-nsols 214                                                                        
+nsols 192                                                                        
 // 43 - P1411205 Per Olin & Joachim Hambros GG052 The Hopper Magazine I04 13/07/2023 2 solutions
 // 44 - P1411234 Andrew Buchanan GG004 Discord Chess Problems & Studies Server 24/09/2022
 >>> 8/6Pk/8/6K1/8/8/2p5/8 b >>= hdp1.0
