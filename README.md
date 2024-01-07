@@ -41,8 +41,7 @@ followed by a list of commands separated by `>>=`.
 (Input lines starting with `//` are ignored.)
 
 The following commands are supported:
- - `r[0-9]+`: retracts as many halfmoves as the integer indicates in all
-    open goals.
+ - `retract` (or `r` for short): retracts a move in all open goals.
     The retraction routine does not perform any legality checks on the
     retracted position (which may contain non-standard material or immaginary
     checks). However, if the given position is **dead**, all retracted positions

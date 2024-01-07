@@ -8,30 +8,82 @@ import os
 CHA = Popen(["../lib/cha/D3-Chess/src/cha"], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
 CHA.stdout.readline()
 
-def is_dead(board):
+DEAD_TABLE = {}
+LEGAL_TABLE = {}
+
+RETRACTOR = Popen(["../lib/retractor/_build/default/retractor/retractor.exe"], \
+                  stdout=PIPE, stdin=PIPE, stderr=STDOUT)
+
+def retract(fen):
+    global RETRACTOR
+    inp = ("retract " + fen + "\n").encode("utf-8")
+    RETRACTOR.stdin.write(inp)
+    RETRACTOR.stdin.flush()
+    fens = []
+    while True:
+        output = RETRACTOR.stdout.readline().strip().decode("utf-8")
+        if "nsols" in output or len(output) <= 1:
+            break
+        retracted_fen, retraction = output.split('retraction')
+        fens.append((retracted_fen.strip(), retraction.strip()))
+    return fens
+
+def is_dead(fen):
     global CHA
-    inp = (board.fen() + " white\n").encode("utf-8")
+    global DEAD_TABLE
+
+    key = " ".join(fen.split(" ")[:4])
+    dead = DEAD_TABLE.get(key)
+    if dead != None:
+        return dead
+
+    inp = (fen + " white\n").encode("utf-8")
     CHA.stdin.write(inp)
     CHA.stdin.flush()
     output = CHA.stdout.readline().strip().decode("utf-8")
     white_undetermined = "undetermined" in output
 
     if "unwinnable" not in output and not white_undetermined:
+        DEAD_TABLE[key] = False
         return False
 
-    inp = (board.fen() + " black\n").encode("utf-8")
+    inp = (fen + " black\n").encode("utf-8")
     CHA.stdin.write(inp)
     CHA.stdin.flush()
     output = CHA.stdout.readline().strip().decode("utf-8")
     black_undetermined = "undetermined" in output
 
     if "unwinnable" not in output and not black_undetermined:
+        DEAD_TABLE[key] = False
         return False
 
     if white_undetermined or black_undetermined:
-        raise RuntimeError("CHA failed on " + board.fen())
+        raise RuntimeError("CHA failed on " + fen)
 
-    return "unwinnable" in output
+    dead = "unwinnable" in output
+    DEAD_TABLE[key] = dead
+    return dead
+
+# Simple legality check making sure there exists a living retraction of the
+# given depth
+def is_legal(fen, depth = 1):
+    global LEGAL_TABLE
+
+    key = " ".join(fen.split(" ")[:5]) + " " + str(depth)
+    legal = LEGAL_TABLE.get(key)
+    if legal != None:
+        return legal
+
+    if depth <= 0:
+        return True
+    if not chess.Board(fen.replace("?", "0")).is_valid():
+        return False
+    for (retracted_fen, retraction) in retract(fen):
+        if not is_dead(retracted_fen) and is_legal(retracted_fen, depth - 1):
+            LEGAL_TABLE[key] = True
+            return True
+    LEGAL_TABLE[key] = False
+    return False
 
 (STALEMATE, DEAD, DRAW) = (0, 1, 2)
 
@@ -40,14 +92,14 @@ def key_fen(fen):
 
 def cooperative_search(progress_bar, goal, board, n, solution, Table):
     depth = len(solution)
-    dead = is_dead(board)
+    dead = is_dead(board.fen())
     stalemate = board.is_stalemate()
     legal_moves = [m for m in board.legal_moves]
     goal_completed = (goal == DRAW and (dead or stalemate)) or \
         (goal == DEAD and dead and not stalemate) or \
         (goal == STALEMATE and stalemate)
 
-    if progress_bar and (depth <= 2 or n >= 4):
+    if progress_bar and (depth <= 2 or n >= 1):
         print("progress level", depth, "next", len(legal_moves))
 
     if goal_completed:
