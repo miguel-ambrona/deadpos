@@ -16,8 +16,8 @@ q1b1n1K1/2P1P3/8/3k4/8/8/8/8 b - - >>= h#3
 // Miguel Ambrona, 2021 (Matplus.net), 1 solution.
 8/4K2k/4P2p/8/5q2/2b5/8/8 b - - >>= h#3
 
-// Andrew Buchanan, 2017 (https://pdb.dieschwalbe.de/P1338362)
-8/5p2/5P2/8/1p2pP2/kP2p3/1pKpP3/3B4 b - f3 >>= h=1
+// Test en-passant
+4k2r/8/2P1P1P1/2PpKpP1/8/8/8/8 w k ? >>= ep
 
-// Mrs. W. J. Baird, 1907 (133 Twentieth Century Retractor)
-1R6/1bNB2n1/pk2P3/pN2p2p/3pP2K/3P3p/5B1P/6n1 b - - >>= r1 >>= #2
+// Test castling
+4k2r/8/8/8/8/8/8/4K3 w >>= castling

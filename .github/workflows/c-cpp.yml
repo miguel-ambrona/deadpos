@@ -35,6 +35,9 @@ jobs:
     - name: Compile Deadpos
       working-directory: ./src
       run: make
-    - name: Test Deadpos
+    - name: Test Vectors
       working-directory: ./src
       run: make test
+    - name: Test PDB
+      working-directory: ./src
+      run: make pdb-tests
