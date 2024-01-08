@@ -9,7 +9,7 @@
 8/8/8/5K2/8/8/7k/8 b >>= r >>= r >>= h#1  // Slow
 
 // 3 - P0005387 Nikita M. Plaksin 6557 feenschach 109 11/1993
-8/8/8/8/K7/8/b7/kB6 b >>= r >>= h=1
+8/8/8/8/K7/8/b7/kB6 b >>= r >>= h=0.5
 
 // 4 - P1001034 Andrew Buchanan 1 Retros mailing list 24/01/2001
 k7/8/2K5/8/8/8/8/8 ? >>= turn
