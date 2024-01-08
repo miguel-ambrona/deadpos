@@ -1,7 +1,8 @@
 // deadpos problems from PDB (https://pdb.dieschwalbe.de):
 // cpluscomment='deadpos'
+// 3 long cooked ones are commented out: 31, 32, 33
 
-// 1 - P0002478 Mrs. W. J. Baird 1 British Chess Magazine, p. 491, 12/1903 cooked
+// 1 - P0002478 Mrs. W. J. Baird 1 British Chess Magazine, p. 491, 12/1903
 8/8/3r4/4N3/4k3/8/8/K7 b >>= r >>= r >>= h#1  // Slow
 
 // 2 - P0002479 Frederick Baird 1877 Morning Post 21/02/1910
