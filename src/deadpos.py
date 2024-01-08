@@ -225,6 +225,11 @@ def castling(pos):
 def en_passant(pos):
     return [pos.ep]
 
+def dp(pos):
+    pos = deepcopy(pos)
+    pos.info += ["DP"] if is_dead(pos.fen()) else ["alive"]
+    return [pos]
+
 def bind(elements, function):
     return [b for el in elements for b in function(el)]
 
@@ -267,6 +272,10 @@ def process_cmd(positions, cmd):
     elif cmd == "ep":
         eps = dedup(bind(positions, en_passant))
         return (eps, len(eps))
+
+    elif cmd == "DP":
+        positions = bind(positions, dp)
+        return (positions, count_valid(positions))
 
     elif cmd == "legal":
         positions = [pos for pos in positions if is_legal(pos.fen(), depth = 2)]

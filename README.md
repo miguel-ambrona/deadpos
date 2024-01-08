@@ -57,6 +57,8 @@ to a position, which return a list of objects (typically, positions).
 
  - `ep` : returns the en-passant privileges of the given position.
 
+ - `DP` : labels the position as "DP" (dead position) or "alive".
+
  - A solve command (which stops the potential `>>=` chain). The following solve
    commands are supported:
      - `#[0-9]+[.5]?`: *forced mate* in the given number of moves.

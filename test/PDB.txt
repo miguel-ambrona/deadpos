@@ -82,10 +82,10 @@ r5b1/1N6/4p3/n1bk1p1p/2n3B1/5p2/K7/7r b >>= r >>= r >>= h#1  // Slow
 8/8/2Q1N3/3B4/2PP4/3Nk2P/2P5/B2RK2R w >>= #2
 
 // 26 - P1284834 Andrew Buchanan & Joaquim Crusats 3 Problemas 5, p. 107, 1/2014
-qqbqBqN1/brrnq1qq/Rnk1KRN1/3N1N2/1PP5/8/1Q3q2/B4q2 w >>= hdp0
+qqbqBqN1/brrnq1qq/Rnk1KRN1/3N1N2/1PP5/8/1Q3q2/B4q2 w >>= DP
 
 // 27 - P1284835 Joaquim Crusats & Andrew Buchanan 2 Problemas 5, p. 107, 1/2014
-qqb1B3/qqrn4/qqkqR3/brnqPKP1/1p2BNN1/1P3P2/8/2R5 b >>= hdp0
+qqb1B3/qqrn4/qqkqR3/brnqPKP1/1p2BNN1/1P3P2/8/2R5 b >>= DP
 
 // 28 - P1298521 Mrs. W. J. Baird British Chess Magazine 1906
 5n2/b7/8/1RBPkp2/3p4/1R3bP1/K1p3p1/8 b >>= r >>= h#1.5
