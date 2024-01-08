@@ -1,4 +1,4 @@
-Deadpos Analyzer version 2.1
+Deadpos Analyzer version 2.2
 // deadpos problems from PDB (https://pdb.dieschwalbe.de):
 // cpluscomment='deadpos'
 // 3 long cooked ones are commented out: 31, 32, 33
@@ -12,14 +12,229 @@ nsols 1
 >>> k7/8/2K5/8/8/8/8/8 ? >>= turn
 b
 nsols 1                                                                        
+>>> k7/8/2K5/8/8/8/8/8 ? >>= r
+8/k7/2K5/8/8/8/8/8 b - - ? 0 (dead) a7a8
+1k6/8/2K5/8/8/8/8/8 b - - ? 0 (dead) b8a8
+Q7/k7/2K5/8/8/8/8/8 b - - ? 0 (dead) a7xQa8
+R7/k7/2K5/8/8/8/8/8 b - - ? 0 (dead) a7xRa8
+B7/k7/2K5/8/8/8/8/8 b - - ? 0 (dead) a7xBa8
+N7/k7/2K5/8/8/8/8/8 b - - ? 0 (dead) a7xNa8
+Qk6/8/2K5/8/8/8/8/8 b - - ? 0 (dead) b8xQa8
+Rk6/8/2K5/8/8/8/8/8 b - - ? 0 (dead) b8xRa8
+Bk6/8/2K5/8/8/8/8/8 b - - ? 0 (dead) b8xBa8
+Nk6/8/2K5/8/8/8/8/8 b - - ? 0 (dead) b8xNa8
+k7/3K4/8/8/8/8/8/8 w - - ? 1 (dead) d7c6
+k7/8/8/3K4/8/8/8/8 w - - ? 1 (dead) d5c6
+k7/8/8/1K6/8/8/8/8 w - - ? 1 (dead) b5c6
+k7/2K5/8/8/8/8/8/8 w - - ? 1 (illegal) c7c6
+k7/8/8/2K5/8/8/8/8 w - - ? 1 (dead) c5c6
+k7/8/3K4/8/8/8/8/8 w - - ? 1 (dead) d6c6
+k7/8/1K6/8/8/8/8/8 w - - ? 1 (illegal) b6c6
+k7/3K4/2p5/8/8/8/8/8 w - - ? 1 d7xPc6
+k7/3K4/2q5/8/8/8/8/8 w - - ? 1 d7xQc6
+k7/3K4/2r5/8/8/8/8/8 w - - ? 1 d7xRc6
+k7/3K4/2b5/8/8/8/8/8 w - - ? 1 (dead) d7xBc6
+k7/3K4/2n5/8/8/8/8/8 w - - ? 1 (dead) d7xNc6
+k7/8/2p5/3K4/8/8/8/8 w - - ? 1 d5xPc6
+k7/8/2q5/3K4/8/8/8/8 w - - ? 1 d5xQc6
+k7/8/2r5/3K4/8/8/8/8 w - - ? 1 d5xRc6
+k7/8/2b5/3K4/8/8/8/8 w - - ? 1 (dead) d5xBc6
+k7/8/2n5/3K4/8/8/8/8 w - - ? 1 (dead) d5xNc6
+k7/8/2p5/1K6/8/8/8/8 w - - ? 1 b5xPc6
+k7/8/2q5/1K6/8/8/8/8 w - - ? 1 b5xQc6
+k7/8/2r5/1K6/8/8/8/8 w - - ? 1 b5xRc6
+k7/8/2b5/1K6/8/8/8/8 w - - ? 1 (dead) b5xBc6
+k7/8/2n5/1K6/8/8/8/8 w - - ? 1 (dead) b5xNc6
+k7/2K5/2p5/8/8/8/8/8 w - - ? 1 c7xPc6
+k7/2K5/2q5/8/8/8/8/8 w - - ? 1 c7xQc6
+k7/2K5/2r5/8/8/8/8/8 w - - ? 1 c7xRc6
+k7/2K5/2b5/8/8/8/8/8 w - - ? 1 (dead) c7xBc6
+k7/2K5/2n5/8/8/8/8/8 w - - ? 1 (dead) c7xNc6
+k7/8/2p5/2K5/8/8/8/8 w - - ? 1 c5xPc6
+k7/8/2q5/2K5/8/8/8/8 w - - ? 1 c5xQc6
+k7/8/2r5/2K5/8/8/8/8 w - - ? 1 c5xRc6
+k7/8/2b5/2K5/8/8/8/8 w - - ? 1 (dead) c5xBc6
+k7/8/2n5/2K5/8/8/8/8 w - - ? 1 (dead) c5xNc6
+k7/8/2pK4/8/8/8/8/8 w - - ? 1 d6xPc6
+k7/8/2qK4/8/8/8/8/8 w - - ? 1 d6xQc6
+k7/8/2rK4/8/8/8/8/8 w - - ? 1 d6xRc6
+k7/8/2bK4/8/8/8/8/8 w - - ? 1 (dead) d6xBc6
+k7/8/2nK4/8/8/8/8/8 w - - ? 1 (dead) d6xNc6
+k7/8/1Kp5/8/8/8/8/8 w - - ? 1 b6xPc6
+k7/8/1Kq5/8/8/8/8/8 w - - ? 1 b6xQc6
+k7/8/1Kr5/8/8/8/8/8 w - - ? 1 b6xRc6
+k7/8/1Kb5/8/8/8/8/8 w - - ? 1 (dead) b6xBc6
+k7/8/1Kn5/8/8/8/8/8 w - - ? 1 (dead) b6xNc6
+nsols 21                                                                        
 // 5 - P1001036 Andrew Buchanan 2 Retros mailing list 24/01/2001
 >>> k7/N7/2K5/8/8/8/8/8 ? >>= turn
 b
 nsols 1                                                                        
+>>> k7/N7/2K5/8/8/8/8/8 ? >>= r
+1k6/N7/2K5/8/8/8/8/8 b - - ? 0 (dead) b8a8
+Qk6/N7/2K5/8/8/8/8/8 b - - ? 0 (dead) b8xQa8
+Rk6/N7/2K5/8/8/8/8/8 b - - ? 0 (dead) b8xRa8
+Bk6/N7/2K5/8/8/8/8/8 b - - ? 0 (dead) b8xBa8
+Nk6/N7/2K5/8/8/8/8/8 b - - ? 0 (dead) b8xNa8
+k7/N2K4/8/8/8/8/8/8 w - - ? 1 (dead) d7c6
+k7/N7/8/3K4/8/8/8/8 w - - ? 1 (dead) d5c6
+k7/N7/8/1K6/8/8/8/8 w - - ? 1 (dead) b5c6
+k7/N1K5/8/8/8/8/8/8 w - - ? 1 (illegal) c7c6
+k7/N7/8/2K5/8/8/8/8 w - - ? 1 (dead) c5c6
+k7/N7/3K4/8/8/8/8/8 w - - ? 1 (dead) d6c6
+k7/N7/1K6/8/8/8/8/8 w - - ? 1 (illegal) b6c6
+k7/N2K4/2p5/8/8/8/8/8 w - - ? 1 d7xPc6
+k7/N2K4/2q5/8/8/8/8/8 w - - ? 1 d7xQc6
+k7/N2K4/2r5/8/8/8/8/8 w - - ? 1 d7xRc6
+k7/N2K4/2b5/8/8/8/8/8 w - - ? 1 d7xBc6
+k7/N2K4/2n5/8/8/8/8/8 w - - ? 1 d7xNc6
+k7/N7/2p5/3K4/8/8/8/8 w - - ? 1 d5xPc6
+k7/N7/2q5/3K4/8/8/8/8 w - - ? 1 d5xQc6
+k7/N7/2r5/3K4/8/8/8/8 w - - ? 1 d5xRc6
+k7/N7/2b5/3K4/8/8/8/8 w - - ? 1 d5xBc6
+k7/N7/2n5/3K4/8/8/8/8 w - - ? 1 d5xNc6
+k7/N7/2p5/1K6/8/8/8/8 w - - ? 1 b5xPc6
+k7/N7/2q5/1K6/8/8/8/8 w - - ? 1 b5xQc6
+k7/N7/2r5/1K6/8/8/8/8 w - - ? 1 b5xRc6
+k7/N7/2b5/1K6/8/8/8/8 w - - ? 1 b5xBc6
+k7/N7/2n5/1K6/8/8/8/8 w - - ? 1 b5xNc6
+k7/N1K5/2p5/8/8/8/8/8 w - - ? 1 c7xPc6
+k7/N1K5/2q5/8/8/8/8/8 w - - ? 1 c7xQc6
+k7/N1K5/2r5/8/8/8/8/8 w - - ? 1 c7xRc6
+k7/N1K5/2b5/8/8/8/8/8 w - - ? 1 c7xBc6
+k7/N1K5/2n5/8/8/8/8/8 w - - ? 1 c7xNc6
+k7/N7/2p5/2K5/8/8/8/8 w - - ? 1 c5xPc6
+k7/N7/2q5/2K5/8/8/8/8 w - - ? 1 c5xQc6
+k7/N7/2r5/2K5/8/8/8/8 w - - ? 1 c5xRc6
+k7/N7/2b5/2K5/8/8/8/8 w - - ? 1 c5xBc6
+k7/N7/2n5/2K5/8/8/8/8 w - - ? 1 c5xNc6
+k7/N7/2pK4/8/8/8/8/8 w - - ? 1 d6xPc6
+k7/N7/2qK4/8/8/8/8/8 w - - ? 1 d6xQc6
+k7/N7/2rK4/8/8/8/8/8 w - - ? 1 d6xRc6
+k7/N7/2bK4/8/8/8/8/8 w - - ? 1 d6xBc6
+k7/N7/2nK4/8/8/8/8/8 w - - ? 1 d6xNc6
+k7/N7/1Kp5/8/8/8/8/8 w - - ? 1 b6xPc6
+k7/N7/1Kq5/8/8/8/8/8 w - - ? 1 b6xQc6
+k7/N7/1Kr5/8/8/8/8/8 w - - ? 1 b6xRc6
+k7/N7/1Kb5/8/8/8/8/8 w - - ? 1 b6xBc6
+k7/N7/1Kn5/8/8/8/8/8 w - - ? 1 b6xNc6
+k1N5/8/2K5/8/8/8/8/8 w - - ? 1 (dead) c8a7
+k7/8/2K5/1N6/8/8/8/8 w - - ? 1 (dead) b5a7
+k1N5/p7/2K5/8/8/8/8/8 w - - ? 1 c8xPa7
+k1N5/q7/2K5/8/8/8/8/8 w - - ? 1 c8xQa7
+k1N5/r7/2K5/8/8/8/8/8 w - - ? 1 c8xRa7
+k1N5/b7/2K5/8/8/8/8/8 w - - ? 1 c8xBa7
+k1N5/n7/2K5/8/8/8/8/8 w - - ? 1 c8xNa7
+k7/p7/2K5/1N6/8/8/8/8 w - - ? 1 b5xPa7
+k7/q7/2K5/1N6/8/8/8/8 w - - ? 1 b5xQa7
+k7/r7/2K5/1N6/8/8/8/8 w - - ? 1 b5xRa7
+k7/b7/2K5/1N6/8/8/8/8 w - - ? 1 b5xBa7
+k7/n7/2K5/1N6/8/8/8/8 w - - ? 1 b5xNa7
+nsols 45                                                                        
 // 6 - P1001037 Andrew Buchanan 3 Retros mailing list 24/01/2001
 >>> kB6/2K5/8/2N5/8/8/8/8 ? >>= turn
 b
 nsols 1                                                                        
+>>> kB6/2K5/8/2N5/8/8/8/8 ? >>= r
+1B6/k1K5/8/2N5/8/8/8/8 b - - ? 0 (dead) a7a8
+QB6/k1K5/8/2N5/8/8/8/8 b - - ? 0 (illegal) a7xQa8
+RB6/k1K5/8/2N5/8/8/8/8 b - - ? 0 (illegal) a7xRa8
+BB6/k1K5/8/2N5/8/8/8/8 b - - ? 0 (dead) a7xBa8
+NB6/k1K5/8/2N5/8/8/8/8 b - - ? 0 (dead) a7xNa8
+kB6/2KN4/8/8/8/8/8/8 w - - ? 1 d7c5
+kB6/2K5/4N3/8/8/8/8/8 w - - ? 1 e6c5
+kB6/1NK5/8/8/8/8/8/8 w - - ? 1 (dead) b7c5
+kB6/2K5/N7/8/8/8/8/8 w - - ? 1 a6c5
+kB6/2K5/8/8/8/3N4/8/8 w - - ? 1 d3c5
+kB6/2K5/8/8/4N3/8/8/8 w - - ? 1 e4c5
+kB6/2K5/8/8/8/1N6/8/8 w - - ? 1 b3c5
+kB6/2K5/8/8/N7/8/8/8 w - - ? 1 a4c5
+kB6/2KN4/8/2p5/8/8/8/8 w - - ? 1 d7xPc5
+kB6/2KN4/8/2q5/8/8/8/8 w - - ? 1 d7xQc5
+kB6/2KN4/8/2r5/8/8/8/8 w - - ? 1 d7xRc5
+kB6/2KN4/8/2b5/8/8/8/8 w - - ? 1 d7xBc5
+kB6/2KN4/8/2n5/8/8/8/8 w - - ? 1 d7xNc5
+kB6/2K5/4N3/2p5/8/8/8/8 w - - ? 1 e6xPc5
+kB6/2K5/4N3/2q5/8/8/8/8 w - - ? 1 e6xQc5
+kB6/2K5/4N3/2r5/8/8/8/8 w - - ? 1 e6xRc5
+kB6/2K5/4N3/2b5/8/8/8/8 w - - ? 1 e6xBc5
+kB6/2K5/4N3/2n5/8/8/8/8 w - - ? 1 e6xNc5
+kB6/1NK5/8/2p5/8/8/8/8 w - - ? 1 b7xPc5
+kB6/1NK5/8/2q5/8/8/8/8 w - - ? 1 b7xQc5
+kB6/1NK5/8/2r5/8/8/8/8 w - - ? 1 b7xRc5
+kB6/1NK5/8/2b5/8/8/8/8 w - - ? 1 b7xBc5
+kB6/1NK5/8/2n5/8/8/8/8 w - - ? 1 b7xNc5
+kB6/2K5/N7/2p5/8/8/8/8 w - - ? 1 a6xPc5
+kB6/2K5/N7/2q5/8/8/8/8 w - - ? 1 a6xQc5
+kB6/2K5/N7/2r5/8/8/8/8 w - - ? 1 a6xRc5
+kB6/2K5/N7/2b5/8/8/8/8 w - - ? 1 a6xBc5
+kB6/2K5/N7/2n5/8/8/8/8 w - - ? 1 a6xNc5
+kB6/2K5/8/2p5/8/3N4/8/8 w - - ? 1 d3xPc5
+kB6/2K5/8/2q5/8/3N4/8/8 w - - ? 1 d3xQc5
+kB6/2K5/8/2r5/8/3N4/8/8 w - - ? 1 d3xRc5
+kB6/2K5/8/2b5/8/3N4/8/8 w - - ? 1 d3xBc5
+kB6/2K5/8/2n5/8/3N4/8/8 w - - ? 1 d3xNc5
+kB6/2K5/8/2p5/4N3/8/8/8 w - - ? 1 e4xPc5
+kB6/2K5/8/2q5/4N3/8/8/8 w - - ? 1 e4xQc5
+kB6/2K5/8/2r5/4N3/8/8/8 w - - ? 1 e4xRc5
+kB6/2K5/8/2b5/4N3/8/8/8 w - - ? 1 e4xBc5
+kB6/2K5/8/2n5/4N3/8/8/8 w - - ? 1 e4xNc5
+kB6/2K5/8/2p5/8/1N6/8/8 w - - ? 1 b3xPc5
+kB6/2K5/8/2q5/8/1N6/8/8 w - - ? 1 b3xQc5
+kB6/2K5/8/2r5/8/1N6/8/8 w - - ? 1 b3xRc5
+kB6/2K5/8/2b5/8/1N6/8/8 w - - ? 1 b3xBc5
+kB6/2K5/8/2n5/8/1N6/8/8 w - - ? 1 b3xNc5
+kB6/2K5/8/2p5/N7/8/8/8 w - - ? 1 a4xPc5
+kB6/2K5/8/2q5/N7/8/8/8 w - - ? 1 a4xQc5
+kB6/2K5/8/2r5/N7/8/8/8 w - - ? 1 a4xRc5
+kB6/2K5/8/2b5/N7/8/8/8 w - - ? 1 a4xBc5
+kB6/2K5/8/2n5/N7/8/8/8 w - - ? 1 a4xNc5
+kB1K4/8/8/2N5/8/8/8/8 w - - ? 1 d8c7
+kB6/8/3K4/2N5/8/8/8/8 w - - ? 1 d6c7
+kB6/8/1K6/2N5/8/8/8/8 w - - ? 1 (illegal) b6c7
+kBK5/8/8/2N5/8/8/8/8 w - - ? 1 c8c7
+kB6/8/2K5/2N5/8/8/8/8 w - - ? 1 c6c7
+kB6/3K4/8/2N5/8/8/8/8 w - - ? 1 d7c7
+kB1K4/2p5/8/2N5/8/8/8/8 w - - ? 1 d8xPc7
+kB1K4/2q5/8/2N5/8/8/8/8 w - - ? 1 d8xQc7
+kB1K4/2r5/8/2N5/8/8/8/8 w - - ? 1 d8xRc7
+kB1K4/2b5/8/2N5/8/8/8/8 w - - ? 1 d8xBc7
+kB1K4/2n5/8/2N5/8/8/8/8 w - - ? 1 d8xNc7
+kB6/2p5/3K4/2N5/8/8/8/8 w - - ? 1 (illegal) d6xPc7
+kB6/2q5/3K4/2N5/8/8/8/8 w - - ? 1 d6xQc7
+kB6/2r5/3K4/2N5/8/8/8/8 w - - ? 1 d6xRc7
+kB6/2b5/3K4/2N5/8/8/8/8 w - - ? 1 d6xBc7
+kB6/2n5/3K4/2N5/8/8/8/8 w - - ? 1 d6xNc7
+kB6/2p5/1K6/2N5/8/8/8/8 w - - ? 1 (illegal) b6xPc7
+kB6/2q5/1K6/2N5/8/8/8/8 w - - ? 1 b6xQc7
+kB6/2r5/1K6/2N5/8/8/8/8 w - - ? 1 b6xRc7
+kB6/2b5/1K6/2N5/8/8/8/8 w - - ? 1 b6xBc7
+kB6/2n5/1K6/2N5/8/8/8/8 w - - ? 1 b6xNc7
+kBK5/2p5/8/2N5/8/8/8/8 w - - ? 1 c8xPc7
+kBK5/2q5/8/2N5/8/8/8/8 w - - ? 1 c8xQc7
+kBK5/2r5/8/2N5/8/8/8/8 w - - ? 1 c8xRc7
+kBK5/2b5/8/2N5/8/8/8/8 w - - ? 1 c8xBc7
+kBK5/2n5/8/2N5/8/8/8/8 w - - ? 1 c8xNc7
+kB6/2p5/2K5/2N5/8/8/8/8 w - - ? 1 c6xPc7
+kB6/2q5/2K5/2N5/8/8/8/8 w - - ? 1 c6xQc7
+kB6/2r5/2K5/2N5/8/8/8/8 w - - ? 1 c6xRc7
+kB6/2b5/2K5/2N5/8/8/8/8 w - - ? 1 c6xBc7
+kB6/2n5/2K5/2N5/8/8/8/8 w - - ? 1 c6xNc7
+kB6/2pK4/8/2N5/8/8/8/8 w - - ? 1 d7xPc7
+kB6/2qK4/8/2N5/8/8/8/8 w - - ? 1 d7xQc7
+kB6/2rK4/8/2N5/8/8/8/8 w - - ? 1 d7xRc7
+kB6/2bK4/8/2N5/8/8/8/8 w - - ? 1 d7xBc7
+kB6/2nK4/8/2N5/8/8/8/8 w - - ? 1 d7xNc7
+k7/B1K5/8/2N5/8/8/8/8 w - - ? 1 (illegal) a7b8
+kq6/B1K5/8/2N5/8/8/8/8 w - - ? 1 a7xQb8
+kr6/B1K5/8/2N5/8/8/8/8 w - - ? 1 a7xRb8
+kb6/B1K5/8/2N5/8/8/8/8 w - - ? 1 (illegal) a7xBb8
+kn6/B1K5/8/2N5/8/8/8/8 w - - ? 1 a7xNb8
+kq6/P1K5/8/2N5/8/8/8/8 w - - ? 1 a7xQb8prom
+kr6/P1K5/8/2N5/8/8/8/8 w - - ? 1 a7xRb8prom
+kb6/P1K5/8/2N5/8/8/8/8 w - - ? 1 (illegal) a7xBb8prom
+kn6/P1K5/8/2N5/8/8/8/8 w - - ? 1 a7xNb8prom
+nsols 86                                                                        
 // 7 - P1001038 Andrew Buchanan 4v Retros mailing list 21/01/2001
 >>> 8/7Q/8/4BB2/2PP1P2/3NkN2/PP2P1P1/4K2R w >>= castling
 K
@@ -31,6 +246,12 @@ nsols 1
 8/7Q/8/4BB2/2PPkP2/3NRN2/PP2P1P1/4K2R b K - ? 0 (illegal) e4xRe3
 8/7Q/8/4BB2/2PPkP2/3NBN2/PP2P1P1/4K2R b K - ? 0 e4xBe3
 8/7Q/8/4BB2/2PPkP2/3NNN2/PP2P1P1/4K2R b K - ? 0 e4xNe3
+8/7Q/8/4BB2/2PPkP2/3N1N2/PP2P1P1/4K2R b - - ? 0 (dead) e4e3
+8/7Q/8/4BB2/2PPkP2/3NPN2/PP2P1P1/4K2R b - - ? 0 (dead) e4xPe3
+8/7Q/8/4BB2/2PPkP2/3NQN2/PP2P1P1/4K2R b - - ? 0 (illegal) e4xQe3
+8/7Q/8/4BB2/2PPkP2/3NRN2/PP2P1P1/4K2R b - - ? 0 (illegal) e4xRe3
+8/7Q/8/4BB2/2PPkP2/3NBN2/PP2P1P1/4K2R b - - ? 0 (dead) e4xBe3
+8/7Q/8/4BB2/2PPkP2/3NNN2/PP2P1P1/4K2R b - - ? 0 (dead) e4xNe3
 nsols 4                                                                        
 >>> 8/7Q/8/4BB2/2PP1P2/3NkN2/PP2P1P1/4K2R w >>= #2
 e1g1 ... #                                                                      
@@ -172,7 +393,10 @@ nsols 1
 // 35 - P1324769 Andrey Frolkin & Per Olin 3v2 Problemas 13, p. 331, 1/2016
 // 36 - P1338362 Andrew Buchanan 2 Problemas 18, p. 487, 04/2017
 >>> 8/5p2/5P2/8/1p6/kP2pp2/1pKpP3/3B4 w >>= r >>= h=1
+e4f3ep then b2b1q DP ×                                                          
 e4f3ep then b2b1r c2b1 stalemate                                                
+e4f3ep then b2b1b DP ×                                                          
+e4f3ep then b2b1n DP ×                                                          
 nsols 1                                                                        
 // 37 - P1345823 Andrew Buchanan 6 Problemas 20, p. 553, 10/2017 Article 15
 >>> 8/p7/8/P2p4/Pp1p4/kP1Pp3/p1KpP3/NQ1B4 ? >>= legal
@@ -180,7 +404,11 @@ nsols 1
 8/p7/8/P2p4/Pp1p4/kP1Pp3/p1KpP3/NQ1B4 b - - ? 1 
 nsols 2                                                                        
 >>> 8/p7/8/P2p4/Pp1p4/kP1Pp3/p1KpP3/NQ1B4 w >>= h=1.5
+b1a2 DP ×                                                                       
+a5a6 a2b1q DP ×                                                                 
 a5a6 a2b1r c2b1 stalemate                                                       
+a5a6 a2b1b DP ×                                                                 
+a5a6 a2b1n DP ×                                                                 
 nsols 1                                                                        
 // 38 - P1368543 Per Olin & Andrew Buchanan Springaren 149, p. 4, 03/2019
 // 39 - P1404973 Per Olin Springaren 2021 Commendation Springaren Summer Competition 2021 c cooked & how about D?

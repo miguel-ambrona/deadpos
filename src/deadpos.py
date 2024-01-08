@@ -8,12 +8,14 @@ import sys
 import time
 from solver import is_dead, is_legal, retract
 
-PBAR_ARG = ["--progress-bar"] if not "--no-progress-bar" in sys.argv else []
+VERBOSE = "--verbose" in sys.argv
+SOLVER_ARGS = ["--progress-bar"] if not "--no-progress-bar" in sys.argv else []
+SOLVER_ARGS = ["--verbose"] + SOLVER_ARGS if VERBOSE else SOLVER_ARGS
 
-CPP_SOLVER = Popen(["./solver.exe"] + PBAR_ARG, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
+CPP_SOLVER = Popen(["./solver.exe"] + SOLVER_ARGS, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
 CPP_SOLVER.stdout.readline().strip().decode("utf-8")
 
-PYTHON_SOLVER = Popen(["./solver.py"] + PBAR_ARG, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
+PYTHON_SOLVER = Popen(["./solver.py"] + SOLVER_ARGS, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
 PYTHON_SOLVER.stdout.readline().strip().decode("utf-8")
 
 class Position:
@@ -138,7 +140,7 @@ def complete_fen(fen):
     return new_fens
 
 def solver_call(cmd, pos, progress_bar):
-    global CPP_SOLVER, PYTHON_SOLVER
+    global CPP_SOLVER, PYTHON_SOLVER, VERBOSE
 
     solver = CPP_SOLVER if "#" in cmd or "--fast" in sys.argv else PYTHON_SOLVER
     if len(pos.info) > 0:
@@ -151,6 +153,9 @@ def solver_call(cmd, pos, progress_bar):
     nb_solutions = 0
     while True:
         output = solver.stdout.readline().strip().decode("utf-8")
+        if VERBOSE and "invalid" in output:
+            msg = " ".join(pos.info + [""]) + output[8:] + " " + chr(215)
+            print(msg.ljust(80))
         if "solution" in output:
             variation = output.split("solution")[1].strip()
             if "(" in cmd:
@@ -302,7 +307,9 @@ def process_cmd(positions, cmd):
         return ([], n)
 
 def main():
-    print("Deadpos Analyzer version 2.1")
+    print("Deadpos Analyzer version 2.2")
+
+    global VERBOSE
 
     while True:
         try:
@@ -327,7 +334,8 @@ def main():
             fen += " ?" * (5 - nb_tokens) + " 1"
         cmds = [w.strip() for w in words[1:]]
 
-        positions = [Position(fen) for fen in complete_fen(fen)]
+        check_legality = not VERBOSE or cmds[0] not in ["retract", "r"]
+        positions = [Position(fen, [], check_legality) for fen in complete_fen(fen)]
         n = len(positions)
 
         for cmd in cmds:
