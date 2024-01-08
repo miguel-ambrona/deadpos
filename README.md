@@ -48,6 +48,8 @@ to a position, which return a list of objects (typically, positions).
 
  - `flip`: flips the turn. This also resets the halfmove clock,
     and the en-passant flags to `?` (but preserves castling rights).
+    The position(s) after a flip become the "game array", i.e., they
+    are legal by default.
 
  - `turn`: returns the turn of the given position.
 

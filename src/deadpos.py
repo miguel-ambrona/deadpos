@@ -17,7 +17,7 @@ PYTHON_SOLVER = Popen(["./solver.py"] + PBAR_ARG, stdout=PIPE, stdin=PIPE, stder
 PYTHON_SOLVER.stdout.readline().strip().decode("utf-8")
 
 class Position:
-    def __init__(self, fen, info = []):
+    def __init__(self, fen, info = [], check_legality = True):
         words = fen.split(" ")
         self.board = words[0]
         self.turn = words[1]
@@ -25,7 +25,7 @@ class Position:
         self.ep = words[3]
         self.halfmove_clock = words[4]
         self.fullmove_counter = words[5]
-        self.is_legal = is_legal(fen)
+        self.is_legal = True if not check_legality else is_legal(fen)
         self.is_dead_and_retracted = False
         self.info = info
 
@@ -214,7 +214,7 @@ def flip(pos):
     pos.turn = "w" if pos.turn == "b" else "b"
     pos.ep = "?"
     pos.halfmove_clock = "?"
-    return [Position(fen, pos.info) for fen in complete_fen(pos.fen())]
+    return [Position(fen, pos.info, False) for fen in complete_fen(pos.fen())]
 
 def turn(pos):
     return [pos.turn]
