@@ -67,8 +67,8 @@ r5b1/1N6/4p3/n1bk1p1p/2n3B1/5p2/K7/7r b >>= r >>= r >>= h#1  // Slow
 // 21 - P1185570 Mrs. W. J. Baird Reading Observer
 8/1K6/3bk3/1p3q2/1P6/4P3/8/6B1 b >>= r >>= r >>= h#1  // Slow
 
-// 22 - P1185584 Mrs. W. J. Baird La Strategie (no queens!)
-8/1K6/4N1p1/3k4/3p4/1P6/8/8 b >>= r >>= r >>= h#1  // Slow
+// 22 - P1414378 Mrs. W. J. Baird & Miguel Ambrona & Andrew Buchanan (Correction of P1185584)
+8/8/4N1p1/1P1k4/8/2K5/8/8 b >>= r >>= r >>= h#1  // Slow
 
 // 23 - P1185751 Mrs. W. J. Baird Bolton Cricket and Football Field
 3K4/4pN2/8/2p5/3k4/2p1R3/8/8 b >>= r >>= h#1.5
