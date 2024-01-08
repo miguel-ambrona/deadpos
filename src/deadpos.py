@@ -17,7 +17,7 @@ PYTHON_SOLVER = Popen(["./solver.py"] + PBAR_ARG, stdout=PIPE, stdin=PIPE, stder
 PYTHON_SOLVER.stdout.readline().strip().decode("utf-8")
 
 class Position:
-    def __init__(self, fen, info = []):
+    def __init__(self, fen, info = [], check_legality = True):
         words = fen.split(" ")
         self.board = words[0]
         self.turn = words[1]
@@ -25,7 +25,7 @@ class Position:
         self.ep = words[3]
         self.halfmove_clock = words[4]
         self.fullmove_counter = words[5]
-        self.is_legal = is_legal(fen)
+        self.is_legal = True if not check_legality else is_legal(fen)
         self.is_dead_and_retracted = False
         self.info = info
 
@@ -182,6 +182,22 @@ def solver_call(cmd, pos, progress_bar):
 
 def solve(cmd, positions):
     n = 0
+
+    # The convention says that White should make the last move in a puzzle.
+    # If "half-duplex" appears in the stip, the roles of W and B are flipped.
+    # Therefore, the player expected to make the first move can be determined
+    # as follows.
+    help_factor = -1 if "h" in cmd else 1
+    p5_factor = -1 if ".5" in cmd else 1
+    hd_factor = -1 if "half-duplex" in cmd else 1
+    expected_turn = "w" if help_factor * p5_factor * hd_factor == 1 else "b"
+
+    # Unless "duplex" is specified, we discard all positions whose turn does
+    # not coincide with the expected turn.
+
+    if " duplex" not in cmd:
+        positions = [pos for pos in positions if pos.turn == expected_turn]
+
     progress_bar = ProgressBar(len(positions), 30)
     for pos in positions:
         progress_bar.bar[0][0] += 1
@@ -214,7 +230,7 @@ def flip(pos):
     pos.turn = "w" if pos.turn == "b" else "b"
     pos.ep = "?"
     pos.halfmove_clock = "?"
-    return [Position(fen, pos.info) for fen in complete_fen(pos.fen())]
+    return [Position(fen, pos.info, False) for fen in complete_fen(pos.fen())]
 
 def turn(pos):
     return [pos.turn]
@@ -224,6 +240,11 @@ def castling(pos):
 
 def en_passant(pos):
     return [pos.ep]
+
+def dp(pos):
+    pos = deepcopy(pos)
+    pos.info += ["DP"] if is_dead(pos.fen()) else ["alive"]
+    return [pos]
 
 def bind(elements, function):
     return [b for el in elements for b in function(el)]
@@ -267,6 +288,10 @@ def process_cmd(positions, cmd):
     elif cmd == "ep":
         eps = dedup(bind(positions, en_passant))
         return (eps, len(eps))
+
+    elif cmd == "DP":
+        positions = bind(positions, dp)
+        return (positions, count_valid(positions))
 
     elif cmd == "legal":
         positions = [pos for pos in positions if is_legal(pos.fen(), depth = 2)]

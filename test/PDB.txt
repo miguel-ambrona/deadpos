@@ -1,14 +1,15 @@
 // deadpos problems from PDB (https://pdb.dieschwalbe.de):
 // cpluscomment='deadpos'
+// 3 long cooked ones are commented out: 31, 32, 33
 
-// 1 - P0002478 Mrs. W. J. Baird 1 British Chess Magazine, p. 491, 12/1903 cooked
+// 1 - P0002478 Mrs. W. J. Baird 1 British Chess Magazine, p. 491, 12/1903
 8/8/3r4/4N3/4k3/8/8/K7 b >>= r >>= r >>= h#1  // Slow
 
 // 2 - P0002479 Frederick Baird 1877 Morning Post 21/02/1910
 8/8/8/5K2/8/8/7k/8 b >>= r >>= r >>= h#1  // Slow
 
 // 3 - P0005387 Nikita M. Plaksin 6557 feenschach 109 11/1993
-8/8/8/8/K7/8/b7/kB6 b >>= r >>= h=1
+8/8/8/8/K7/8/b7/kB6 b >>= r >>= h=0.5
 
 // 4 - P1001034 Andrew Buchanan 1 Retros mailing list 24/01/2001
 k7/8/2K5/8/8/8/8/8 ? >>= turn
@@ -66,8 +67,8 @@ r5b1/1N6/4p3/n1bk1p1p/2n3B1/5p2/K7/7r b >>= r >>= r >>= h#1  // Slow
 // 21 - P1185570 Mrs. W. J. Baird Reading Observer
 8/1K6/3bk3/1p3q2/1P6/4P3/8/6B1 b >>= r >>= r >>= h#1  // Slow
 
-// 22 - P1185584 Mrs. W. J. Baird La Strategie (no queens!)
-8/1K6/4N1p1/3k4/3p4/1P6/8/8 b >>= r >>= r >>= h#1  // Slow
+// 22 - P1414378 Mrs. W. J. Baird & Miguel Ambrona & Andrew Buchanan (Correction of P1185584)
+8/8/4N1p1/1P1k4/8/2K5/8/8 b >>= r >>= r >>= h#1  // Slow
 
 // 23 - P1185751 Mrs. W. J. Baird Bolton Cricket and Football Field
 3K4/4pN2/8/2p5/3k4/2p1R3/8/8 b >>= r >>= h#1.5
@@ -81,10 +82,10 @@ r5b1/1N6/4p3/n1bk1p1p/2n3B1/5p2/K7/7r b >>= r >>= r >>= h#1  // Slow
 8/8/2Q1N3/3B4/2PP4/3Nk2P/2P5/B2RK2R w >>= #2
 
 // 26 - P1284834 Andrew Buchanan & Joaquim Crusats 3 Problemas 5, p. 107, 1/2014
-qqbqBqN1/brrnq1qq/Rnk1KRN1/3N1N2/1PP5/8/1Q3q2/B4q2 w >>= hdp0
+qqbqBqN1/brrnq1qq/Rnk1KRN1/3N1N2/1PP5/8/1Q3q2/B4q2 w >>= DP
 
 // 27 - P1284835 Joaquim Crusats & Andrew Buchanan 2 Problemas 5, p. 107, 1/2014
-qqb1B3/qqrn4/qqkqR3/brnqPKP1/1p2BNN1/1P3P2/8/2R5 b >>= hdp0
+qqb1B3/qqrn4/qqkqR3/brnqPKP1/1p2BNN1/1P3P2/8/2R5 b >>= DP
 
 // 28 - P1298521 Mrs. W. J. Baird British Chess Magazine 1906
 5n2/b7/8/1RBPkp2/3p4/1R3bP1/K1p3p1/8 b >>= r >>= h#1.5
@@ -98,14 +99,14 @@ b4b2/1P2P3/3P4/k7/6K1/8/6PP/8 w >>= hdp3.5  // Slow
 k7/8/8/N7/8/5KN1/6P1/8 b >>= hdp6.0  // Slow
 
 // 31 - P1300677 Per Olin 4v Problemas 10, p. 241, 04/2015
-3K4/p7/b1p1p1p1/k1P1P1P1/P7/P5P1/5P2/8 w >>= hdp8.5  // Slow and COOKED
+// 3K4/p7/b1p1p1p1/k1P1P1P1/P7/P5P1/5P2/8 w >>= hdp8.5  // Slow and COOKED
 
 // 32 - P1305687 Per Olin Mat Plus 09/04/2015
-1b6/2k1P3/4P3/1K6/8/8/2p2pP1/8 b >>= hdp5.0  // Slow and COOKED
+// 1b6/2k1P3/4P3/1K6/8/8/2p2pP1/8 b >>= hdp5.0  // Slow and COOKED
 
 // 33 - P1324767 Andrey Frolkin & Per Olin 3v1 Problemas 13, p. 331, 1/2016
-4b2K/3rk1PP/3pppp1/2p5/p1p5/P7/PnPP4/RRB5 b >>= hdp 5.0  // Slow and COOKED
-4b2K/3rkP1P/3pppp1/2p5/p1p5/P7/PnPP4/RRB5 b >>= hdp 5.0  // Slow and COOKED
+// 4b2K/3rk1PP/3pppp1/2p5/p1p5/P7/PnPP4/RRB5 b >>= hdp 5.0  // Slow and COOKED
+// 4b2K/3rkP1P/3pppp1/2p5/p1p5/P7/PnPP4/RRB5 b >>= hdp 5.0  // Slow and COOKED
 
 // 34 - P1324768 Per Olin 5v Problemas 13, p. 331, 1/2016
 8/2p4P/2R5/3B4/8/8/2P5/KNk5 b >>= hdp4.0  // Slow

@@ -1,13 +1,13 @@
 Deadpos Analyzer version 2.1
 // deadpos problems from PDB (https://pdb.dieschwalbe.de):
 // cpluscomment='deadpos'
-// 1 - P0002478 Mrs. W. J. Baird 1 British Chess Magazine, p. 491, 12/1903 cooked
+// 3 long cooked ones are commented out: 31, 32, 33
+// 1 - P0002478 Mrs. W. J. Baird 1 British Chess Magazine, p. 491, 12/1903
 // 2 - P0002479 Frederick Baird 1877 Morning Post 21/02/1910
 // 3 - P0005387 Nikita M. Plaksin 6557 feenschach 109 11/1993
->>> 8/8/8/8/K7/8/b7/kB6 b >>= r >>= h=1
-e4xQb1 then a4a3 b1e4 stalemate                                                 
-a3xPa4 then b1a2 stalemate cook?                                                
-nsols 2                                                                        
+>>> 8/8/8/8/K7/8/b7/kB6 b >>= r >>= h=0.5
+a3xPa4 then b1a2 stalemate                                                      
+nsols 1                                                                        
 // 4 - P1001034 Andrew Buchanan 1 Retros mailing list 24/01/2001
 >>> k7/8/2K5/8/8/8/8/8 ? >>= turn
 b
@@ -93,7 +93,7 @@ nsols 1
 // 19 - P1184001 Mrs. W. J. Baird 144 The Times 17/06/1904
 // 20 - P1184464 Mrs. W. J. Baird Leisure Hour 1906
 // 21 - P1185570 Mrs. W. J. Baird Reading Observer
-// 22 - P1185584 Mrs. W. J. Baird La Strategie (no queens!)
+// 22 - P1414378 Mrs. W. J. Baird & Miguel Ambrona & Andrew Buchanan (Correction of P1185584)
 // 23 - P1185751 Mrs. W. J. Baird Bolton Cricket and Football Field
 >>> 3K4/4pN2/8/2p5/3k4/2p1R3/8/8 b >>= r >>= h#1.5
 e1xPe3 then f7d6 e7e5 e1d1#                                                     
@@ -149,12 +149,12 @@ nsols 1
 e1g1 ... #                                                                      
 nsols 1                                                                        
 // 26 - P1284834 Andrew Buchanan & Joaquim Crusats 3 Problemas 5, p. 107, 1/2014
->>> qqbqBqN1/brrnq1qq/Rnk1KRN1/3N1N2/1PP5/8/1Q3q2/B4q2 w >>= hdp0
-DP                                                                              
+>>> qqbqBqN1/brrnq1qq/Rnk1KRN1/3N1N2/1PP5/8/1Q3q2/B4q2 w >>= DP
+qqbqBqN1/brrnq1qq/Rnk1KRN1/3N1N2/1PP5/8/1Q3q2/B4q2 w - - ? 1 DP
 nsols 1                                                                        
 // 27 - P1284835 Joaquim Crusats & Andrew Buchanan 2 Problemas 5, p. 107, 1/2014
->>> qqb1B3/qqrn4/qqkqR3/brnqPKP1/1p2BNN1/1P3P2/8/2R5 b >>= hdp0
-DP                                                                              
+>>> qqb1B3/qqrn4/qqkqR3/brnqPKP1/1p2BNN1/1P3P2/8/2R5 b >>= DP
+qqb1B3/qqrn4/qqkqR3/brnqPKP1/1p2BNN1/1P3P2/8/2R5 b - - ? 1 DP
 nsols 1                                                                        
 // 28 - P1298521 Mrs. W. J. Baird British Chess Magazine 1906
 >>> 5n2/b7/8/1RBPkp2/3p4/1R3bP1/K1p3p1/8 b >>= r >>= h#1.5

@@ -102,7 +102,7 @@ def cooperative_search(progress_bar, goal, board, n, solution, Table):
     if progress_bar and (depth <= 2 or n >= 1):
         print("progress level", depth, "next", len(legal_moves))
 
-    if goal_completed:
+    if goal_completed and n % 2 == 0:
         token = "stalemate" if stalemate else ("DP" if dead else "???")
         cook = "cook?" if n > 0 else ""
         print("solution", " ".join([str(m) for m in solution]), token, cook)
