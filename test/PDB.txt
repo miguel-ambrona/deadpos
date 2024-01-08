@@ -99,14 +99,14 @@ b4b2/1P2P3/3P4/k7/6K1/8/6PP/8 w >>= hdp3.5  // Slow
 k7/8/8/N7/8/5KN1/6P1/8 b >>= hdp6.0  // Slow
 
 // 31 - P1300677 Per Olin 4v Problemas 10, p. 241, 04/2015
-3K4/p7/b1p1p1p1/k1P1P1P1/P7/P5P1/5P2/8 w >>= hdp8.5  // Slow and COOKED
+// 3K4/p7/b1p1p1p1/k1P1P1P1/P7/P5P1/5P2/8 w >>= hdp8.5  // Slow and COOKED
 
 // 32 - P1305687 Per Olin Mat Plus 09/04/2015
-1b6/2k1P3/4P3/1K6/8/8/2p2pP1/8 b >>= hdp5.0  // Slow and COOKED
+// 1b6/2k1P3/4P3/1K6/8/8/2p2pP1/8 b >>= hdp5.0  // Slow and COOKED
 
 // 33 - P1324767 Andrey Frolkin & Per Olin 3v1 Problemas 13, p. 331, 1/2016
-4b2K/3rk1PP/3pppp1/2p5/p1p5/P7/PnPP4/RRB5 b >>= hdp 5.0  // Slow and COOKED
-4b2K/3rkP1P/3pppp1/2p5/p1p5/P7/PnPP4/RRB5 b >>= hdp 5.0  // Slow and COOKED
+// 4b2K/3rk1PP/3pppp1/2p5/p1p5/P7/PnPP4/RRB5 b >>= hdp 5.0  // Slow and COOKED
+// 4b2K/3rkP1P/3pppp1/2p5/p1p5/P7/PnPP4/RRB5 b >>= hdp 5.0  // Slow and COOKED
 
 // 34 - P1324768 Per Olin 5v Problemas 13, p. 331, 1/2016
 8/2p4P/2R5/3B4/8/8/2P5/KNk5 b >>= hdp4.0  // Slow

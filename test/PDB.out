@@ -1,6 +1,7 @@
 Deadpos Analyzer version 2.1
 // deadpos problems from PDB (https://pdb.dieschwalbe.de):
 // cpluscomment='deadpos'
+// 3 long cooked ones are commented out: 31, 32, 33
 // 1 - P0002478 Mrs. W. J. Baird 1 British Chess Magazine, p. 491, 12/1903
 // 2 - P0002479 Frederick Baird 1877 Morning Post 21/02/1910
 // 3 - P0005387 Nikita M. Plaksin 6557 feenschach 109 11/1993
