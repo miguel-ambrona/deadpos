@@ -90,7 +90,7 @@ def is_legal(fen, depth = 1):
 def key_fen(fen):
     return " ".join(fen.split(" ")[:4])
 
-def cooperative_search(progress_bar, goal, board, n, solution, Table):
+def cooperative_search(progress_bar, goal, board, n, solution, Table, verbose):
     depth = len(solution)
     dead = is_dead(board.fen())
     stalemate = board.is_stalemate()
@@ -109,6 +109,8 @@ def cooperative_search(progress_bar, goal, board, n, solution, Table):
         return 1
 
     if n <= 0 or len(legal_moves) == 0 or dead:
+        if verbose and dead and n > 0:
+            print("invalid", " ".join([str(m) for m in solution]), "DP")
         return 0
 
     fen_id = key_fen(board.fen())
@@ -120,7 +122,7 @@ def cooperative_search(progress_bar, goal, board, n, solution, Table):
 
     for m in legal_moves:
         board.push(m)
-        cnt += cooperative_search(progress_bar, goal, board, n - 1, solution[:] + [m], Table)
+        cnt += cooperative_search(progress_bar, goal, board, n - 1, solution[:] + [m], Table, verbose)
         board.pop()
 
     Table[fen_id] = (n, cnt)
@@ -149,5 +151,8 @@ if __name__ == '__main__':
             (goal, n_str) = (DRAW, command[3:])
 
         n = int(2 * float(n_str))
-        nsols = cooperative_search("--progress-bar" in sys.argv, goal, board, n, [], {})
+
+        pbar = "--progress-bar" in sys.argv
+        verbose = "--verbose" in sys.argv and goal == STALEMATE
+        nsols = cooperative_search(pbar, goal, board, n, [], {}, verbose)
         print("nsols", nsols)

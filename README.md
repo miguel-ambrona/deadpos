@@ -197,6 +197,8 @@ nsols 1
 
 - You can disable the progress bar with `--no-progress-bar`.
 
+- You can use flag `--verbose` to get a more detailed output.
+
 ## Feedback
 
 Please, open an issue if you have any suggestions.
