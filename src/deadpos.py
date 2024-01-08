@@ -182,6 +182,22 @@ def solver_call(cmd, pos, progress_bar):
 
 def solve(cmd, positions):
     n = 0
+
+    # The convention says that White should make the last move in a puzzle.
+    # If "half-duplex" appears in the stip, the roles of W and B are flipped.
+    # Therefore, the player expected to make the first move can be determined
+    # as follows.
+    help_factor = -1 if "h" in cmd else 1
+    p5_factor = -1 if ".5" in cmd else 1
+    hd_factor = -1 if "half-duplex" in cmd else 1
+    expected_turn = "w" if help_factor * p5_factor * hd_factor == 1 else "b"
+
+    # Unless "duplex" is specified, we discard all positions whose turn does
+    # not coincide with the expected turn.
+
+    if " duplex" not in cmd:
+        positions = [pos for pos in positions if pos.turn == expected_turn]
+
     progress_bar = ProgressBar(len(positions), 30)
     for pos in positions:
         progress_bar.bar[0][0] += 1

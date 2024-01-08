@@ -173,7 +173,21 @@ nsols 1
   nsols 0
   ```
 
-- For the impatient folk, you can run *Deadpos* with flag `--fast` to
+- The convention on solve commands is that White should make the last move.
+  Thus, one of the two players is expected to perform the first move.
+  For example, Black is expected to make the first move on `h#3`.
+  Positions whose turn does not match the expected turn are discarded without
+  further analysis. However, the expected turn can be flipped by including the
+  term `half-duplex` next to the specification. For example:
+  ```
+  >>> 8/8/2B5/5Q2/8/4p2P/4k2K/8 w - - >>= h#3 half-duplex
+  f5b1 e2f2 c6h1 e3e2 b1f1 e2f1n#
+  nsols 1
+  ```
+  Furthermore, if the term `duplex` is specified, both WTM and BTM positions
+  will be considered.
+
+- For the impatient folk, you can run Deadpos with flag `--fast` to
   significtly speed-up the analysis of dead positions. This means the analysis
   may miss some complicated dead positions and there is no way to know about it.
   Use this flag if you want to find cooks (if they exist, they will probably
