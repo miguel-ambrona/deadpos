@@ -2,15 +2,15 @@
 
 from subprocess import Popen, PIPE, STDOUT
 from copy import deepcopy
+from colorama import Fore, Back, Style
 import chess
 import os
 import sys
 import time
-from solver import is_dead, is_legal, retract
+from solver import is_dead, is_legal, is_zombie, explain_dead, explain_alive, retract
 
-VERBOSE = "--verbose" in sys.argv
-SOLVER_ARGS = ["--progress-bar"] if not "--no-progress-bar" in sys.argv else []
-SOLVER_ARGS = ["--verbose"] + SOLVER_ARGS if VERBOSE else SOLVER_ARGS
+PROGRESS_BAR = not "--no-progress-bar" in sys.argv
+SOLVER_ARGS = ["--progress-bar"] if PROGRESS_BAR else []
 
 CPP_SOLVER = Popen(["./solver.exe"] + SOLVER_ARGS, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
 CPP_SOLVER.stdout.readline().strip().decode("utf-8")
@@ -18,8 +18,10 @@ CPP_SOLVER.stdout.readline().strip().decode("utf-8")
 PYTHON_SOLVER = Popen(["./solver.py"] + SOLVER_ARGS, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
 PYTHON_SOLVER.stdout.readline().strip().decode("utf-8")
 
+RETRACTION_SYMBOL = "↶"
+
 class Position:
-    def __init__(self, fen, info = [], check_legality = True):
+    def __init__(self, fen, history = []):
         words = fen.split(" ")
         self.board = words[0]
         self.turn = words[1]
@@ -27,18 +29,32 @@ class Position:
         self.ep = words[3]
         self.halfmove_clock = words[4]
         self.fullmove_counter = words[5]
-        self.is_legal = True if not check_legality else is_legal(fen)
-        self.is_dead_and_retracted = False
-        self.info = info
+        self.is_valid = True
+        self.history = history
 
     def fen(self):
         return " ".join([self.board, self.turn, self.castling, self.ep, \
                          self.halfmove_clock, self.fullmove_counter])
 
     def __str__(self):
-        flag = " (illegal)" if not self.is_legal else \
-               " (dead)" if self.is_dead_and_retracted else ""
-        return "%s%s %s" % (self.fen(), flag, " ".join(self.info))
+        tab = " " if self.history != [] else ""
+        s = "%s%s%s" % (" ".join([m for (m, fen) in self.history]), tab, self.fen())
+
+        if "illegal dead" in s:
+            color = Fore.LIGHTMAGENTA_EX
+        elif "illegal" in s:
+            color = Fore.LIGHTRED_EX
+        elif "zombie" in s:
+            color = Fore.LIGHTBLUE_EX
+        elif "dead" in s:
+            color = Fore.LIGHTYELLOW_EX
+        else:
+            color = Fore.LIGHTGREEN_EX
+
+        if not PROGRESS_BAR:
+            return s.ljust(80)
+
+        return color + s.ljust(80) + Style.RESET_ALL
 
 def format_time(seconds):
     hours = seconds // 3600
@@ -140,34 +156,54 @@ def complete_fen(fen):
     return new_fens
 
 def solver_call(cmd, pos, progress_bar):
-    global CPP_SOLVER, PYTHON_SOLVER, VERBOSE
+    global CPP_SOLVER, PYTHON_SOLVER
 
     solver = CPP_SOLVER if "#" in cmd or "--fast" in sys.argv else PYTHON_SOLVER
-    if len(pos.info) > 0:
-        pos.info += ["then"]
 
     fen = pos.fen()
     inp = (cmd.split(" ")[0] + " " + fen + "\n").encode("utf-8")
     solver.stdin.write(inp)
     solver.stdin.flush()
+    solutions = []
     nb_solutions = 0
     while True:
         output = solver.stdout.readline().strip().decode("utf-8")
-        if VERBOSE and "invalid" in output:
-            msg = " ".join(pos.info + [""]) + output[8:] + " " + chr(215)
-            print(msg.ljust(80))
         if "solution" in output:
             variation = output.split("solution")[1].strip()
+            b = chess.Board(fen.replace("?", "0"))
             if "(" in cmd:
                 pt = cmd.split("(")[1][0]
-                b = chess.Board(fen.replace("?", "0"))
                 sol = variation.split(" ")
                 for m in sol[:-1]:
                     b.push_uci(m)
                 if str(b.piece_at(chess.parse_square(sol[-1][:2]))).lower() != pt.lower():
                     nb_solutions -= 1
                     continue
-            print(" ".join(pos.info + [variation]).ljust(80))
+
+            moves = variation.split(" ")
+            b = chess.Board(fen.replace("?", "0"))
+            history = []
+
+            for i in range(len(moves)):
+                try:
+                    b.push_uci(moves[i])
+                    history += [moves[i]]
+                    if moves[i+1] != "DP" and not b.is_stalemate() and is_dead(b.fen()):
+                        history += ["dead"] + ["(" + explain_dead(b) + ")"]
+                        break
+                except:
+                    history += moves[i:]
+                    break
+
+            if not "dead" in history and cmd[:2] == "h=" and cmd[:5] != "h=0.5":
+                b.pop()
+                history = history[:-1] + ["(" + explain_alive(b.fen()) + ")"] + history[-1:]
+            elif "DP" in history:
+                history += ["(" + explain_dead(b) + ")"]
+
+            history_token = [(" ".join(history), None)]
+            solutions.append(Position(b.fen(), history = pos.history + history_token))
+
         elif "progress" in output and not "nsols" in output:
             words = output.split(" ")
             level = int(words[2])
@@ -183,11 +219,9 @@ def solver_call(cmd, pos, progress_bar):
             print(output)
             exit()
 
-    return nb_solutions
+    return (solutions, nb_solutions)
 
 def solve(cmd, positions):
-    n = 0
-
     # The convention says that White should make the last move in a puzzle.
     # If "half-duplex" appears in the stip, the roles of W and B are flipped.
     # Therefore, the player expected to make the first move can be determined
@@ -204,19 +238,26 @@ def solve(cmd, positions):
         positions = [pos for pos in positions if pos.turn == expected_turn]
 
     progress_bar = ProgressBar(len(positions), 30)
+
+    nb_solutions = 0
+    all_solutions = []
     for pos in positions:
         progress_bar.bar[0][0] += 1
-        n += solver_call(cmd, pos, progress_bar)
-    return n
+        (solutions, n) = solver_call(cmd, pos, progress_bar)
+        all_solutions += solutions
+        nb_solutions += n
+
+    if len(all_solutions) < nb_solutions:
+        print("A total of %d solutions were found, not all were printed" % nb_solutions)
+
+    return (all_solutions, len(all_solutions))
 
 def backwards(pos):
     retractions = []
     fen = pos.fen()
-    fen_is_dead = is_dead(fen)
     for (retracted_fen, retraction) in retract(fen):
-        new_pos = Position(retracted_fen, pos.info + [retraction.strip()])
-        if new_pos.is_legal and fen_is_dead and is_dead(retracted_fen):
-            new_pos.is_dead_and_retracted = True
+        history_token = (RETRACTION_SYMBOL + retraction.strip(), retracted_fen)
+        new_pos = Position(retracted_fen, pos.history + [history_token])
         retractions.append(new_pos)
     return retractions
 
@@ -225,7 +266,8 @@ def forwards(pos):
     board = chess.Board(pos.fen().replace("?", "0"))
     for m in board.legal_moves:
         board.push(m)
-        new_pos = Position(board.fen(), pos.info + [str(m)])
+        history_token = (str(m), board.fen())
+        new_pos = Position(board.fen(), pos.history + [history_token])
         positions.append(new_pos)
         board.pop()
     return positions
@@ -235,7 +277,7 @@ def flip(pos):
     pos.turn = "w" if pos.turn == "b" else "b"
     pos.ep = "?"
     pos.halfmove_clock = "?"
-    return [Position(fen, pos.info, False) for fen in complete_fen(pos.fen())]
+    return [Position(fen, pos.history) for fen in complete_fen(pos.fen())]
 
 def turn(pos):
     return [pos.turn]
@@ -248,17 +290,38 @@ def en_passant(pos):
 
 def dp(pos):
     pos = deepcopy(pos)
-    pos.info += ["DP"] if is_dead(pos.fen()) else ["alive"]
+    if is_dead(pos.fen()):
+        explanation = explain_dead(chess.Board(pos.fen().replace("?", "0")))
+        pos.history += [("DP", None)] + [("(" + explanation + ")", None)]
+    else:
+        pos.history += [("alive", None)]
+    return [pos]
+
+def legal(pos):
+    if not pos.is_valid:
+        return [pos]
+
+    history = pos.history + [("legal", pos.fen())]
+    flag = []
+    for i in range(len(history)):
+        (m, fen) = history[i]
+        if fen:
+            if not is_legal(fen, depth = 2):
+                flag += [("illegal", None)]
+
+            if is_zombie(fen, depth = 2):
+                flag += [("zombie", None)]
+            elif RETRACTION_SYMBOL in m and is_dead(fen):
+                flag += [("dead", None)]
+
+        if flag != []:
+            pos.is_valid = False
+            break
+    pos.history = pos.history[:i+1] + flag + pos.history[i+1:]
     return [pos]
 
 def bind(elements, function):
     return [b for el in elements for b in function(el)]
-
-def is_valid(pos):
-    return pos.is_legal and not pos.is_dead_and_retracted
-
-def count_valid(positions):
-    return len([pos for pos in positions if is_valid(pos)])
 
 def dedup(elements):
     output = []
@@ -268,19 +331,19 @@ def dedup(elements):
     return output
 
 def process_cmd(positions, cmd):
-    positions = [pos for pos in positions if is_valid(pos)]
+    positions = [pos for pos in positions if pos.is_valid]
 
     if cmd == "retract" or cmd == "r":
         positions = bind(positions, backwards)
-        return (positions, count_valid(positions))
+        return (positions, len(positions))
 
     elif cmd == "move" or cmd == "m":
         positions = bind(positions, forwards)
-        return (positions, count_valid(positions))
+        return (positions, len(positions))
 
     elif cmd == "flip":
         positions = bind(positions, flip)
-        return (positions, count_valid(positions))
+        return (positions, len(positions))
 
     elif cmd == "turn":
         turns = dedup(bind(positions, turn))
@@ -296,20 +359,18 @@ def process_cmd(positions, cmd):
 
     elif cmd == "DP":
         positions = bind(positions, dp)
-        return (positions, count_valid(positions))
+        return (positions, len(positions))
 
     elif cmd == "legal":
-        positions = [pos for pos in positions if is_legal(pos.fen(), depth = 2)]
-        return (positions, count_valid(positions))
+        positions = bind(positions, legal)
+        return (positions, len([pos for pos in positions if pos.is_valid]))
 
     else:
-        n = solve(cmd, positions)
-        return ([], n)
+        return solve(cmd, positions)
+
 
 def main():
-    print("Deadpos Analyzer version 2.2")
-
-    global VERBOSE
+    print("Deadpos Analyzer version 2.3")
 
     while True:
         try:
@@ -329,13 +390,13 @@ def main():
         print(">>>", line)
         words = line.split(">>=")
         fen = words[0].strip()
+
         nb_tokens = len(fen.split(" "))
         if nb_tokens < 6:
             fen += " ?" * (5 - nb_tokens) + " 1"
         cmds = [w.strip() for w in words[1:]]
 
-        check_legality = not VERBOSE or cmds[0] not in ["retract", "r"]
-        positions = [Position(fen, [], check_legality) for fen in complete_fen(fen)]
+        positions = [Position(fen, []) for fen in complete_fen(fen)]
         n = len(positions)
 
         for cmd in cmds:
@@ -344,7 +405,7 @@ def main():
         for pos in positions:
             print(pos)
 
-        print("nsols %d".ljust(80) % n)
+        print("nsols %d\n".ljust(80) % n)
 
 if __name__ == '__main__':
     main()
