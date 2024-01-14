@@ -8,14 +8,26 @@ import os
 CHA = Popen(["../lib/cha/D3-Chess/src/cha"], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
 CHA.stdout.readline()
 
+RETRACT_TABLE = {}
 DEAD_TABLE = {}
 LEGAL_TABLE = {}
+ZOMBIE_TABLE = {}
 
 RETRACTOR = Popen(["../lib/retractor/_build/default/retractor/retractor.exe"], \
                   stdout=PIPE, stdin=PIPE, stderr=STDOUT)
 
 def retract(fen):
+    '''
+    Returns a fen of all possible pseudo-legal retractions of the
+    given position.
+    '''
     global RETRACTOR
+    global RETRACT_TABLE
+
+    retracted = RETRACT_TABLE.get(fen)
+    if retracted != None:
+        return retracted
+
     inp = ("retract " + fen + "\n").encode("utf-8")
     RETRACTOR.stdin.write(inp)
     RETRACTOR.stdin.flush()
@@ -26,9 +38,16 @@ def retract(fen):
             break
         retracted_fen, retraction = output.split('retraction')
         fens.append((retracted_fen.strip(), retraction.strip()))
+
+    RETRACT_TABLE[fen] = fens
+
     return fens
 
 def is_dead(fen):
+    '''
+    Returns true iff the given position is dead.
+    Fails if the liveness of the position cannot be determined.
+    '''
     global CHA
     global DEAD_TABLE
 
@@ -64,9 +83,13 @@ def is_dead(fen):
     DEAD_TABLE[key] = dead
     return dead
 
-# Simple legality check making sure there exists a living retraction of the
-# given depth
 def is_legal(fen, depth = 1):
+    '''
+    Returns true iff the given position admits a retraction of the given depth.
+    This is not a complete method for legality, but it is sound in the sense
+    that an output of False is always correct.
+    '''
+
     global LEGAL_TABLE
 
     key = " ".join(fen.split(" ")[:5]) + " " + str(depth)
@@ -79,38 +102,136 @@ def is_legal(fen, depth = 1):
     if not chess.Board(fen.replace("?", "0")).is_valid():
         return False
     for (retracted_fen, retraction) in retract(fen):
-        if not is_dead(retracted_fen) and is_legal(retracted_fen, depth - 1):
+        if is_legal(retracted_fen, depth - 1):
             LEGAL_TABLE[key] = True
             return True
     LEGAL_TABLE[key] = False
     return False
+
+def is_zombie(fen, depth = 1):
+    '''
+    Returns true iff the given position is zombie. Namely, it is legal, but all
+    its possible retractions lead to a dead position.
+    '''
+
+    global ZOMBIE_TABLE
+
+    key = " ".join(fen.split(" ")[:5]) + " " + str(depth)
+    zombie = ZOMBIE_TABLE.get(key)
+    if zombie != None:
+        return zombie
+
+    if not is_legal(fen, depth):
+        return False
+
+    for (retracted_fen, retraction) in retract(fen):
+        if not is_dead(retracted_fen) and is_legal(retracted_fen, depth - 1):
+            ZOMBIE_TABLE[key] = False
+            return False
+    ZOMBIE_TABLE[key] = True
+    return True
+
+def explain_dead(board, depth = 10):
+
+    INTERRUPTED_MSG = "explanation interrupted for being too long"
+
+    if board.is_stalemate():
+        return "="
+
+    elif board.is_insufficient_material():
+        return " insufficient material"
+
+    elif depth <= 0:
+        return " " + INTERRUPTED_MSG
+
+    assert is_dead(board.fen())
+
+    legal_moves = [m for m in board.legal_moves]
+
+    board.push(legal_moves[0])
+    explanation = str(legal_moves[0])
+    rest_m1_explanation = explain_dead(board, depth - 1)
+    if rest_m1_explanation == "=":
+        explanation += "="
+    board.pop()
+
+    for m in legal_moves[1:]:
+        board.push(m)
+        explanation += " (" + str(m) + " " + explain_dead(board, depth - 1) + ")"
+        board.pop()
+
+    if rest_m1_explanation != "=":
+        token = ""
+        if rest_m1_explanation[0] != " ":
+            token = " "
+        explanation += token + rest_m1_explanation
+
+    if len(explanation) > 100:
+        return INTERRUPTED_MSG
+
+    return explanation
+
+def explain_alive(fen, depth = 10):
+    global CHA_MIN
+
+    inp = (fen + " white\n").encode("utf-8")
+    CHA.stdin.write(inp)
+    CHA.stdin.flush()
+    output = CHA.stdout.readline().strip().decode("utf-8")
+
+    mate_with_white = None
+    mate_with_black = None
+
+    if "unwinnable" not in output:
+        mate_with_white = output.replace("winnable", "living alternative").split("#")[0] + "#"
+
+    inp = (fen + " black\n").encode("utf-8")
+    CHA.stdin.write(inp)
+    CHA.stdin.flush()
+    output = CHA.stdout.readline().strip().decode("utf-8")
+
+    if "unwinnable" not in output:
+        mate_with_black = output.replace("winnable", "living alternative").split("#")[0] + "#"
+
+    len_white = 0 if not mate_with_white else len(mate_with_white)
+    len_black = 0 if not mate_with_black else len(mate_with_black)
+
+    if 0 < len_white < len_black or len_black == 0:
+        return mate_with_white
+
+    else:
+        return mate_with_black
+
 
 (STALEMATE, DEAD, DRAW) = (0, 1, 2)
 
 def key_fen(fen):
     return " ".join(fen.split(" ")[:4])
 
-def cooperative_search(progress_bar, goal, board, n, solution, Table, verbose):
+def cooperative_search(progress_bar, goal, board, n, solution, Table):
     depth = len(solution)
-    dead = is_dead(board.fen())
     stalemate = board.is_stalemate()
     legal_moves = [m for m in board.legal_moves]
-    goal_completed = (goal == DRAW and (dead or stalemate)) or \
-        (goal == DEAD and dead and not stalemate) or \
-        (goal == STALEMATE and stalemate)
+
+    goal_completed = False
+    if n % 2 == 0:
+        if goal == STALEMATE:
+            goal_completed = stalemate
+        else:
+            dead = is_dead(board.fen())
+            goal_completed = (goal == DRAW and (dead or stalemate)) or \
+                (goal == DEAD and dead and not stalemate)
 
     if progress_bar and (depth <= 2 or n >= 1):
         print("progress level", depth, "next", len(legal_moves))
 
-    if goal_completed and n % 2 == 0:
+    if goal_completed:
         token = "stalemate" if stalemate else ("DP" if dead else "???")
         cook = "cook?" if n > 0 else ""
         print("solution", " ".join([str(m) for m in solution]), token, cook)
         return 1
 
-    if n <= 0 or len(legal_moves) == 0 or dead:
-        if verbose and dead and n > 0:
-            print("invalid", " ".join([str(m) for m in solution]), "DP")
+    if n <= 0 or len(legal_moves) == 0:
         return 0
 
     fen_id = key_fen(board.fen())
@@ -122,7 +243,7 @@ def cooperative_search(progress_bar, goal, board, n, solution, Table, verbose):
 
     for m in legal_moves:
         board.push(m)
-        cnt += cooperative_search(progress_bar, goal, board, n - 1, solution[:] + [m], Table, verbose)
+        cnt += cooperative_search(progress_bar, goal, board, n - 1, solution[:] + [m], Table)
         board.pop()
 
     Table[fen_id] = (n, cnt)
@@ -153,6 +274,5 @@ if __name__ == '__main__':
         n = int(2 * float(n_str))
 
         pbar = "--progress-bar" in sys.argv
-        verbose = "--verbose" in sys.argv and goal == STALEMATE
-        nsols = cooperative_search(pbar, goal, board, n, [], {}, verbose)
+        nsols = cooperative_search(pbar, goal, board, n, [], {})
         print("nsols", nsols)
