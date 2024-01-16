@@ -391,6 +391,12 @@ def main():
         words = line.split(">>=")
         fen = words[0].strip()
 
+        fen_board = fen.split(" ")[0]
+        if not chess.Board(fen_board + " w - - 0 1").is_valid() and \
+           not chess.Board(fen_board + " b - - 0 1").is_valid():
+            print("Invalid FEN")
+            continue
+
         nb_tokens = len(fen.split(" "))
         if nb_tokens < 6:
             fen += " ?" * (5 - nb_tokens) + " 1"
