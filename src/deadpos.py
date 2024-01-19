@@ -54,6 +54,10 @@ class Position:
         if not PROGRESS_BAR:
             return s.ljust(80)
 
+        s = s.replace("(", Style.RESET_ALL + "(", 1)
+        ss = s.split(")")
+        ss[-1] = color + ss[-1]
+        s = ")".join(ss)
         return color + s.ljust(80) + Style.RESET_ALL
 
 def format_time(seconds):
