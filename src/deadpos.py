@@ -54,6 +54,10 @@ class Position:
         if not PROGRESS_BAR:
             return s.ljust(80)
 
+        s = s.replace("(", Style.RESET_ALL + "(", 1)
+        ss = s.split(")")
+        ss[-1] = color + ss[-1]
+        s = ")".join(ss)
         return color + s.ljust(80) + Style.RESET_ALL
 
 def format_time(seconds):
@@ -155,7 +159,30 @@ def complete_fen(fen):
 
     return new_fens
 
-def solver_call(cmd, pos, progress_bar):
+def legal(pos):
+    if not pos.is_valid:
+        return [pos]
+
+    history = pos.history + [("legal", pos.fen())]
+    flag = []
+    for i in range(len(history)):
+        (m, fen) = history[i]
+        if fen:
+            if not is_legal(fen, depth = 2):
+                flag += [("illegal", None)]
+
+            if is_zombie(fen, depth = 2):
+                flag += [("zombie", None)]
+            elif RETRACTION_SYMBOL in m and is_dead(fen):
+                flag += [("dead", None)]
+
+        if flag != []:
+            pos.is_valid = False
+            break
+    pos.history = pos.history[:i+1] + flag + pos.history[i+1:]
+    return [pos]
+
+def solver_call(cmd, pos, progress_bar, flush):
     global CPP_SOLVER, PYTHON_SOLVER
 
     solver = CPP_SOLVER if "#" in cmd or "--fast" in sys.argv else PYTHON_SOLVER
@@ -202,7 +229,13 @@ def solver_call(cmd, pos, progress_bar):
                 history += ["(" + explain_dead(b) + ")"]
 
             history_token = [(" ".join(history), None)]
-            solutions.append(Position(b.fen(), history = pos.history + history_token))
+            new_pos = Position(b.fen(), history = pos.history + history_token)
+            if flush != None:
+                if "legal" in flush:
+                    print(legal(new_pos)[0])
+                else:
+                    print(new_pos)
+            solutions.append(new_pos)
 
         elif "progress" in output and not "nsols" in output:
             words = output.split(" ")
@@ -221,7 +254,7 @@ def solver_call(cmd, pos, progress_bar):
 
     return (solutions, nb_solutions)
 
-def solve(cmd, positions):
+def solve(cmd, positions, flush):
     # The convention says that White should make the last move in a puzzle.
     # If "half-duplex" appears in the stip, the roles of W and B are flipped.
     # Therefore, the player expected to make the first move can be determined
@@ -243,7 +276,7 @@ def solve(cmd, positions):
     all_solutions = []
     for pos in positions:
         progress_bar.bar[0][0] += 1
-        (solutions, n) = solver_call(cmd, pos, progress_bar)
+        (solutions, n) = solver_call(cmd, pos, progress_bar, flush)
         all_solutions += solutions
         nb_solutions += n
 
@@ -297,29 +330,6 @@ def dp(pos):
         pos.history += [("alive", None)]
     return [pos]
 
-def legal(pos):
-    if not pos.is_valid:
-        return [pos]
-
-    history = pos.history + [("legal", pos.fen())]
-    flag = []
-    for i in range(len(history)):
-        (m, fen) = history[i]
-        if fen:
-            if not is_legal(fen, depth = 2):
-                flag += [("illegal", None)]
-
-            if is_zombie(fen, depth = 2):
-                flag += [("zombie", None)]
-            elif RETRACTION_SYMBOL in m and is_dead(fen):
-                flag += [("dead", None)]
-
-        if flag != []:
-            pos.is_valid = False
-            break
-    pos.history = pos.history[:i+1] + flag + pos.history[i+1:]
-    return [pos]
-
 def bind(elements, function):
     return [b for el in elements for b in function(el)]
 
@@ -330,7 +340,7 @@ def dedup(elements):
             output.append(el)
     return output
 
-def process_cmd(positions, cmd):
+def process_cmd(positions, cmd, flush = None):
     positions = [pos for pos in positions if pos.is_valid]
 
     if cmd == "retract" or cmd == "r":
@@ -366,7 +376,7 @@ def process_cmd(positions, cmd):
         return (positions, len([pos for pos in positions if pos.is_valid]))
 
     else:
-        return solve(cmd, positions)
+        return solve(cmd, positions, flush)
 
 
 def main():
@@ -405,13 +415,22 @@ def main():
         positions = [Position(fen, []) for fen in complete_fen(fen)]
         n = len(positions)
 
+        def is_solve_cmd(cmd):
+            # This is a bit hacky, but does the job for now
+            return "#" in cmd or cmd[0] == "h"
+
+        flush = "plain" if is_solve_cmd(cmds[-1]) else None
+        if cmds[-1] == "legal" and len(cmds) > 1 and is_solve_cmd(cmds[-2]):
+            flush = "with-legal"
+
         for cmd in cmds:
-            positions, n = process_cmd(positions, cmd)
+            positions, n = process_cmd(positions, cmd, flush)
 
-        for pos in positions:
-            print(pos)
+        if flush == None:
+            for pos in positions:
+                print(pos)
 
-        print("nsols %d\n".ljust(80) % n)
+        print("nsols %d".ljust(80) % n, end = "\n\n")
 
 if __name__ == '__main__':
     main()
