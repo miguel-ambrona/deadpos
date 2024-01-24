@@ -42,18 +42,18 @@ followed by a list of commands separated by `>>=`.
 
 The following commands are supported. They are all functions applied
 to a position, which return a list of objects (typically, positions).
- - `retract` (or `r` for short): retracts a move.
+ - `retract` (or `r` for short): retracts all possible moves.
 
- - `move` (or `m` for short): performs as forward move.
+ - `move` (or `m` for short): performs all possible forward moves.
 
  - `legal`: analyzes the legality of the position and its history.
    This may label the position as:
      - *illegal* (FIDE illegal), when the position is unreachable from
-        the starting position via a sequence of legal moves (that is,
+        the starting position via a sequence of legal moves (this does
         not considering FIDE Article 5.2.2 about "dead positions").
      - *zombie*, when it is FIDE legal, but all possible legal retractions
         are from dead positions.
-     - No label on if FIDE legal and non-zombie.
+     - No label if FIDE legal and non-zombie.
 
    This command also analyzes whether a position is alive/dead when the
    position is the result of a retraction or it is part of a longer sequence
@@ -119,7 +119,7 @@ nsols 1
   admits at least a retraction.
   This means at the moment our legality analysis is a semi-decision procedure.
   If a position is labeled as "illegal", it is definitely illegal.
-  However, non-labeled positions could be legal and escape our current logic.
+  However, non-labeled positions could be illegal and escape our current logic.
   *We are working on making this legality check more complete*.
 
 - Even though we display illegal and dead (retracted from dead) positions,
