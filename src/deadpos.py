@@ -11,6 +11,7 @@ from solver import is_dead, is_legal, is_zombie, explain_dead, explain_alive, re
 
 PROGRESS_BAR = not "--no-progress-bar" in sys.argv
 SOLVER_ARGS = ["--progress-bar"] if PROGRESS_BAR else []
+UCI_NOTATION = "--uci" in sys.argv
 
 CPP_SOLVER = Popen(["./solver.exe"] + SOLVER_ARGS, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
 CPP_SOLVER.stdout.readline().strip().decode("utf-8")
@@ -183,7 +184,7 @@ def legal(pos):
     return [pos]
 
 def solver_call(cmd, pos, progress_bar, flush):
-    global CPP_SOLVER, PYTHON_SOLVER
+    global CPP_SOLVER, PYTHON_SOLVER, UCI_NOTATION
 
     solver = CPP_SOLVER if "#" in cmd or "--fast" in sys.argv else PYTHON_SOLVER
 
@@ -213,13 +214,18 @@ def solver_call(cmd, pos, progress_bar, flush):
 
             for i in range(len(moves)):
                 try:
+                    move_added = False
+                    m = moves[i].replace("#", "")
+                    m_str = str(moves[i]) if UCI_NOTATION else b.lan(b.parse_uci(m))
+                    history += [m_str]
+                    move_added = True
                     b.push_uci(moves[i])
-                    history += [moves[i]]
                     if moves[i+1] != "DP" and not b.is_stalemate() and is_dead(b.fen()):
                         history += ["dead"] + ["(" + explain_dead(b) + ")"]
                         break
                 except:
-                    history += moves[i:]
+                    if not move_added:
+                        history += moves[i:]
                     break
 
             if not "dead" in history and cmd[:2] == "h=" and cmd[:5] != "h=0.5":
@@ -286,20 +292,43 @@ def solve(cmd, positions, flush):
     return (all_solutions, len(all_solutions))
 
 def backwards(pos):
+    global UCI_NOTATION
+
     retractions = []
     fen = pos.fen()
+    if not UCI_NOTATION:
+        board = chess.Board(fen.replace("?", "0"))
     for (retracted_fen, retraction) in retract(fen):
-        history_token = (RETRACTION_SYMBOL + retraction.strip(), retracted_fen)
+        retraction_str = retraction.strip()
+        if not UCI_NOTATION:
+            retraction_str = retraction_str.replace("prom", "").replace("ep", "")
+            source = retraction_str[:2]
+            target = retraction_str[-2:]
+            prom = ""
+            if "prom" in retraction:
+                prom = str(board.piece_at(chess.parse_square(target))).lower()
+            retracted_board = chess.Board(retracted_fen.replace("?", "0"))
+            move = retracted_board.parse_uci(source + target + prom)
+            retraction_str = retracted_board.lan(move)
+            if "ep" in retraction:
+                retraction_str += "ep"
+            if "x" in retraction:
+                captured = str(retracted_board.piece_at(chess.parse_square(target))).upper()
+                retraction_str = retraction_str.replace("x", "x" + captured)
+        history_token = (RETRACTION_SYMBOL + retraction_str, retracted_fen)
         new_pos = Position(retracted_fen, pos.history + [history_token])
         retractions.append(new_pos)
     return retractions
 
 def forwards(pos):
+    global UCI_NOTATION
+
     positions = []
     board = chess.Board(pos.fen().replace("?", "0"))
     for m in board.legal_moves:
+        m_str = str(m) if UCI_NOTATION else board.lan(m)
         board.push(m)
-        history_token = (str(m), board.fen())
+        history_token = (m_str, board.fen())
         new_pos = Position(board.fen(), pos.history + [history_token])
         positions.append(new_pos)
         board.pop()
@@ -419,8 +448,8 @@ def main():
             # This is a bit hacky, but does the job for now
             return "#" in cmd or cmd[0] == "h"
 
-        flush = "plain" if is_solve_cmd(cmds[-1]) else None
-        if cmds[-1] == "legal" and len(cmds) > 1 and is_solve_cmd(cmds[-2]):
+        flush = "plain" if len(cmds) > 0 and is_solve_cmd(cmds[-1]) else None
+        if len(cmds) > 1 and cmds[-1] == "legal" and is_solve_cmd(cmds[-2]):
             flush = "with-legal"
 
         for cmd in cmds:

@@ -132,7 +132,7 @@ def is_zombie(fen, depth = 1):
     return True
 
 def explain_dead(board, depth = 10):
-
+    UCI_NOTATION = "--uci" in sys.argv
     INTERRUPTED_MSG = "explanation interrupted for being too long"
 
     if board.is_stalemate():
@@ -148,16 +148,20 @@ def explain_dead(board, depth = 10):
 
     legal_moves = [m for m in board.legal_moves]
 
-    board.push(legal_moves[0])
-    explanation = str(legal_moves[0])
+    m = legal_moves[0]
+    explanation = str(m) if UCI_NOTATION else board.lan(m)
+    board.push(m)
     rest_m1_explanation = explain_dead(board, depth - 1)
     if rest_m1_explanation == "=":
         explanation += "="
     board.pop()
 
     for m in legal_moves[1:]:
+        m_str = str(m) if UCI_NOTATION else board.lan(m)
         board.push(m)
-        explanation += " (" + str(m) + " " + explain_dead(board, depth - 1) + ")"
+        explanation_after_m = explain_dead(board, depth - 1)
+        token = " " if explanation_after_m != "=" else ""
+        explanation += " (" + m_str + token + explanation_after_m + ")"
         board.pop()
 
     if rest_m1_explanation != "=":
@@ -173,6 +177,8 @@ def explain_dead(board, depth = 10):
 
 def explain_alive(fen, depth = 10):
     global CHA_MIN
+
+    UCI_NOTATION = "--uci" in sys.argv
 
     inp = (fen + " white\n").encode("utf-8")
     CHA.stdin.write(inp)
@@ -197,10 +203,22 @@ def explain_alive(fen, depth = 10):
     len_black = 0 if not mate_with_black else len(mate_with_black)
 
     if 0 < len_white < len_black or len_black == 0:
-        return mate_with_white
+        line = mate_with_white
 
     else:
-        return mate_with_black
+        line = mate_with_black
+
+    if UCI_NOTATION:
+        return line
+
+    else:
+        output = ["living alternative"]
+        board = chess.Board(fen)
+        for m in line.split(" ")[2:]:
+            m = m.replace("#", "")
+            output.append(board.lan(board.parse_uci(m)))
+            board.push_uci(m)
+        return " ".join(output)
 
 
 (STALEMATE, DEAD, DRAW) = (0, 1, 2)

@@ -96,7 +96,7 @@ For example:
 ```
 // Julio Sunyer, 1923 (The Chess Amateur)
 >>> 4k3/8/8/7K/8/8/8/8 b - - >>= r >>= r >>= h#1
-↶g6xRh5 ↶h8xQh5 e8g8 h5h7# 5rk1/8/6K1/7Q/8/8/8/8 w - - 1 2
+↶Kg6xRh5 ↶Rh8xQh5 O-O Qh5-h7# 5rk1/8/6K1/7Q/8/8/8/8 w - - 1 2
 nsols 1
 
 // Andrew Buchanan, 2001 (1 Retros mailing list 24th Jan)
@@ -127,12 +127,12 @@ nsols 1
   retractions are shown after the following command:
   ```
   >>> 8/8/8/8/2Q5/k7/1pP5/K7 w - - >>= r >>= legal
-  ↶b3b2 8/8/8/8/2Q5/kp6/2P5/K7 b - - ? 0
-  ↶c3xPb2 illegal dead 8/8/8/8/2Q5/k1p5/1PP5/K7 b - - ? 0
-  ↶c3xQb2 dead 8/8/8/8/2Q5/k1p5/1QP5/K7 b - - ? 0
-  ↶c3xRb2 dead 8/8/8/8/2Q5/k1p5/1RP5/K7 b - - ? 0
-  ↶c3xBb2 dead 8/8/8/8/2Q5/k1p5/1BP5/K7 b - - ? 0
-  ↶c3xNb2 dead 8/8/8/8/2Q5/k1p5/1NP5/K7 b - - ? 0
+  ↶b3-b2+ 8/8/8/8/2Q5/kp6/2P5/K7 b - - ? 0
+  ↶c3xPb2+ illegal dead 8/8/8/8/2Q5/k1p5/1PP5/K7 b - - ? 0
+  ↶c3xQb2+ dead 8/8/8/8/2Q5/k1p5/1QP5/K7 b - - ? 0
+  ↶c3xRb2+ dead 8/8/8/8/2Q5/k1p5/1RP5/K7 b - - ? 0
+  ↶c3xBb2+ dead 8/8/8/8/2Q5/k1p5/1BP5/K7 b - - ? 0
+  ↶c3xNb2+ dead 8/8/8/8/2Q5/k1p5/1NP5/K7 b - - ? 0
   nsols 1
   ```
   However, 5 of them were labeled as either illegal or dead.
@@ -170,22 +170,22 @@ nsols 1
   For example:
   ```
   >>> k7/8/2K5/8/8/8/8/8 b - - 0 50 >>= r >>= legal
-  ↶d7xPc6 k7/3K4/2p5/8/8/8/8/8 w - - ? 50
-  ↶d7xQc6 k7/3K4/2q5/8/8/8/8/8 w - - ? 50
-  ↶d7xRc6 k7/3K4/2r5/8/8/8/8/8 w - - ? 50
+  ↶Kd7xPc6 k7/3K4/2p5/8/8/8/8/8 w - - ? 50
+  ↶Kd7xQc6 k7/3K4/2q5/8/8/8/8/8 w - - ? 50
+  ↶Kd7xRc6 k7/3K4/2r5/8/8/8/8/8 w - - ? 50
   ...
   nsols 21
   ```
   but
   ```
   >>> k7/8/2K5/8/8/8/8/8 b - - 1 50 >>= r >>= legal
-  ↶d7c6 dead k7/3K4/8/8/8/8/8/8 w - - 0 50
-  ↶d5c6 dead k7/8/8/3K4/8/8/8/8 w - - 0 50
-  ↶b5c6 dead k7/8/8/1K6/8/8/8/8 w - - 0 50
-  ↶c7c6 zombie k7/2K5/8/8/8/8/8/8 w - - 0 50
-  ↶c5c6 dead k7/8/8/2K5/8/8/8/8 w - - 0 50
-  ↶d6c6 dead k7/8/3K4/8/8/8/8/8 w - - 0 50
-  ↶b6c6 zombie k7/8/1K6/8/8/8/8/8 w - - 0 50
+  ↶Kd7-c6 dead k7/3K4/8/8/8/8/8/8 w - - 0 50
+  ↶Kd5-c6 dead k7/8/8/3K4/8/8/8/8 w - - 0 50
+  ↶Kb5-c6 dead k7/8/8/1K6/8/8/8/8 w - - 0 50
+  ↶Kc7-c6 zombie k7/2K5/8/8/8/8/8/8 w - - 0 50
+  ↶Kc5-c6 dead k7/8/8/2K5/8/8/8/8 w - - 0 50
+  ↶Kd6-c6 dead k7/8/3K4/8/8/8/8/8 w - - 0 50
+  ↶Kb6-c6 zombie k7/8/1K6/8/8/8/8/8 w - - 0 50
   nsols 0
   ```
 
@@ -197,7 +197,7 @@ nsols 1
   term `half-duplex` next to the specification. For example:
   ```
   >>> 8/8/2B5/5Q2/8/4p2P/4k2K/8 w - - >>= h#3 half-duplex
-  f5b1 e2f2 c6h1 e3e2 b1f1 e2f1n# 8/8/8/8/8/7P/4pk1K/5Q1B b - - 1 3
+  Qf5-b1 Ke2-f2 Bc6-h1 e3-e2 Qb1-f1+ e2xf1=N# 8/8/8/8/8/7P/4pk1K/5Q1B b - - 1 3
   nsols 1
   ```
   Furthermore, if the term `duplex` is specified, both WTM and BTM positions
@@ -213,6 +213,8 @@ nsols 1
 
 - You can disable the progress bar with `--no-progress-bar`.
 
+- Use `--uci` to display moves in UCI notation (the default is
+  [LAN](https://en.wikipedia.org/wiki/Algebraic_notation_(chess)#Long_algebraic_notation)).
 
 ## Feedback
 
