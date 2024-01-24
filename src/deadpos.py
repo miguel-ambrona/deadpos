@@ -430,9 +430,15 @@ def main():
         words = line.split(">>=")
         fen = words[0].strip()
 
-        fen_board = fen.split(" ")[0]
-        if not chess.Board(fen_board + " w - - 0 1").is_valid() and \
-           not chess.Board(fen_board + " b - - 0 1").is_valid():
+        fen_parts = fen.split(" ")
+        fen_board = fen_parts[0]
+        valid = False
+        for turn in fen_parts[1].replace("?", "w b").split(" "):
+            if chess.Board(fen_board + " " + turn + " - - 0 1").is_valid():
+                valid = True
+                break
+
+        if not valid:
             print("Invalid FEN")
             continue
 
