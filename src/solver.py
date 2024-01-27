@@ -57,8 +57,14 @@ def is_dead(fen):
         return dead
 
     inp = (fen + " white\n").encode("utf-8")
-    CHA.stdin.write(inp)
-    CHA.stdin.flush()
+    try:
+      CHA.stdin.write(inp)
+      CHA.stdin.flush()
+    except:
+        CHA = Popen(["../lib/cha/D3-Chess/src/cha"], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
+        CHA.stdout.readline()
+        return is_dead(fen)
+
     output = CHA.stdout.readline().strip().decode("utf-8")
     white_undetermined = "undetermined" in output
 
