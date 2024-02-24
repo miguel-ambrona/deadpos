@@ -9,11 +9,12 @@ CHA = Popen(["../lib/cha/D3-Chess/src/cha"], stdout=PIPE, stdin=PIPE, stderr=STD
 CHA.stdout.readline()
 
 RETRACT_TABLE = {}
+SHERLOCK_TABLE = {}
 DEAD_TABLE = {}
 LEGAL_TABLE = {}
 ZOMBIE_TABLE = {}
 
-RETRACTOR = Popen(["../lib/retractor/_build/default/retractor/retractor.exe"], \
+SHERLOCK = Popen(["../lib/sherlock/_build/default/retractor/retractor.exe"], \
                   stdout=PIPE, stdin=PIPE, stderr=STDOUT)
 
 def retract(fen):
@@ -21,7 +22,7 @@ def retract(fen):
     Returns a fen of all possible pseudo-legal retractions of the
     given position.
     '''
-    global RETRACTOR
+    global SHERLOCk
     global RETRACT_TABLE
 
     retracted = RETRACT_TABLE.get(fen)
@@ -29,11 +30,11 @@ def retract(fen):
         return retracted
 
     inp = ("retract " + fen + "\n").encode("utf-8")
-    RETRACTOR.stdin.write(inp)
-    RETRACTOR.stdin.flush()
+    SHERLOCK.stdin.write(inp)
+    SHERLOCK.stdin.flush()
     fens = []
     while True:
-        output = RETRACTOR.stdout.readline().strip().decode("utf-8")
+        output = SHERLOCK.stdout.readline().strip().decode("utf-8")
         if "nsols" in output or len(output) <= 1:
             break
         retracted_fen, retraction = output.split('retraction')
@@ -42,6 +43,35 @@ def retract(fen):
     RETRACT_TABLE[fen] = fens
 
     return fens
+
+def is_illegal_sherlock(fen):
+    '''
+    Returns True if the position is illegal and False if Sherlock cannot
+    determine the illegality of the position.
+    '''
+    global SHERLOCK
+    global SHERLOCK_TABLE
+
+    found = SHERLOCK_TABLE.get(fen)
+    if found != None:
+        return found
+
+    inp = ("legal " + fen + "\n").encode("utf-8")
+    SHERLOCK.stdin.write(inp)
+    SHERLOCK.stdin.flush()
+    illegal = False
+    reason = ""
+    while True:
+        output = SHERLOCK.stdout.readline().strip().decode("utf-8")
+        if "nsols" in output or len(output) <= 1:
+            break
+        illegal = illegal or "illegal" in output
+        if "illegal"in output:
+            reason += " ".join(output.split(" ")[1:]).strip()
+
+    SHERLOCK_TABLE[fen] = (illegal, reason)
+
+    return (illegal, reason)
 
 def is_dead(fen):
     '''
@@ -182,8 +212,6 @@ def explain_dead(board, depth = 10):
     return explanation
 
 def explain_alive(fen, depth = 10):
-    global CHA_MIN
-
     UCI_NOTATION = "--uci" in sys.argv
 
     inp = (fen + " white\n").encode("utf-8")

@@ -7,9 +7,8 @@ dead reckoning.
 
 ## Installation
 
-Make sure you have `curl`, `opam` and `python-chess`, which you can
+Make sure you have `opam` and `python-chess`, which you can
 install with:
-  - `sudo apt install curl`
   - `sudo apt install opam && opam init -y`
   - `pip3 install python-chess`.
 
@@ -23,7 +22,8 @@ Then, after cloning the repository and from the `src/` directory:
    [CHA](https://github.com/miguel-ambrona/D3-Chess).
    Then install CHA with `sudo make install-cha`.
 
-3. Run `make get-retractor` to download and build our retraction engine.
+3. Run `make get-sherlock` to download and build our retraction and legality
+   engine.
 
 4. Compile the tool with `make`. (You may need to enable shared libraries
    with `sudo /sbin/ldconfig -v` first.)
@@ -215,6 +215,11 @@ nsols 1
 
 - Use `--uci` to display moves in UCI notation (the default is
   [LAN](https://en.wikipedia.org/wiki/Algebraic_notation_(chess)#Long_algebraic_notation)).
+
+- Use `--sherlock` to enable futher (and computationally more expensive)
+  legality checks, via [Sherlock](https://github.com/miguel-ambrona/sherlock),
+  when using the `legal` command.
+
 
 ## Feedback
 

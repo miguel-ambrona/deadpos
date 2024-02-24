@@ -1,3 +1,5 @@
+SHERLOCK_VERSION = 9f7faa81d5c6f01d9cce1c4eff8c0821614f92c8
+
 solver:
 	g++ -o solver.exe solver.cpp main.cpp -I/usr/local/include/stockfish -lstockfish -I/usr/local/include/cha -lcha
 
@@ -16,13 +18,16 @@ get-cha:
 install-cha:
 	cd ../lib/cha/ && make install
 
-get-retractor:
-	if [ -d ../lib/retractor ]; then rm -Rf ../lib/retractor; fi
-	cd ../lib/ && curl https://chasolver.org/retractor.zip --output retractor.zip
-	cd ../lib/ && unzip retractor.zip && rm retractor.zip
-	cd ../lib/retractor && ./scripts/install_build_deps.sh
-	cd ../lib/retractor && eval `(opam env)` && opam install -y ocamlgraph
-	cd ../lib/retractor && eval `(opam env)` && dune build
+get-sherlock:
+	if [ -d ../lib/sherlock ]; then rm -Rf ../lib/sherlock; fi
+	cd ../lib/ && git clone https://github.com/miguel-ambrona/sherlock.git
+	cd ../lib/sherlock && git checkout $(SHERLOCK_VERSION)
+	cd ../lib/sherlock && ./scripts/install_build_deps.sh
+	cd ../lib/sherlock && eval `(opam env)` && dune build
+
+update-sherlock:
+	cd ../lib/sherlock && git fetch && git checkout $(SHERLOCK_VERSION)
+	cd ../lib/sherlock && eval `(opam env)` && dune build
 
 test:
 	cat ../test/test-vectors.txt | python3 deadpos.py --no-progress-bar > /tmp/test-vectors.out

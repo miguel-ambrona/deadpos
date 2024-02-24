@@ -7,11 +7,13 @@ import chess
 import os
 import sys
 import time
-from solver import is_dead, is_legal, is_zombie, explain_dead, explain_alive, retract
+from solver import is_dead, is_legal, is_zombie, explain_dead, \
+    explain_alive, retract, is_illegal_sherlock
 
 PROGRESS_BAR = not "--no-progress-bar" in sys.argv
 SOLVER_ARGS = ["--progress-bar"] if PROGRESS_BAR else []
 UCI_NOTATION = "--uci" in sys.argv
+SHERLOCK = "--sherlock" in sys.argv
 
 CPP_SOLVER = Popen(["./solver.exe"] + SOLVER_ARGS, stdout=PIPE, stdin=PIPE, stderr=STDOUT)
 CPP_SOLVER.stdout.readline().strip().decode("utf-8")
@@ -160,7 +162,7 @@ def complete_fen(fen):
 
     return new_fens
 
-def legal(pos):
+def legal(pos, flush):
     if not pos.is_valid:
         return [pos]
 
@@ -170,7 +172,11 @@ def legal(pos):
         (m, fen) = history[i]
         if fen:
             if not is_legal(fen, depth = 2):
-                flag += [("illegal", None)]
+                flag += [("illegal (unretractable)", None)]
+            elif SHERLOCK:
+                (illegal, reason) = is_illegal_sherlock(fen)
+                if illegal:
+                    flag += [("illegal " + reason, None)]
 
             if is_zombie(fen, depth = 2):
                 flag += [("zombie", None)]
@@ -181,6 +187,9 @@ def legal(pos):
             pos.is_valid = False
             break
     pos.history = pos.history[:i+1] + flag + pos.history[i+1:]
+    if flush != None:
+        print(pos)
+
     return [pos]
 
 def solver_call(cmd, pos, progress_bar, flush):
@@ -238,7 +247,7 @@ def solver_call(cmd, pos, progress_bar, flush):
             new_pos = Position(b.fen(), history = pos.history + history_token)
             if flush != None:
                 if "legal" in flush:
-                    print(legal(new_pos)[0])
+                    print(legal(new_pos, None)[0])
                 else:
                     print(new_pos)
             solutions.append(new_pos)
@@ -401,7 +410,7 @@ def process_cmd(positions, cmd, flush = None):
         return (positions, len(positions))
 
     elif cmd == "legal":
-        positions = bind(positions, legal)
+        positions = [r for pos in positions for r in legal(pos, flush)]
         return (positions, len([pos for pos in positions if pos.is_valid]))
 
     else:
@@ -409,7 +418,7 @@ def process_cmd(positions, cmd, flush = None):
 
 
 def main():
-    print("Deadpos Analyzer version 2.3")
+    print("Deadpos Analyzer version 2.4.1")
 
     while True:
         try:
@@ -455,8 +464,10 @@ def main():
             return "#" in cmd or cmd[0] == "h"
 
         flush = "plain" if len(cmds) > 0 and is_solve_cmd(cmds[-1]) else None
-        if len(cmds) > 1 and cmds[-1] == "legal" and is_solve_cmd(cmds[-2]):
+        if len(cmds) > 1 and cmds[-1] == "legal":
             flush = "with-legal"
+            if is_solve_cmd(cmds[-2]):
+                cmds = cmds[:-1]
 
         for cmd in cmds:
             positions, n = process_cmd(positions, cmd, flush)
