@@ -29,9 +29,9 @@ jobs:
       run: sudo make install-cha
     - name: Enable shared libraries
       run: sudo /sbin/ldconfig -v
-    - name: Download and compile Retractor
+    - name: Download and compile Sherlock
       working-directory: ./src/
-      run: make get-retractor
+      run: make get-sherlock
     - name: Compile Deadpos
       working-directory: ./src
       run: make
