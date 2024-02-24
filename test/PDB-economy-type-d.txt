@@ -1,0 +1,171 @@
+// 1 - P1085411 Werner Keym, 13393 Die Schwalbe 225 06/2007
+8/ppp3P1/2pp4/8/4P3/7P/p1PPPkPK/4bq2 ? ? ? >>= r >>= legal
+
+// 2 - P1108614 Andrew Buchanan, Retros mailing list  05/04/2007
+BK6/Bpp5/1p6/8/8/1P6/bPP5/bk6 ? ? ? >>= r >>= legal
+
+// 3 - P1108630 Bernd Schwarzkopf & Werner Keym, Retros mailing list  10/04/2007
+nnrNK2k/Bbrpp2p/ppp5/8/8/1P6/P1PPPPPP/N7 ? ? ? >>= r >>= legal
+
+// 4 - P1108634 Werner Keym, Retros mailing list  04/03/2007
+4B2q/3ppKpp/8/8/8/8/PPkPP3/Q2b4 ? ? ? >>= r >>= legal
+
+// 5 - P1108639 Bernd Schwarzkopf, feenschach 64 03/1983
+8/8/8/8/8/4P3/2PPRPPP/3BK2k ? ? ? >>= r >>= legal
+
+// 6 - P1108645 Werner Keym, Retros mailing list  17/04/2007
+4bb2/2pppkpP/6Rb/6rQ/5KRp/4PbB1/1P2PrPN/5B2 ? ? ? >>= r >>= legal
+
+// 7 - P1108646 Thierry Le Gleuher, Retros mailing list  04/03/2007
+8/8/8/8/1P6/kPPP4/qRbrP3/1QKB4 ? ? ? >>= r >>= legal
+
+// 8 - P1108659 Bernd Schwarzkopf, feenschach 64 03/1983
+8/8/8/8/8/6P1/PPPP1PRP/q1QK1k2 ? ? ? >>= r >>= legal
+
+// 9 - P1108674 Bernd Schwarzkopf, feenschach 64 03/1983
+8/8/8/8/8/P7/KPkPP3/R1rb4 ? ? ? >>= r >>= legal
+
+// 10 - P1108676 Werner Keym, Retros mailing list  25/07/2007
+5bbr/2ppppnB/5p1K/5P1R/5Pqr/4PrQR/3PRQ1r/4B2k ? ? ? >>= r >>= legal
+
+// 11 - P1108677 Thierry Le Gleuher, Retros mailing list  19/03/2007
+8/8/8/8/PP6/pkPP4/b1prP3/B1K5 ? ? ? >>= r >>= legal
+
+// 12 - P1108685 Mario Richter, Retros mailing list  03/03/2007
+4BB1b/3pRK1k/4pppp/8/8/8/8/8 ? ? ? >>= r >>= legal
+
+// 13 - P1108689 Mario Richter, Retros mailing list  19/03/2007
+4BbnB/3ppK1k/4pp1p/8/8/8/8/8 ? ? ? >>= r >>= legal
+
+// 14 - P1108697 Werner Keym, Retros mailing list  17/04/2007
+5bnK/3ppp2/5PqB/5pBr/5PbR/4PrQb/2PPRQ2/4bB1k ? ? ? >>= r >>= legal
+
+// 15 - P1108698 Andrew Buchanan, Retros mailing list  16/03/2007
+8/8/8/8/8/P2P4/KPkPP3/nnNb4 ? ? ? >>= r >>= legal
+
+// 16 - P1108710 Roberto Osorio & Jorge Joaquin Lois, Retros mailing list  10/04/2007
+8/5p2/8/8/8/PP2P3/pP1PrPPP/KNBnrkqQ ? ? ? >>= r >>= legal
+
+// 17 - P1108714 Werner Keym, Retros mailing list  09/05/2007
+6nK/1p1ppp1N/5Pqr/5prb/5PrR/4PRQn/3PRQ2/4B2k ? ? ? >>= r >>= legal
+
+// 18 - P1108716 Wolfgang Dittmann, feenschach 64 03/1983
+8/8/8/8/8/4P1P1/3Prp1P/5K1k ? ? ? >>= r >>= legal
+
+// 19 - P1108731 Bernd Schwarzkopf, Retros mailing list  03/04/2007
+4BKBn/3ppRBP/5p1p/6p1/1P6/P1P5/pbrPP3/Nbkb4 ? ? ? >>= r >>= legal
+
+// 20 - P1108734 Andrew Buchanan, Retros mailing list  02/04/2007
+8/Pp2p3/kpp5/p7/P7/KPP3P1/pP2P2P/8 ? ? ? >>= r >>= legal
+
+// 21 - P1108737 Jorge Joaquin Lois & Roberto Osorio, Retros mailing list  31/03/2007
+6BK/1p1p1ppP/7p/8/8/P7/pPP1P1P1/kb6 ? ? ? >>= r >>= legal
+
+// 22 - P1108743 Andrew Buchanan, Retros mailing list  28/03/2007
+1Qrb4/1Prpp3/krp5/pp6/6PP/5PRK/3PPRp1/4BRq1 ? ? ? >>= r >>= legal
+
+// 23 - P1108744 Roberto Osorio & Jorge Joaquin Lois, Retros mailing list  25/07/2007
+4nQrQ/2pp1ppK/2pp4/8/8/PP6/b1PPkPP1/nN1brqqN ? ? ? >>= r >>= legal
+
+// 24 - P1108745 Roberto Osorio & Jorge Joaquin Lois, Retros mailing list  25/07/2007
+4nQQB/2pp1ppK/3p4/8/8/5P2/PPPPkrP1/3bbqqN ? ? ? >>= r >>= legal
+
+// 25 - P1108746 Andrew Buchanan, Retros mailing list  12/03/2007
+Rnb5/1kpp4/brp5/1p6/6P1/5PRB/4PPK1/5BNr ? ? ? >>= r >>= legal
+
+// 26 - P1108748 Roberto Osorio & Jorge Joaquin Lois & Andrew Buchanan, Retros mailing list  17/04/2007
+nRr1n3/1ppKp1p1/1p1pp3/8/8/3PP3/1P1PkPP1/3N1RrN ? ? ? >>= r >>= legal
+
+// 27 - P1108749 Roberto Osorio & Jorge Joaquin Lois & Werner Keym & Andrew Buchanan, Retros mailing list  09/05/2007
+5bRq/3pp1pk/6pp/8/8/1P4PP/2PPP1PK/5BrN ? ? ? >>= r >>= legal
+
+// 28 - P1108750 Werner Keym, Retros mailing list  24/02/2007
+5bRK/4p1pR/5p1p/8/8/5P1P/4P1Pr/5Brk ? ? ? >>= r >>= legal
+
+// 29 - P1108755 Andrew Buchanan, Retros mailing list  19/02/2007
+K1krB3/p1pp1p2/8/8/8/8/6P1/7b ? ? ? >>= r >>= legal
+
+// 30 - P1108760 Jorge Joaquin Lois & Roberto Osorio, Retros mailing list  17/04/2007
+NrbbNQBk/1PppBKp1/1p1p1pp1/8/8/8/1PP1P1PP/1b6 ? ? ? >>= r >>= legal
+
+// 31 - P1108761 Roberto Osorio & Jorge Joaquin Lois, Retros mailing list  09/05/2007
+2brkBRB/pp1p1ppK/8/8/8/1P6/1P1PNPPN/2BbRQRq ? ? ? >>= r >>= legal
+
+// 32 - P1108762 Roberto Osorio & Jorge Joaquin Lois, Retros mailing list  25/02/2007
+2brrkBQ/1p1pp1pp/6p1/8/8/1P6/PP1PP1P1/qbKRRB2 ? ? ? >>= r >>= legal
+
+// 33 - P1108763 Andrew Buchanan, Retros mailing list  19/02/2007
+Nrk5/1ppRp3/3p4/8/8/4P3/3PrPP1/5KRn ? ? ? >>= r >>= legal
+
+// 34 - P1108765 Roberto Osorio & Jorge Joaquin Lois, Retros mailing list  03/03/2007
+kNb2b2/rp1pppp1/p1p5/8/8/5P1P/1PPPP1PR/2B2BnK ? ? ? >>= r >>= legal
+
+// 35 - P1108768 Werner Keym, Retros mailing list  24/02/2007
+5bNK/4p1pR/5p1p/8/8/5P1P/4P1Pr/5Bnk ? ? ? >>= r >>= legal
+
+// 36 - P1108769 Roberto Osorio & Jorge Joaquin Lois & Andrew Buchanan, Retros mailing list  28/03/2007
+1Nqkrb2/1pppp1p1/p7/8/8/7P/1P1PPPP1/2BRKQn1 ? ? ? >>= r >>= legal
+
+// 37 - P1108770 Bernd Schwarzkopf & Werner Keym, Retros mailing list  28/03/2007
+8/2pp4/2p2PP1/4pKRP/4ppPk/7p/3PPP2/8 ? ? ? >>= r >>= legal
+
+// 38 - P1271261 Andrew Buchanan, 10501 feenschach 193, p. 409,  05-06/2012
+7K/3prqpQ/4ppBr/5p1N/5P1n/1P2PPbR/3PRQPq/7k ? ? ? >>= r >>= legal
+
+// 39 - P1271263 Roberto Osorio & Jorge Joaquin Lois & Andrew Buchanan, Retros mailing list  14/10/2012
+8/8/8/8/8/2P1P3/PPrPRPPk/KbnnNBR1 ? ? ? >>= r >>= legal
+
+// 40 - P1271266 Roberto Osorio & Jorge Joaquin Lois & Werner Keym & Andrew Buchanan, Retros mailing list  14/10/2012
+8/1p2p3/8/8/7P/P1PP1PPR/P1PkpKpp/B1brnRnr ? ? ? >>= r >>= legal
+
+// 41 - P1271268 Roberto Osorio & Jorge Joaquin Lois & Andrew Buchanan & Mario Richter, Retros mailing list  14/10/2012
+8/4p1p1/8/8/8/1P1P1P2/bPP1PRPP/bkr1RKB1 ? ? ? >>= r >>= legal
+
+// 42 - P1271269 Werner Keym & Andrew Buchanan, Retros mailing list  14/10/2012
+4b2K/3ppqnQ/4pRRr/5prB/6bb/5PRR/3PPPRq/7k ? ? ? >>= r >>= legal
+
+// 43 - P1271270 Andrew Buchanan, Retros mailing list  14/10/2012
+5bRB/4p1pK/6p1/8/8/6P1/4P1Pk/5Brb ? ? ? >>= r >>= legal
+
+// 44 - P1271271 Roberto Osorio & Jorge Joaquin Lois & Andrew Buchanan, Retros mailing list  14/10/2012
+8/3p4/8/8/8/2P1P3/PP1PRPPP/rkbKRN1n ? ? ? >>= r >>= legal
+
+// 45 - P1285701 Andrew Buchanan, Retros mailing list  05/03/2014
+N1qb4/N1Rpp2p/pKP5/1Bp5/qqP5/Pkp5/n1rPP2P/n1QB4 ? ? ? >>= r >>= legal
+
+// 46 - P1285702 Andrew Buchanan & Roberto Osorio & Jorge Joaquin Lois & Werner Keym, Retros mailing list  03/05/2014
+1BBQN3/ppKRp1p1/3p1p2/8/8/1P1P4/P1PrkPP1/2nqbb2 ? ? ? >>= r >>= legal
+
+// 47 - P1285703 Roberto Osorio & Jorge Joaquin Lois & Werner Keym & Andrew Buchanan, Retros mailing list  03/05/2014
+2brkBRB/1p1p1ppK/8/8/8/1P4PN/1P1PNPrr/3bRBbN ? ? ? >>= r >>= legal
+
+// 48 - P1285704 Roberto Osorio & Jorge Joaquin Lois & Andrew Buchanan, Retros mailing list  03/05/2014
+8/5p1p/8/8/8/1P2P1P1/kPPPrP1P/N1KQqr1R ? ? ? >>= r >>= legal
+
+// 49 - P1285715 Roberto Osorio & Jorge Joaquin Lois & Andrew Buchanan, Retros mailing list  03/05/2014
+8/ppp1p2p/3p2p1/8/8/2PPPP2/1PpRqrP1/kBRnnrbK ? ? ? >>= r >>= legal
+
+// 50 - P1285716 Thierry Le Gleuher & Andrew Buchanan, Retros mailing list  03/05/2014
+8/8/8/8/1P6/kPPP4/r1brP3/BRKB4 ? ? ? >>= r >>= legal
+
+// 51 - P1285718 Andrew Buchanan, c Retros mailing list  03/05/2014
+5BNQ/4ppb1/5pkB/6p1/6P1/5PKb/4PPB1/5bnq ? ? ? >>= r >>= legal
+
+// 52 - P1299426 Mario Richter & Andrew Buchanan, Retros mailing list  16/03/2015
+3brn1N/2ppRKPk/4pp1p/8/8/8/8/8 ? ? ? >>= r >>= legal
+
+// 53 - P1299428 Jorge Joaquin Lois & Roberto Osorio & Andrew Buchanan, Retros mailing list  16/03/2015
+NK6/P1pp4/qp6/Bp6/BP6/QP6/b1PPP1P1/nk6 ? ? ? >>= r >>= legal
+
+// 54 - P1300655 Andrew Buchanan & Andrey Frolkin, 1 Problemas 10, p. 228,  04/2015
+1n2B3/P2qpp2/QPkp4/bN6/QnPP4/qpKp4/p2QPP2/1N2b3 ? ? ? >>= r >>= legal
+
+// 55 - P1303128 Andrew Buchanan, 11013 feenschach 209, p. 632,  09-10/2014
+1QQB4/1NBrp2p/kpBp4/b2p4/B7/KPPP4/1nqRPP2/1qbb4 ? ? ? >>= r >>= legal
+
+// 56 - P1303130 Andrey Frolkin, 11015 feenschach 209, p. 633,  09-10/2014
+8/p7/8/8/P1PP1PPP/RBpkBKpR/Pp1pNp1q/2bQ1qN1 ? ? ? >>= r >>= legal
+
+// 57 - P1365937 Andrew Buchanan, Facebook  02/08/2019
+K1kb1b2/p1Ppp1p1/1pp5/8/8/P2P4/pPP1PPP1/5B2 ? ? ? >>= r >>= legal
+
