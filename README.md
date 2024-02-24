@@ -128,7 +128,7 @@ nsols 1
   ```
   >>> 8/8/8/8/2Q5/k7/1pP5/K7 w - - >>= r >>= legal
   ↶b3-b2+ 8/8/8/8/2Q5/kp6/2P5/K7 b - - ? 0
-  ↶c3xPb2+ illegal dead 8/8/8/8/2Q5/k1p5/1PP5/K7 b - - ? 0
+  ↶c3xPb2+ illegal (unretractable) dead 8/8/8/8/2Q5/k1p5/1PP5/K7 b - - ? 0
   ↶c3xQb2+ dead 8/8/8/8/2Q5/k1p5/1QP5/K7 b - - ? 0
   ↶c3xRb2+ dead 8/8/8/8/2Q5/k1p5/1RP5/K7 b - - ? 0
   ↶c3xBb2+ dead 8/8/8/8/2Q5/k1p5/1BP5/K7 b - - ? 0

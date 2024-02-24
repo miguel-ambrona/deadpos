@@ -1,4 +1,4 @@
-Deadpos Analyzer version 2.3
+Deadpos Analyzer version 2.4.1
 // deadpos problems from PDB (https://pdb.dieschwalbe.de):
 // cpluscomment='deadpos'
 // 3 long cooked ones are commented out: 31, 32, 33
