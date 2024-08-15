@@ -20,7 +20,7 @@ install-cha:
 
 get-sherlock:
 	if [ -d ../lib/sherlock ]; then rm -Rf ../lib/sherlock; fi
-	cd ../lib/ && git clone https://github.com/miguel-ambrona/sherlock.git
+	cd ../lib/ && git clone https://github.com/miguel-ambrona/sherlock-ocaml.git sherlock
 	cd ../lib/sherlock && git checkout $(SHERLOCK_VERSION)
 	cd ../lib/sherlock && ./scripts/install_build_deps.sh
 	cd ../lib/sherlock && eval `(opam env)` && dune build
