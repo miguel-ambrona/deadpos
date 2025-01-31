@@ -239,7 +239,10 @@ def solver_call(cmd, pos, progress_bar, flush):
 
             if not "dead" in history and cmd[:2] == "h=" and cmd[:5] != "h=0.5":
                 b.pop()
-                history = history[:-1] + ["(" + explain_alive(b.fen()) + ")"] + history[-1:]
+                alive_reason = explain_alive(b.fen())
+                if len(alive_reason) > 50:
+                    alive_reason = " ".join(alive_reason.split(" ")[:6]) + "..."
+                history = history[:-1] + ["(" + alive_reason + ")"] + history[-1:]
             elif "DP" in history:
                 history += ["(" + explain_dead(b) + ")"]
 
@@ -335,10 +338,11 @@ def forwards(pos):
     positions = []
     board = chess.Board(pos.fen().replace("?", "0"))
     for m in board.legal_moves:
+        dead_token = [("dead", None)] if is_dead(board.fen()) else []
         m_str = str(m) if UCI_NOTATION else board.lan(m)
         board.push(m)
         history_token = (m_str, board.fen())
-        new_pos = Position(board.fen(), pos.history + [history_token])
+        new_pos = Position(board.fen(), pos.history + dead_token + [history_token])
         positions.append(new_pos)
         board.pop()
     return positions
@@ -405,7 +409,7 @@ def process_cmd(positions, cmd, flush = None):
         eps = dedup(bind(positions, en_passant))
         return (eps, len(eps))
 
-    elif cmd == "DP":
+    elif cmd == "DP" or cmd == "dp":
         positions = bind(positions, dp)
         return (positions, len(positions))
 
