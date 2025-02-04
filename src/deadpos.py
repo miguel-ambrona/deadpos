@@ -11,7 +11,9 @@ from solver import is_dead, is_legal, is_zombie, explain_dead, \
     explain_alive, retract, is_illegal_sherlock
 
 PROGRESS_BAR = not "--no-progress-bar" in sys.argv
+SHOW_ALL = "--show-all" in sys.argv
 SOLVER_ARGS = ["--progress-bar"] if PROGRESS_BAR else []
+SOLVER_ARGS += ["--show-all"] if SHOW_ALL else []
 UCI_NOTATION = "--uci" in sys.argv
 SHERLOCK = "--sherlock" in sys.argv
 

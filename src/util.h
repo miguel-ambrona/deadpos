@@ -21,11 +21,15 @@ public:
   bool progress_bar() const;
   void set_progress_bar(bool value);
 
+  bool transposition_table() const;
+  void set_transposition_table(bool value);
+
 private:
   Move solution[MAX_VARIATION_LENGTH];
   Color winner;
   Depth depth;
   bool progressBar;
+  bool transpositionTable;
 };
 
 inline void Search::init() { depth = 0; }
@@ -59,6 +63,12 @@ inline bool Search::progress_bar() const { return progressBar; }
 
 inline void Search::set_progress_bar(bool value) {
   progressBar = value;
+}
+
+inline bool Search::transposition_table() const { return transpositionTable; }
+
+inline void Search::set_transposition_table(bool value) {
+  transpositionTable = value;
 }
 
 } // namespace UTIL
