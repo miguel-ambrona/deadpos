@@ -260,7 +260,7 @@ def explain_alive(fen, depth = 10):
 def key_fen(fen):
     return " ".join(fen.split(" ")[:4])
 
-def cooperative_search(progress_bar, goal, board, n, solution, Table):
+def cooperative_search(progress_bar, use_tt, goal, board, n, solution, Table):
     depth = len(solution)
     stalemate = board.is_stalemate()
     legal_moves = [m for m in board.legal_moves]
@@ -286,19 +286,21 @@ def cooperative_search(progress_bar, goal, board, n, solution, Table):
     if n <= 0 or len(legal_moves) == 0:
         return 0
 
-    fen_id = key_fen(board.fen())
-    entry = Table.get(fen_id)
-    if (entry != None and entry[0] >= n):
-        return (0 if entry[0] != n else entry[1])
+    if use_tt:
+        fen_id = key_fen(board.fen())
+        entry = Table.get(fen_id)
+        if (entry != None and entry[0] >= n):
+            return (0 if entry[0] != n else entry[1])
 
     cnt = 0
 
     for m in legal_moves:
         board.push(m)
-        cnt += cooperative_search(progress_bar, goal, board, n - 1, solution[:] + [m], Table)
+        cnt += cooperative_search(progress_bar, use_tt, goal, board, n - 1, solution[:] + [m], Table)
         board.pop()
 
-    Table[fen_id] = (n, cnt)
+    if use_tt:
+        Table[fen_id] = (n, cnt)
 
     return cnt
 
@@ -326,5 +328,6 @@ if __name__ == '__main__':
         n = int(2 * float(n_str))
 
         pbar = "--progress-bar" in sys.argv
-        nsols = cooperative_search(pbar, goal, board, n, [], {})
+        use_tt = not "--show-all" in sys.argv
+        nsols = cooperative_search(pbar, use_tt, goal, board, n, [], {})
         print("nsols", nsols)

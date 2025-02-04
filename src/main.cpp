@@ -74,9 +74,12 @@ void loop(int argc, char *argv[]) {
   std::string line;
   StateListPtr states(new std::deque<StateInfo>(1));
   bool progressBar = false;
+  bool transpositionTable = true;
 
   for (int i = 1; i < argc; ++i) {
     if (std::string(argv[i]) == "--progress-bar") progressBar = true;
+
+    if (std::string(argv[i]) == "--show-all") transpositionTable = false;
   }
 
   static UTIL::Search search = UTIL::Search();
@@ -99,6 +102,7 @@ void loop(int argc, char *argv[]) {
     }
     search.init();
     search.set_progress_bar(progressBar);
+    search.set_transposition_table(transpositionTable);
 
     int nsols = 0;
     auto start = std::chrono::high_resolution_clock::now();

@@ -213,6 +213,10 @@ nsols 1
 
 - You can disable the progress bar with `--no-progress-bar`.
 
+- Use `--show-all` if you want to make sure all solutions are displayed.
+  Using this flag will disable the transposition table and may significantly
+  hinder performance.
+
 - Use `--uci` to display moves in UCI notation (the default is
   [LAN](https://en.wikipedia.org/wiki/Algebraic_notation_(chess)#Long_algebraic_notation)).
 

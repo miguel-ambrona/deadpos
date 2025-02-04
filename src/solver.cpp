@@ -34,16 +34,19 @@ int cooperative_search(Position &pos, Depth n, UTIL::Search &search) {
   if (n <= 0 || zero_moves || dead)
     return 0;
 
-  // To store an entry from the transposition table (TT)
   TTEntry *tte = nullptr;
-  bool found;
+
+  // To store an entry from the transposition table (TT)
+  if (search.transposition_table()) {
+    bool found;
+
+    tte = TT.probe(pos.key(), found);
+
+    if (found && tte->depth() >= n)
+      return tte->depth() == n ? tte->eval() : 0;
+  }
+
   StateInfo st;
-
-  tte = TT.probe(pos.key(), found);
-
-  if (found && tte->depth() >= n)
-    return tte->depth() == n ? tte->eval() : 0;
-
   int cnt = 0;
 
   // Iterate over all legal moves
@@ -55,7 +58,10 @@ int cooperative_search(Position &pos, Depth n, UTIL::Search &search) {
     pos.undo_move(m);
   }
 
-  tte->save(pos.key(), VALUE_NONE, false, BOUND_NONE, n, MOVE_NONE, (Value)cnt);
+  if (search.transposition_table()) {
+    tte->save(pos.key(), VALUE_NONE, false, BOUND_NONE, n, MOVE_NONE, (Value)cnt);
+  }
+
   return cnt;
 }
 
@@ -85,15 +91,18 @@ int competitive_search(Position &pos, Depth n, UTIL::Search &search) {
   if (n <= 0 || zero_moves || dead)
     return 0;
 
-  // To store an entry from the transposition table (TT)
   TTEntry *tte = nullptr;
-  bool found;
+
+  // To store an entry from the transposition table (TT)
+  if (search.transposition_table()) {
+    bool found;
+    tte = TT.probe(pos.key(), found);
+
+    if (found && tte->depth() >= n)
+      return tte->depth() == n ? tte->eval() : 0;
+  }
+
   StateInfo st;
-  tte = TT.probe(pos.key(), found);
-
-  if (found && tte->depth() >= n)
-    return tte->depth() == n ? tte->eval() : 0;
-
   int cnt = 0;
 
   // If search depth is even (the intended winner's turn) collect all solutions
@@ -126,7 +135,10 @@ int competitive_search(Position &pos, Depth n, UTIL::Search &search) {
     cnt = min;
   }
 
-  tte->save(pos.key(), VALUE_NONE, false, BOUND_NONE, n, MOVE_NONE, (Value)cnt);
+  if (search.transposition_table()) {
+    tte->save(pos.key(), VALUE_NONE, false, BOUND_NONE, n, MOVE_NONE, (Value)cnt);
+  }
+
   return cnt;
 };
 
