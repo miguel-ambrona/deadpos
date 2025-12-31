@@ -189,7 +189,7 @@ def legal(pos, flush):
             pos.is_valid = False
             break
     pos.history = pos.history[:i+1] + flag + pos.history[i+1:]
-    if flush != None:
+    if flush == "with-legal":
         print(pos)
 
     return [pos]
