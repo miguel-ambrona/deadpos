@@ -17,6 +17,8 @@ ZOMBIE_TABLE = {}
 SHERLOCK = Popen(["../lib/sherlock/_build/default/retractor/retractor.exe"], \
                   stdout=PIPE, stdin=PIPE, stderr=STDOUT)
 
+NODES = 0
+
 def retract(fen):
     '''
     Returns a fen of all possible pseudo-legal retractions of the
@@ -168,8 +170,13 @@ def is_zombie(fen, depth = 1):
     return True
 
 def explain_dead(board, depth = 10):
+    global NODES
+
     UCI_NOTATION = "--uci" in sys.argv
     INTERRUPTED_MSG = "explanation interrupted for being too long"
+
+    if depth == 10:
+        NODES = 0
 
     if board.is_stalemate():
         return "="
@@ -177,7 +184,7 @@ def explain_dead(board, depth = 10):
     elif board.is_insufficient_material():
         return " insufficient material"
 
-    elif depth <= 0:
+    elif depth <= 0 or NODES > 30:
         return " " + INTERRUPTED_MSG
 
     assert is_dead(board.fen())
@@ -193,6 +200,7 @@ def explain_dead(board, depth = 10):
     board.pop()
 
     for m in legal_moves[1:]:
+        NODES += 1
         m_str = str(m) if UCI_NOTATION else board.lan(m)
         board.push(m)
         explanation_after_m = explain_dead(board, depth - 1)
