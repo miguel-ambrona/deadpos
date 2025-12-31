@@ -438,7 +438,7 @@ def process_cmd(positions, cmd, flush = None):
 
 
 def main():
-    print("Deadpos Analyzer version 2.4.1")
+    print("Deadpos Analyzer version 2.4.2")
 
     while True:
         try:
