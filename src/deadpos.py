@@ -194,6 +194,19 @@ def legal(pos, flush):
 
     return [pos]
 
+def lan(board, m):
+    s = board.lan(m)
+    if board.is_en_passant(m):
+        if s.endswith('+'):
+            return s[:-1] + 'ep+'
+
+        elif s.endswith('#'):
+            return s[:-1] + 'ep#'
+
+        return s + 'ep'
+
+    return s
+
 def solver_call(cmd, pos, progress_bar, flush):
     global CPP_SOLVER, PYTHON_SOLVER, UCI_NOTATION
 
@@ -227,7 +240,7 @@ def solver_call(cmd, pos, progress_bar, flush):
                 try:
                     move_added = False
                     m = moves[i].replace("#", "")
-                    m_str = str(moves[i]) if UCI_NOTATION else b.lan(b.parse_uci(m))
+                    m_str = str(moves[i]) if UCI_NOTATION else lan(b, b.parse_uci(m))
                     history += [m_str]
                     move_added = True
                     b.push_uci(moves[i])
@@ -323,7 +336,7 @@ def backwards(pos):
                 prom = str(board.piece_at(chess.parse_square(target))).lower()
             retracted_board = chess.Board(retracted_fen.replace("?", "0"))
             move = retracted_board.parse_uci(source + target + prom)
-            retraction_str = retracted_board.lan(move)
+            retraction_str = lan(retracted_board, move)
             if "ep" in retraction:
                 retraction_str += "ep"
             if "x" in retraction:
@@ -341,7 +354,7 @@ def forwards(pos):
     board = chess.Board(pos.fen().replace("?", "0"))
     for m in board.legal_moves:
         dead_token = [("dead", None)] if is_dead(board.fen()) else []
-        m_str = str(m) if UCI_NOTATION else board.lan(m)
+        m_str = str(m) if UCI_NOTATION else lan(board, m)
         board.push(m)
         history_token = (m_str, board.fen())
         new_pos = Position(board.fen(), pos.history + dead_token + [history_token])
@@ -467,7 +480,7 @@ def main():
 
         def is_solve_cmd(cmd):
             # This is a bit hacky, but does the job for now
-            return "#" in cmd or cmd[0] == "h"
+            return "#" in cmd or cmd[0] == "h" or "=" in cmd
 
         flush = "plain" if len(cmds) > 0 and is_solve_cmd(cmds[-1]) else None
         if len(cmds) > 1 and cmds[-1] == "legal":
