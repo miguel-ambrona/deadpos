@@ -122,6 +122,7 @@ def complete_fen(fen):
 
     # Complete turns
     turns = ["w", "b"] if fen_parts[1] == "?" else [fen_parts[1]]
+    turns = [t for t in turns if chess.Board(fen_parts[0] + " " + t + " - - 0 1").is_valid()]
     fens = [set_turn(fen, turn) for fen in fens for turn in turns]
 
     # Complete castlings
